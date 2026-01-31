@@ -5,11 +5,9 @@ import tailwind from '@astrojs/tailwind';
 
 import vercel from '@astrojs/vercel';
 
-
-
 export default defineConfig({
   integrations: [react(), tailwind()],
-  output: 'server',
+  output: 'static',
   adapter: vercel({
     imagesConfig: {
       sizes: [320, 640, 1280],

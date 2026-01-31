@@ -14,14 +14,31 @@ import { servicesQuery, serviceBySlugQuery } from '../../lib/queries';
 import type { Service } from '../../types';
 
 export async function getStaticPaths() {
-  const services: Service[] = await sanityClient.fetch(servicesQuery);
-  return services.map((service) => ({
-    params: { slug: service.slug.current },
-  }));
+  try {
+    const services: Service[] = await sanityClient.fetch(servicesQuery);
+    
+    if (!services || services.length === 0) {
+      console.warn('No services found in Sanity CMS');
+      return [];
+    }
+    
+    return services.map((service) => ({
+      params: { slug: service.slug.current },
+    }));
+  } catch (error) {
+    console.error('Error fetching services for static paths:', error);
+    return [];
+  }
 }
 
 const { slug } = Astro.params;
-const service: Service = await sanityClient.fetch(serviceBySlugQuery, { slug });
+
+let service: Service | null = null;
+try {
+  service = await sanityClient.fetch(serviceBySlugQuery, { slug });
+} catch (error) {
+  console.error(`Error fetching service with slug "${slug}":`, error);
+}
 
 if (!service) {
   return new Response(null, {

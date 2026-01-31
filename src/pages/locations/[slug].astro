@@ -13,14 +13,31 @@ import SEO from '../../components/SEO.astro';
 import { generateLocationSchema } from '../../lib/schemas/localBusiness';
 
 export async function getStaticPaths() {
-  const locations: Location[] = await sanityClient.fetch(locationsQuery);
-  return locations.map((location) => ({
-    params: { slug: location.slug.current },
-  }));
+  try {
+    const locations: Location[] = await sanityClient.fetch(locationsQuery);
+    
+    if (!locations || locations.length === 0) {
+      console.warn('No locations found in Sanity CMS');
+      return [];
+    }
+    
+    return locations.map((location) => ({
+      params: { slug: location.slug.current },
+    }));
+  } catch (error) {
+    console.error('Error fetching locations for static paths:', error);
+    return [];
+  }
 }
 
 const { slug } = Astro.params;
-const location: Location = await sanityClient.fetch(locationBySlugQuery, { slug });
+
+let location: Location | null = null;
+try {
+  location = await sanityClient.fetch(locationBySlugQuery, { slug });
+} catch (error) {
+  console.error(`Error fetching location with slug "${slug}":`, error);
+}
 
 if (!location) {
   return new Response(null, {
@@ -61,30 +78,30 @@ const breadcrumbs = [
   />
   <LocationHero location={location} />
 
-  <div class="container mx-auto px-4 py-16 -mt-32 relative z-20">
+  <div class="container relative z-20 px-4 py-16 mx-auto -mt-32">
     <div class="grid gap-8 lg:grid-cols-12">
       <!-- Main Content -->
       <div class="lg:col-span-8 space-y-8 animate-fade-in-up [animation-delay:300ms]">
         <!-- Gallery Section -->
         {
           location.gallery && location.gallery.length > 0 && (
-            <div class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100">
+            <div class="p-8 bg-white border rounded-3xl shadow-soft border-neutral-100">
               <div class="flex items-center gap-3 mb-6">
-                <div class="p-2 bg-accent-50 rounded-lg text-accent-600">
+                <div class="p-2 rounded-lg bg-accent-50 text-accent-600">
                   <ImageIcon className="h-6 w-6" />
                 </div>
-                <h2 class="text-2xl font-display font-bold text-primary-900">Branch Gallery</h2>
+                <h2 class="text-2xl font-bold font-display text-primary-900">Branch Gallery</h2>
               </div>
 
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
                 {location.gallery.map((image) => (
-                  <div class="aspect-square rounded-2xl overflow-hidden cursor-pointer hover:opacity-90 transition group relative shadow-sm">
+                  <div class="relative overflow-hidden transition shadow-sm cursor-pointer aspect-square rounded-2xl hover:opacity-90 group">
                     <img
                       src={getImageUrl(image, 600, 600)}
                       alt={image.alt || 'Location photo'}
-                      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                    <div class="absolute inset-0 transition-colors bg-black/0 group-hover:bg-black/10" />
                   </div>
                 ))}
               </div>
@@ -95,21 +112,21 @@ const breadcrumbs = [
         <!-- Services Section -->
         {
           location.servicesAvailable && location.servicesAvailable.length > 0 && (
-            <div class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100">
+            <div class="p-8 bg-white border rounded-3xl shadow-soft border-neutral-100">
               <div class="flex items-center gap-3 mb-6">
-                <div class="p-2 bg-primary-50 rounded-lg text-primary-600">
+                <div class="p-2 rounded-lg bg-primary-50 text-primary-600">
                   <Briefcase className="h-6 w-6" />
                 </div>
-                <h2 class="text-2xl font-display font-bold text-primary-900">Services Available</h2>
+                <h2 class="text-2xl font-bold font-display text-primary-900">Services Available</h2>
               </div>
 
               <div class="grid gap-4 sm:grid-cols-2">
                 {location.servicesAvailable.map((service) => (
                   <a
                     href={`/services/${service.slug.current}`}
-                    class="flex items-center gap-3 p-4 rounded-xl bg-neutral-50 hover:bg-primary-50 hover:shadow-sm transition-all group border border-transparent hover:border-primary-100"
+                    class="flex items-center gap-3 p-4 transition-all border border-transparent rounded-xl bg-neutral-50 hover:bg-primary-50 hover:shadow-sm group hover:border-primary-100"
                   >
-                    <div class="shrink-0 rounded-full bg-white p-1 text-green-500 shadow-sm">
+                    <div class="p-1 text-green-500 bg-white rounded-full shadow-sm shrink-0">
                       <CircleCheck className="h-4 w-4" />
                     </div>
                     <span class="font-medium text-neutral-700 group-hover:text-primary-700">
@@ -126,41 +143,7 @@ const breadcrumbs = [
         <div
           class="h-[400px] md:h-[500px] rounded-3xl shadow-soft bg-white border border-neutral-100 overflow-hidden"
         >
-          <GoogleMap server:defer embedUrl={location.mapEmbedUrl} className="w-full h-full">
-            <div
-              slot="fallback"
-              class="flex h-full w-full flex-col items-center justify-center bg-neutral-100 text-neutral-400 relative overflow-hidden"
-            >
-              <div
-                class="absolute inset-0 bg-[url('https://www.gstatic.com/images/branding/product/2x/maps_96dp.png')] opacity-5 bg-center bg-no-repeat grayscale"
-              >
-              </div>
-              <div class="relative z-10 flex flex-col items-center animate-pulse">
-                <div
-                  class="h-12 w-12 rounded-full bg-neutral-200 flex items-center justify-center mb-3"
-                >
-                  <div class="h-6 w-6 text-neutral-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle
-                        cx="12"
-                        cy="10"
-                        r="3"></circle></svg
-                    >
-                  </div>
-                </div>
-                <span class="font-medium text-sm">Loading Map...</span>
-              </div>
-            </div>
-          </GoogleMap>
+          <GoogleMap client:load embedUrl={location.mapEmbedUrl} className="w-full h-full" />
         </div>
       </div>
 
@@ -171,22 +154,22 @@ const breadcrumbs = [
 
           <!-- Helper CTA -->
           <div
-            class="mt-6 rounded-3xl bg-neutral-900 p-8 text-center text-white relative overflow-hidden"
+            class="relative p-8 mt-6 overflow-hidden text-center text-white rounded-3xl bg-neutral-900"
           >
             <div class="relative z-10">
-              <h3 class="font-display font-bold text-xl mb-2">Need immediate help?</h3>
-              <p class="text-neutral-400 text-sm mb-6">Our experts are ready to assist you.</p>
+              <h3 class="mb-2 text-xl font-bold font-display">Need immediate help?</h3>
+              <p class="mb-6 text-sm text-neutral-400">Our experts are ready to assist you.</p>
               <a
                 href={`tel:${location.phone}`}
-                class="block w-full rounded-xl bg-white text-neutral-900 font-bold py-3 hover:bg-neutral-200 transition-colors"
+                class="block w-full py-3 font-bold transition-colors bg-white rounded-xl text-neutral-900 hover:bg-neutral-200"
               >
                 Call Now
               </a>
             </div>
             <!-- Background blobs -->
-            <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500/20 blur-2xl rounded-full">
+            <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-primary-500/20 blur-2xl">
             </div>
-            <div class="absolute bottom-0 left-0 w-32 h-32 bg-accent-500/20 blur-2xl rounded-full">
+            <div class="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-accent-500/20 blur-2xl">
             </div>
           </div>
         </div>
