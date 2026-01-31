@@ -5,9 +5,14 @@ import tailwind from '@astrojs/tailwind';
 
 import vercel from '@astrojs/vercel';
 
-// https://astro.build/config
+
+
 export default defineConfig({
   integrations: [react(), tailwind()],
-  adapter: vercel(),
   output: 'server',
+  adapter: vercel({
+    imagesConfig: {
+      sizes: [320, 640, 1280],
+    },
+  }),
 });
