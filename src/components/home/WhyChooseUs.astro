@@ -1,0 +1,52 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import Icon from '../icons/Icon';
+import { WHY_CHOOSE_US } from '../../lib/constants';
+---
+
+<Section background="light" padding="lg">
+  <Container>
+    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
+      <Heading as="h2" class="mb-4 text-neutral-900"> Why Choose A to Z Business? </Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+        We stand out with our commitment to excellence, convenience, and customer satisfaction.
+        Here's what makes us your best choice.
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      {
+        WHY_CHOOSE_US.map((item, index) => (
+          <div
+            class="
+        group relative p-8 bg-white rounded-3xl text-left transition-all duration-300 hover:shadow-xl reveal
+        
+        /* Top-Right Bracket */
+        before:absolute before:top-0 before:right-0 before:w-16 before:h-16 
+        before:border-t-[5px] before:border-r-[5px] before:border-primary-500 before:rounded-tr-3xl
+        
+        /* Bottom-Left Bracket */
+        after:absolute after:bottom-0 after:left-0 after:w-16 after:h-16 
+        after:border-b-[5px] after:border-l-[5px] after:border-primary-500 after:rounded-bl-3xl
+      "
+            data-animation="animate-fade-in-up"
+            style={{ animationDelay: `${index * 150}ms` }}
+          >
+            {/* Icon: Removed 'mx-auto' to align left, added shadow glow */}
+            <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 shadow-lg shadow-primary-500/30 transition-transform duration-300 group-hover:scale-110">
+              <Icon name={item.icon as any} size={32} className="text-white" client:load />
+            </div>
+
+            {/* Title: Changed font-semibold to font-bold to match image */}
+            <h3 class="mb-3 font-display text-xl font-bold text-neutral-900">{item.title}</h3>
+
+            {/* Description: Added leading-relaxed for better readability */}
+            <p class="text-neutral-600 leading-relaxed">{item.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</Section>

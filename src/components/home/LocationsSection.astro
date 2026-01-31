@@ -1,0 +1,170 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../icons/Icon';
+import { LOCATIONS, BUSINESS_INFO } from '../../lib/constants';
+---
+
+<Section background="white" padding="lg">
+  <Container>
+    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
+      <Heading as="h2" class="mb-4 text-neutral-900"> Visit Our Offices </Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+        Conveniently located across Abu Dhabi to serve you better. Visit us at either of our
+        branches for fast and professional service.
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 mb-12">
+      {/* Main Office - Khalidiya */}
+      <div class="reveal" data-animation="animate-fade-in-up">
+        <Card variant="hover" padding="lg">
+          <div class="mb-4 flex items-center justify-between">
+            <div class="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2">
+              <Icon name="Star" size={16} className="text-primary-600" client:load />
+              <span class="text-sm font-medium text-primary-700">{LOCATIONS.main.type}</span>
+            </div>
+            <Icon name="MapPin" size={24} className="text-primary-500" client:load />
+          </div>
+
+          <h3 class="mb-3 font-display text-2xl font-semibold text-neutral-900">
+            {LOCATIONS.main.name}
+          </h3>
+
+          <p class="mb-4 text-neutral-600">
+            {LOCATIONS.main.shortDescription}
+          </p>
+
+          <div class="mb-6 space-y-3">
+            {/* Address */}
+            <div class="flex items-start gap-3">
+              <Icon name="MapPin" size={20} className="text-neutral-400 mt-0.5" client:load />
+              <div>
+                <div class="font-medium text-neutral-900">{LOCATIONS.main.address}</div>
+                <div class="text-sm text-neutral-600">
+                  {LOCATIONS.main.area}, {LOCATIONS.main.city}
+                </div>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div class="flex items-center gap-3">
+              <Icon name="Phone" size={20} className="text-neutral-400" client:load />
+              <a
+                href={`tel:${BUSINESS_INFO.phone}`}
+                class="text-neutral-700 hover:text-primary-600 transition-colors"
+              >
+                {BUSINESS_INFO.phone}
+              </a>
+            </div>
+
+            {/* WhatsApp */}
+            <div class="flex items-center gap-3">
+              <Icon name="MessageCircle" size={20} className="text-neutral-400" client:load />
+              <a
+                href={`https://wa.me/${BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-700 hover:text-primary-600 transition-colors"
+              >
+                WhatsApp: {BUSINESS_INFO.whatsapp}
+              </a>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <Button variant="primary" size="md" href="/locations/khalidiya" class="flex-1">
+              View Details
+            </Button>
+            <a
+              href="#"
+              class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-primary-500 px-6 py-3 font-medium text-primary-600 transition-all duration-200 hover:bg-primary-50"
+            >
+              <Icon name="Navigation" size={18} client:load />
+              Directions
+            </a>
+          </div>
+        </Card>
+      </div>
+
+      {/* Branch Office - Mussafah */}
+      <div class="reveal" data-animation="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+        <Card variant="hover" padding="lg">
+          <div class="mb-4 flex items-center justify-between">
+            <div class="inline-flex items-center gap-2 rounded-full bg-secondary-50 px-4 py-2">
+              <Icon name="Building2" size={16} className="text-secondary-600" client:load />
+              <span class="text-sm font-medium text-secondary-700">{LOCATIONS.branch.type}</span>
+            </div>
+            <Icon name="MapPin" size={24} className="text-secondary-500" client:load />
+          </div>
+
+          <h3 class="mb-3 font-display text-2xl font-semibold text-neutral-900">
+            {LOCATIONS.branch.name}
+          </h3>
+
+          <p class="mb-4 text-neutral-600">
+            {LOCATIONS.branch.shortDescription}
+          </p>
+
+          <div class="mb-6 space-y-3">
+            {/* Address */}
+            <div class="flex items-start gap-3">
+              <Icon name="MapPin" size={20} className="text-neutral-400 mt-0.5" client:load />
+              <div>
+                <div class="font-medium text-neutral-900">{LOCATIONS.branch.quickAddress}</div>
+                <div class="text-sm text-neutral-600">
+                  {LOCATIONS.branch.area}, {LOCATIONS.branch.city}
+                </div>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div class="flex items-center gap-3">
+              <Icon name="Phone" size={20} className="text-neutral-400" client:load />
+              <a
+                href={`tel:${BUSINESS_INFO.phone}`}
+                class="text-neutral-700 hover:text-secondary-600 transition-colors"
+              >
+                {BUSINESS_INFO.phone}
+              </a>
+            </div>
+
+            {/* WhatsApp */}
+            <div class="flex items-center gap-3">
+              <Icon name="MessageCircle" size={20} className="text-neutral-400" client:load />
+              <a
+                href={`https://wa.me/${BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-700 hover:text-secondary-600 transition-colors"
+              >
+                WhatsApp: {BUSINESS_INFO.whatsapp}
+              </a>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <Button variant="secondary" size="md" href="/locations/mussafah" class="flex-1">
+              View Details
+            </Button>
+            <a
+              href="#"
+              class="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border-2 border-secondary-500 px-6 py-3 font-medium text-secondary-600 transition-all duration-200 hover:bg-secondary-50"
+            >
+              <Icon name="Navigation" size={18} client:load />
+              Directions
+            </a>
+          </div>
+        </Card>
+      </div>
+    </div>
+
+    {/* View All Locations CTA */}
+    <div class="text-center">
+      <Button variant="outline" size="lg" href="/locations"> View All Locations </Button>
+    </div>
+  </Container>
+</Section>

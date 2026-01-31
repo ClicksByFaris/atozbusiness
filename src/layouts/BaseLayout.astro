@@ -1,0 +1,132 @@
+---
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { SEO_DEFAULTS } from '../lib/seo';
+import SmoothScroll from '../components/ui/SmoothScroll';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SEO_DEFAULTS.defaultDescription,
+  ogImage = SEO_DEFAULTS.defaultImage,
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+const fullTitle =
+  title === 'Home' ? SEO_DEFAULTS.defaultTitle : `${title} | ${SEO_DEFAULTS.siteName}`;
+
+// Generate full OG image URL
+const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteUrl}${ogImage}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:locale" content={SEO_DEFAULTS.locale} />
+    <meta property="og:site_name" content={SEO_DEFAULTS.siteName} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={fullOgImage} />
+    <meta name="twitter:site" content={SEO_DEFAULTS.twitterHandle} />
+
+    <!-- Progressive Web App -->
+    <meta name="theme-color" content="#2A5298" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <ClientRouter />
+    <slot name="head" />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <SmoothScroll client:only="react" />
+
+    <script is:inline>
+      // Optimization for reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -50px 0px', // Trigger slightly before the element enters
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            if (prefersReducedMotion) {
+              el.classList.add('is-visible');
+              observer.unobserve(el);
+              return;
+            }
+
+            const animation = el.getAttribute('data-animation') || 'animate-fade-in-up';
+
+            // Add classes in the next frame to prevent layout thrashing and flicker
+            requestAnimationFrame(() => {
+              el.classList.add(animation);
+              el.classList.add('is-visible');
+            });
+
+            observer.unobserve(el);
+          }
+        });
+      }, observerOptions);
+
+      function initReveal() {
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach((el) => {
+          // If already visible (e.g., top of page), trigger immediately
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            const animation = el.getAttribute('data-animation') || 'animate-fade-in-up';
+            el.classList.add(animation);
+            el.classList.add('is-visible');
+          } else {
+            observer.observe(el);
+          }
+        });
+      }
+
+      initReveal();
+      document.addEventListener('astro:after-swap', initReveal);
+    </script>
+  </body>
+</html>

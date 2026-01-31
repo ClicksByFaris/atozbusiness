@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { ServiceData } from '../lib/services-data';
+import {
+  generateServiceSchema,
+  generateFAQSchema,
+  generateServiceBreadcrumbs,
+} from '../lib/schemas/service';
+
+interface Props {
+  service: ServiceData;
+}
+
+const { service } = Astro.props;
+
+// Generate all schemas using centralized utilities
+const serviceSchema = generateServiceSchema({
+  name: service.name,
+  description: service.shortDescription,
+  slug: service.slug,
+  category: service.category,
+  areaServed: 'Abu Dhabi, UAE',
+});
+
+const faqSchema = generateFAQSchema(service.faqs);
+
+const breadcrumbSchema = generateServiceBreadcrumbs(service.name, service.slug);
+
+// Combine all schemas
+const schemas = [serviceSchema, faqSchema, breadcrumbSchema];
+---
+
+<BaseLayout
+  title={`${service.name} in Abu Dhabi | A to Z Business`}
+  description={service.shortDescription}
+  ogImage={`/og/${service.slug}.jpg`}
+>
+  {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+
+  <main class="bg-neutral-50 pb-20">
+    <slot />
+  </main>
+</BaseLayout>

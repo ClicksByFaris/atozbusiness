@@ -1,0 +1,39 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navigation = [
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "Locations", href: "/locations" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+];
+
+function isActive(href: string) {
+    if (href === "/") {
+        return currentPath === "/";
+    }
+    return currentPath.startsWith(href);
+}
+---
+
+<nav class="hidden lg:flex items-center gap-8">
+    {
+        navigation.map((item) => (
+            <a
+                href={item.href}
+                class:list={[
+                    "text-gray-700 hover:text-primary-500 font-medium transition-colors relative py-2",
+                    isActive(item.href) && "text-primary-500",
+                ]}
+            >
+                {item.name}
+                {isActive(item.href) && (
+                    <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
+                )}
+            </a>
+        ))
+    }
+    <a href="/contact" class="btn btn-primary"> Get Started </a>
+</nav>

@@ -1,0 +1,61 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../icons/Icon';
+
+interface Props {
+  name: string;
+  description: string;
+  icon: string;
+}
+
+const { name, description, icon } = Astro.props;
+---
+
+<section
+  class="relative bg-gradient-to-br from-primary-900 to-primary-800 text-white py-20 lg:py-28 overflow-hidden"
+>
+  <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10"></div>
+  <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none rotate-180">
+    <svg
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 120"
+      preserveAspectRatio="none"
+      class="relative block w-[calc(100%+1.3px)] h-[60px] text-neutral-50 fill-current"
+    >
+      <path
+        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+      ></path>
+    </svg>
+  </div>
+
+  <Container>
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <div
+        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm mb-8 border border-white/20 text-secondary-400"
+      >
+        <Icon name={icon as any} className="w-8 h-8" client:load />
+      </div>
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+        {name}
+      </h1>
+
+      <p class="text-lg md:text-xl text-primary-100 max-w-2xl mx-auto mb-10 leading-relaxed">
+        {description}
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button
+          href="/contact"
+          variant="outline"
+          size="lg"
+          class="bg-white/5 border-white/20 hover:bg-white/10 text-white"
+        >
+          Book Consultation
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>

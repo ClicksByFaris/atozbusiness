@@ -1,0 +1,59 @@
+---
+import Icon from '../icons/Icon.tsx';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class:list={['animate-fade-in-up ', className]}>
+  <ol
+    class="flex items-start gap-2 px-4 py-3 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 shadow-soft"
+  >
+    <li>
+      <a
+        href="/"
+        class="group flex items-center justify-center p-1 rounded-lg text-neutral-500 hover:text-primary-600 hover:bg-primary-50 dark:text-neutral-400 dark:hover:text-primary-400 dark:hover:bg-primary-900/30 transition-all duration-200"
+        aria-label="Home"
+      >
+        <Icon name="Home" className="w-5 h-5" client:idle />
+      </a>
+    </li>
+
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          <Icon
+            name="ChevronRight"
+            className="w-4 h-4 text-neutral-300 dark:text-neutral-600"
+            client:idle
+          />
+
+          {index === items.length - 1 ? (
+            <span
+              class="px-2.5 py-1 text-sm font-semibold text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 rounded-md"
+              aria-current="page"
+            >
+              {item.name}
+            </span>
+          ) : (
+            <a
+              href={item.url}
+              class="px-2 py-1 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-md transition-all duration-200"
+            >
+              {item.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

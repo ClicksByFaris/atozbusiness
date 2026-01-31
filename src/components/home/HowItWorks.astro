@@ -1,0 +1,77 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import Icon from '../icons/Icon';
+import { HOW_IT_WORKS } from '../../lib/constants';
+---
+
+<Section background="white" padding="lg">
+  <Container>
+    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
+      <Heading as="h2" class="mb-4 text-neutral-900"> How It Works </Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+        Getting your documents processed is simple and straightforward. Follow these four easy
+        steps.
+      </p>
+    </div>
+
+    <div class="relative">
+      {/* Connection Line - Hidden on mobile */}
+      <div
+        class="absolute left-0 right-0 top-12 hidden h-0.5 bg-gradient-to-r from-primary-500 to-secondary-500 lg:block reveal"
+        data-animation="animate-fade-in"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {
+          HOW_IT_WORKS.map((step, index) => (
+            <div
+              class="relative reveal"
+              data-animation="animate-fade-in-up"
+              style={{ animationDelay: `${index * 200}ms` }}
+            >
+              {/* Step Number Badge */}
+              <div class="relative z-10 mx-auto mb-6 flex h-24 w-24 items-center justify-center">
+                {/* Outer Circle with gradient */}
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 opacity-10" />
+
+                {/* Inner Circle */}
+                <div class="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 shadow-lg">
+                  <Icon name={step.icon as any} size={28} className="text-white" client:load />
+                </div>
+
+                {/* Step Number */}
+                <div class="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-accent-500 text-sm font-bold text-white shadow-md">
+                  {step.step}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div class="text-center">
+                <h3 class="mb-2 font-display text-xl font-semibold text-neutral-900">
+                  {step.title}
+                </h3>
+                <p class="text-neutral-600">{step.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* CTA */}
+    <div class="mt-12 text-center">
+      <p class="mb-4 text-lg text-neutral-700">Ready to get started?</p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-8 py-4 font-medium text-white shadow-md transition-all duration-200 hover:bg-primary-600 hover:shadow-lg"
+      >
+        Contact Us Now
+        <Icon name="ArrowRight" size={20} client:load />
+      </a>
+    </div>
+  </Container>
+</Section>

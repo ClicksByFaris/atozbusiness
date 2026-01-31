@@ -1,0 +1,28 @@
+---
+import Icon from '../icons/Icon';
+
+interface Props {
+  name: string;
+  description: string;
+  icon: string;
+}
+
+const { name, description, icon } = Astro.props;
+---
+
+<div
+  class="group h-full flex flex-col gap-4 p-6 lg:p-8 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-primary-500 hover:from-primary-50/10 hover:to-primary-100/5"
+>
+  <!-- Icon Wrapper -->
+  <div
+    class="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+  >
+    <Icon name={icon as any} className="w-8 h-8 text-white" />
+  </div>
+
+  <!-- Value Name -->
+  <h3 class="text-xl font-bold text-neutral-900 m-0">{name}</h3>
+
+  <!-- Value Description -->
+  <p class="text-base leading-relaxed text-neutral-600 m-0 flex-grow">{description}</p>
+</div>

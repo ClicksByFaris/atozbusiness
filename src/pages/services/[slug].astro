@@ -1,0 +1,47 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import ServiceHero from '../../components/services/ServiceHero.astro';
+import ServiceFeatures from '../../components/services/ServiceFeatures.astro';
+import ServiceProcess from '../../components/services/ServiceProcess.astro';
+import ServiceDocuments from '../../components/services/ServiceDocuments.astro';
+import ServiceFAQ from '../../components/services/ServiceFAQ.astro';
+import RelatedServices from '../../components/services/RelatedServices.astro';
+import CTASection from '../../components/home/CTASection.astro';
+import Breadcrumbs from '../../components/shared/Breadcrumbs.astro';
+import Container from '../../components/ui/Container.astro';
+import { SERVICES_DATA } from '../../lib/services-data';
+
+export async function getStaticPaths() {
+  return SERVICES_DATA.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+
+const breadcrumbs = [
+  { name: 'Services', url: '/services' },
+  { name: service.name, url: `/services/${service.slug}` },
+];
+---
+
+<ServiceLayout service={service}>
+  <ServiceHero name={service.name} description={service.shortDescription} icon={service.icon} />
+
+  <Container class="pt-4 pb-4">
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <ServiceFeatures features={service.features} fullDescription={service.fullDescription} />
+
+  <ServiceProcess process={service.process} />
+
+  <ServiceDocuments documents={service.documents} />
+
+  <ServiceFAQ faqs={service.faqs} />
+
+  <RelatedServices currentSlug={service.slug} relatedSlugs={service.relatedServices} />
+
+  <CTASection />
+</ServiceLayout>

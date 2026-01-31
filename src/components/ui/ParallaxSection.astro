@@ -1,0 +1,109 @@
+---
+interface Props {
+  backgroundImage: string;
+  alt?: string;
+  speed?: number; // 0 to 1 intensity. 0.5 is standard.
+  className?: string;
+  overlayOpacity?: number;
+  heightClass?: string;
+  id?: string;
+}
+
+const {
+  backgroundImage,
+  alt = 'Background image',
+  speed = 0.5,
+  className = '',
+  overlayOpacity = 0.4,
+  heightClass = 'min-h-[60vh]',
+  id,
+} = Astro.props;
+---
+
+<div
+  id={id}
+  class={`relative overflow-hidden flex items-center justify-center ${heightClass} ${className} parallax-container`}
+  data-speed={speed}
+>
+  <!-- Parallax Background Layer -->
+  <div class="absolute inset-0 w-full h-[150%] -top-[25%] z-0 pointer-events-none">
+    <img
+      src={backgroundImage}
+      alt={alt}
+      class="w-full h-full object-cover parallax-image will-change-transform"
+      loading="eager"
+    />
+    <!-- Overlay -->
+    <div
+      class="absolute inset-0 bg-black transition-opacity duration-300"
+      style={`opacity: ${overlayOpacity}`}
+    >
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 w-full container mx-auto px-4 md:px-6">
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Parallax Logic
+  const initParallax = () => {
+    const containers = document.querySelectorAll('.parallax-container');
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      containers.forEach((container) => {
+        if (!(container instanceof HTMLElement)) return;
+
+        const img = container.querySelector('.parallax-image') as HTMLElement;
+        if (!img) return;
+
+        const speed = parseFloat(container.dataset.speed || '0.5');
+        const rect = container.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+
+        // Only animate if in view (with some buffer)
+        if (rect.top < viewHeight && rect.bottom > 0) {
+          // Calculate percentage of scroll through the container relative to viewport
+          const scrollCenter = rect.top + rect.height / 2;
+          const viewCenter = viewHeight / 2;
+          // Distance from center of viewport. Positive = below center, Negative = above center
+          const distFromCenter = scrollCenter - viewCenter;
+
+          // Calculate movement
+          // If speed is 0.5, we want moderate movement.
+          // We dampen it by 0.2 to make "1" usable as a max speed.
+          const yPos = distFromCenter * speed * 0.4;
+
+          img.style.transform = `translate3d(0, ${yPos}px, 0)`;
+        }
+      });
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateParallax, { passive: true });
+
+    // Initial update
+    updateParallax();
+  };
+
+  // Run on load and view transitions
+  document.addEventListener('astro:page-load', initParallax);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParallax);
+  } else {
+    initParallax();
+  }
+</script>

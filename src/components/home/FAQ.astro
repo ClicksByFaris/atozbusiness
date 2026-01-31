@@ -1,0 +1,37 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import FAQAccordion from './FAQAccordion';
+import { FAQS } from '../../lib/constants';
+---
+
+<Section background="light" padding="lg">
+  <Container>
+    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
+      <Heading as="h2" class="mb-4 text-neutral-900"> Frequently Asked Questions </Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+        Got questions? We've got answers. Here are the most common questions our clients ask.
+      </p>
+    </div>
+
+    <div class="reveal" data-animation="animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+      <FAQAccordion faqs={FAQS} client:load />
+    </div>
+
+    {/* Contact CTA */}
+    <div
+      class="mt-12 text-center reveal"
+      data-animation="animate-fade-in-up"
+      style={{ animationDelay: '200ms' }}
+    >
+      <p class="mb-4 text-neutral-700">Still have questions? We're here to help!</p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-8 py-4 font-medium text-white shadow-md transition-all duration-200 hover:bg-primary-600 hover:shadow-lg"
+      >
+        Contact Us
+      </a>
+    </div>
+  </Container>
+</Section>

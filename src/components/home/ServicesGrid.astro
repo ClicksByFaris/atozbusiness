@@ -1,0 +1,99 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../icons/Icon';
+import { FEATURED_SERVICES } from '../../lib/constants';
+---
+
+<Section background="white" padding="lg">
+  <Container>
+    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
+      <Heading as="h2" class="mb-4 text-neutral-900"> Our Featured Services </Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+        From visa services to company formation, we offer comprehensive solutions for all your
+        government documentation needs in Abu Dhabi.
+      </p>
+    </div>
+
+    <div class="relative min-h-screen mb-24">
+      {
+        FEATURED_SERVICES.map((service, index) => (
+          <div
+            class="sticky-card sticky mx-auto max-w-3xl reveal"
+            data-animation="animate-fade-in-up"
+            style={{
+              '--index': index,
+              zIndex: index + 1,
+              marginTop: index === 0 ? '0' : '2rem', // Add some spacing between cards initially
+              animationDelay: `${index * 150}ms`,
+            }}
+          >
+            <Card
+              variant="hover"
+              padding="lg"
+              class="border border-neutral-200/60 shadow-xl backdrop-blur-sm bg-white/90"
+            >
+              <div class="grid md:grid-cols-[auto_1fr] gap-6 items-start">
+                {/* Icon */}
+                <div class="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-50">
+                  <Icon
+                    name={service.icon as any}
+                    size={32}
+                    className="text-primary-600"
+                    client:load
+                  />
+                </div>
+
+                <div class="flex flex-col gap-3">
+                  {/* Service Name */}
+                  <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-display text-2xl font-bold text-neutral-900">{service.name}</h3>
+                    <div class="text-xs font-mono text-neutral-400">0{index + 1}</div>
+                  </div>
+
+                  {/* Description */}
+                  <p class="text-lg text-neutral-600 leading-relaxed max-w-xl">
+                    {service.description}
+                  </p>
+
+                  {/* Learn More Link */}
+                  <div class="pt-2">
+                    <a
+                      href={`/services/${service.slug}`}
+                      class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-colors hover:text-primary-700 uppercase tracking-wider"
+                    >
+                      Learn More
+                      <Icon name="ArrowRight" size={16} client:load />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* View All Services CTA */}
+    <div class="text-center">
+      <Button variant="primary" size="lg" href="/services"> View All 20 Services </Button>
+    </div>
+  </Container>
+
+  <style>
+    .sticky-card {
+      /* Mobile: tighter stacking */
+      top: calc(5rem + var(--index) * 1rem);
+    }
+
+    @media (min-width: 768px) {
+      .sticky-card {
+        /* Desktop: loose stacking for "folder" effect */
+        top: calc(8rem + var(--index) * 3rem);
+      }
+    }
+  </style>
+</Section>
