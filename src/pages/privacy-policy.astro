@@ -14,15 +14,40 @@ const lastUpdated = 'January 21, 2026';
   title="Privacy Policy"
   description="Privacy Policy for A to Z Business Services - How we collect, use, and protect your data."
 >
-  <Section
-    class="pt-32 pb-16 bg-primary-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800"
-  >
-    <Container>
-      <Breadcrumbs items={breadcrumbs} class="mb-6" />
-      <Heading tag="h1" size="5xl" class="mb-4">Privacy Policy</Heading>
-      <p class="text-neutral-600 dark:text-neutral-400 text-lg">Last updated: {lastUpdated}</p>
-    </Container>
-  </Section>
+  <!-- Hero Section -->
+  <section class="relative bg-primary-900 py-32 overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0 z-0">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/90 to-primary-800/80"
+      >
+      </div>
+    </div>
+
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/20 rounded-full blur-[100px] opacity-30 pointer-events-none"
+    >
+    </div>
+
+    <div class="container relative z-10 mx-auto px-4 text-center">
+      <Breadcrumbs items={breadcrumbs} class="mb-6 justify-center text-primary-200" />
+
+      <h1
+        class="font-display text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up [animation-delay:100ms] tracking-tight"
+      >
+        Privacy Policy
+      </h1>
+      <p
+        class="mx-auto max-w-2xl text-lg text-primary-100/90 animate-fade-in-up [animation-delay:200ms] leading-relaxed"
+      >
+        Last updated: {lastUpdated}
+      </p>
+    </div>
+  </section>
 
   <Section class="py-16">
     <Container>

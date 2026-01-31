@@ -22,31 +22,44 @@ const pageDescription =
   </Fragment>
 
   <!-- Hero Section -->
-  <Section background="gradient">
-    <Container>
-      <div class="min-h-[50vh] flex items-center justify-center text-center">
-        <div class="max-w-4xl mx-auto space-y-6 animate-fade-in-up">
-          <!-- Hero Badge -->
-          <div
-            class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-sm font-semibold text-white"
-          >
-            <Icon name="Building2" className="w-5 h-5" />
-            <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
-          </div>
-
-          <!-- Hero Title -->
-          <Heading level="h1" size="4xl" className="text-white">
-            Your Trusted Partner in Government Services
-          </Heading>
-
-          <!-- Hero Description -->
-          <p class="text-xl text-white/90 max-w-2xl mx-auto">
-            Making life in the UAE easier, one service at a time
-          </p>
-        </div>
+  <section class="relative bg-primary-900 py-24 overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0 z-0">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+      >
       </div>
-    </Container>
-  </Section>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/90 to-primary-800/80"
+      >
+      </div>
+    </div>
+
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/20 rounded-full blur-[100px] opacity-30 pointer-events-none"
+    >
+    </div>
+
+    <div class="container relative z-10 mx-auto px-4 text-center">
+      <div
+        class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-md border border-white/10 mb-6 animate-fade-in-up"
+      >
+        <Icon name="Building2" className="w-5 h-5" />
+        <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
+      </div>
+
+      <h1
+        class="font-display text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up [animation-delay:100ms] tracking-tight"
+      >
+        Your Trusted Partner in Government Services
+      </h1>
+      <p
+        class="mx-auto max-w-2xl text-lg text-primary-100/90 animate-fade-in-up [animation-delay:200ms] leading-relaxed"
+      >
+        Making life in the UAE easier, one service at a time
+      </p>
+    </div>
+  </section>
 
   <!-- Company Story Section -->
   <Section>

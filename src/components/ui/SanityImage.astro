@@ -1,0 +1,155 @@
+---
+import { urlFor } from '../../lib/sanity';
+import type { SanityImageSource } from '@sanity/image-url';
+import { cn } from '../../lib/utils';
+
+interface Props extends astroHTML.JSX.ImgHTMLAttributes {
+  node: SanityImageSource & {
+    asset?: {
+      _ref?: string;
+      metadata?: {
+        lqip?: string;
+        dimensions?: {
+          width: number;
+          height: number;
+          aspectRatio: number;
+        };
+      };
+    };
+  };
+  width?: number; // Desired width
+  height?: number; // Desired height
+  priority?: boolean; // Set 'true' for LCP images
+  quality?: number; // 0-100
+  className?: string; // Support React-style className
+}
+
+const {
+  node,
+  width,
+  height,
+  className,
+  class: classProp,
+  style,
+  alt,
+  sizes = '(max-width: 768px) 100vw, 1200px',
+  priority = false,
+  quality = 80,
+  ...attrs
+} = Astro.props;
+
+// 1. Resolve dimensions
+// We try to determine the final display dimensions to set on the <img> tag for CLS prevention.
+let determinedWidth = width;
+let determinedHeight = height;
+const metadata = node?.asset?.metadata;
+
+// If we don't have explicit dimensions, try to infer from metadata
+if (!determinedWidth && !determinedHeight && metadata?.dimensions) {
+  determinedWidth = metadata.dimensions.width;
+  determinedHeight = metadata.dimensions.height;
+} else if (determinedWidth && !determinedHeight && metadata?.dimensions) {
+  // Width set, calculate height
+  determinedHeight = Math.round(determinedWidth / metadata.dimensions.aspectRatio);
+} else if (!determinedWidth && determinedHeight && metadata?.dimensions) {
+  // Height set, calculate width
+  determinedWidth = Math.round(determinedHeight * metadata.dimensions.aspectRatio);
+}
+
+// Fallback for width if we still don't know (standard max width for many layouts)
+if (!determinedWidth && !determinedHeight) {
+  determinedWidth = 1200;
+  // Leave height undefined to let browser/css handle it if we can't calculate it
+}
+
+// 2. Generate Srcset
+const PREDEFINED_WIDTHS = [640, 768, 1024, 1280, 1536, 1920, 2560];
+// Only use widths that aren't significantly larger than the original image (upscaling is bad)
+// If we don't have metadata dimensions, we assume the user might want all sizes.
+const availableWidths = metadata?.dimensions?.width
+  ? PREDEFINED_WIDTHS.filter((w) => w <= metadata.dimensions!.width)
+  : PREDEFINED_WIDTHS;
+
+// Ensure our determined width is included if it fits
+if (determinedWidth && !availableWidths.includes(determinedWidth) && determinedWidth < 3000) {
+  availableWidths.push(determinedWidth);
+}
+// Sort for srcset
+availableWidths.sort((a, b) => a - b);
+
+// If the array ends up empty (e.g. very small original image), just usage the original width
+if (availableWidths.length === 0 && metadata?.dimensions?.width) {
+  availableWidths.push(metadata.dimensions.width);
+}
+
+const srcset = availableWidths
+  .map((w) => {
+    let builder = urlFor(node).width(w).auto('format').quality(quality);
+
+    // If the user specified BOTH width and height original props, they likely want a specific crop/aspect-ratio.
+    // We should maintain that ratio for all srcset entries.
+    if (width && height) {
+      const targetHeight = Math.round(w * (height / width));
+      builder = builder.height(targetHeight);
+    }
+    // Otherwise, we let Sanity maintain the original aspect ratio by only setting width.
+
+    return `${builder.url()} ${w}w`;
+  })
+  .join(', ');
+
+// 3. Generate Main Src
+// Fallback src should be something reasonable.
+let srcBuilder = urlFor(node).auto('format').quality(quality);
+if (determinedWidth) srcBuilder = srcBuilder.width(determinedWidth);
+if (width && height) {
+  // If strict crop requested
+  srcBuilder = srcBuilder.height(determinedHeight!);
+}
+const src = srcBuilder.url();
+
+const lqip = metadata?.lqip;
+const finalClass = cn(
+  'sanity-image w-full h-auto object-cover transition-all duration-500',
+  lqip && 'sanity-image-blur', // Only apply blur class if we have lqip
+  classProp,
+  className
+);
+---
+
+<img
+  src={src}
+  srcset={srcset || src}
+  sizes={sizes}
+  alt={alt || ''}
+  width={determinedWidth}
+  height={determinedHeight}
+  fetchpriority={priority ? 'high' : 'auto'}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  class={finalClass}
+  style={{
+    ...(style as any),
+    ...(lqip
+      ? { backgroundImage: `url(${lqip})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+      : {}),
+  }}
+  data-loaded="false"
+  onload="this.setAttribute('data-loaded', 'true')"
+  {...attrs}
+/>
+
+<style>
+  /* Base state for images with LQIP */
+  .sanity-image-blur {
+    filter: blur(20px);
+    transform: scale(1.05); /* Slight zoom to hide blur edges */
+  }
+
+  /* When loaded, remove effects */
+  .sanity-image-blur[data-loaded='true'] {
+    filter: blur(0);
+    transform: scale(1);
+    background-image: none !important; /* Cleanup background */
+  }
+</style>

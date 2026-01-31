@@ -2,21 +2,30 @@
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../icons/Icon';
+import SanityImage from '../ui/SanityImage.astro';
 
 interface Props {
   name: string;
   description: string;
   icon: string;
+  image?: any;
 }
 
-const { name, description, icon } = Astro.props;
+const { name, description, icon, image } = Astro.props;
 ---
 
 <section
   class="relative bg-gradient-to-br from-primary-900 to-primary-800 text-white py-20 lg:py-28 overflow-hidden"
 >
-  <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10"></div>
-  <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none rotate-180">
+  {
+    image && (
+      <div class="absolute inset-0 z-0 mix-blend-overlay opacity-30">
+        <SanityImage node={image} width={1600} class="w-full h-full object-cover" priority />
+      </div>
+    )
+  }
+  <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10 z-0"></div>
+  <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none rotate-180 z-10">
     <svg
       data-name="Layer 1"
       xmlns="http://www.w3.org/2000/svg"

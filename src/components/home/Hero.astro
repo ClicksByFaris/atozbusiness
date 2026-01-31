@@ -1,126 +1,129 @@
 ---
-import Container from '../ui/Container.astro';
-import Button from '../ui/Button.astro';
 import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
 import Icon from '../icons/Icon';
 ---
 
-<section
-  class="relative overflow-hidden bg-gradient-to-br from-primary-500 to-secondary-500 py-20 md:py-32"
->
-  <!-- Decorative elements -->
-  <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:32px_32px]"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-primary-600/20"></div>
+<section class="relative bg-primary-900 py-32 overflow-hidden">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 z-0">
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/90 to-primary-800/80"
+    >
+    </div>
+  </div>
 
-  <Container>
-    <div class="relative z-10">
-      <div class="mx-auto max-w-4xl text-center reveal" data-animation="animate-fade-in-up">
-        <!-- Badge -->
-        <div
-          class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm"
-        >
-          <Icon name="Award" size={16} className="text-accent-400" client:load />
-          <span>Trusted by 15,000+ Clients Across UAE</span>
+  <div
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/20 rounded-full blur-[100px] opacity-30 pointer-events-none"
+  >
+  </div>
+  <!-- Additional blobs for hero richness -->
+  <div
+    class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-secondary-500/20 rounded-full blur-[120px] opacity-20 pointer-events-none"
+  >
+  </div>
+
+  <div class="container relative z-10 mx-auto px-4 text-center">
+    <!-- Badge -->
+    <div
+      class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md border border-white/10 animate-fade-in-up"
+    >
+      <Icon name="Award" size={16} className="text-accent-400" client:load />
+      <span>Trusted by 15,000+ Clients Across UAE</span>
+    </div>
+
+    <!-- Main Heading -->
+    <h1
+      class="mb-6 font-display text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight animate-fade-in-up [animation-delay:100ms]"
+    >
+      {BUSINESS_INFO.name}
+    </h1>
+
+    <!-- Tagline -->
+    <p
+      class="mb-8 mx-auto max-w-2xl text-xl md:text-2xl text-primary-100/90 leading-relaxed animate-fade-in-up [animation-delay:200ms]"
+    >
+      {BUSINESS_INFO.tagline}
+    </p>
+
+    <!-- Location Indicator -->
+    <div
+      class="mb-10 flex items-center justify-center gap-2 text-primary-200 animate-fade-in-up [animation-delay:300ms]"
+    >
+      <Icon name="MapPin" size={20} className="text-accent-400" client:load />
+      <span class="text-lg">Khalidiya & Al Zahiyah, Abu Dhabi</span>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-4 animate-fade-in-up [animation-delay:400ms]"
+    >
+      <a
+        href={`https://wa.me/${BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-8 py-4 font-bold text-white shadow-lg shadow-accent-500/30 transition-all duration-300 hover:bg-accent-600 hover:scale-105 hover:shadow-xl"
+      >
+        <Icon name="MessageCircle" size={20} client:load />
+        WhatsApp Us
+      </a>
+
+      <a
+        href={`tel:${BUSINESS_INFO.phone}`}
+        class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-4 font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:border-white/40"
+      >
+        <Icon name="Phone" size={20} client:load />
+        Call Now
+      </a>
+
+      <a
+        href="/services"
+        class="inline-flex items-center gap-2 rounded-xl border border-transparent px-8 py-4 font-medium text-white/80 transition-all duration-300 hover:text-white"
+      >
+        View Services
+        <Icon name="ArrowRight" size={20} client:load />
+      </a>
+    </div>
+
+    <!-- Quick Info Cards -->
+    <div
+      class="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto mt-16 animate-fade-in-up [animation-delay:500ms]"
+    >
+      <!-- Business Hours -->
+      <div
+        class="rounded-2xl bg-white/5 p-6 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
+      >
+        <div class="mb-3 flex items-center justify-center gap-2">
+          <Icon name="Clock" size={24} className="text-accent-400" client:load />
+          <h3 class="font-bold text-lg text-white">Open Now</h3>
         </div>
+        <p class="text-sm text-primary-200">{BUSINESS_HOURS.weekdays}</p>
+      </div>
 
-        <!-- Main Heading -->
-        <h1
-          class="mb-6 font-display text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl"
-        >
-          {BUSINESS_INFO.name}
-        </h1>
-
-        <!-- Tagline -->
-        <p class="mb-4 text-xl text-white md:text-2xl">
-          {BUSINESS_INFO.tagline}
-        </p>
-
-        <!-- Location -->
-        <div class="mb-8 flex items-center justify-center gap-2 text-white/90">
-          <Icon name="MapPin" size={20} className="text-accent-400" client:load />
-          <span class="text-lg">Khalidiya & Al Zahiyah, Abu Dhabi</span>
+      <!-- Location -->
+      <div
+        class="rounded-2xl bg-white/5 p-6 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
+      >
+        <div class="mb-3 flex items-center justify-center gap-2">
+          <Icon name="MapPin" size={24} className="text-accent-400" client:load />
+          <h3 class="font-bold text-lg text-white">Prime Location</h3>
         </div>
+        <p class="text-sm text-primary-200">Opposite Khalidiya Mall</p>
+      </div>
 
-        <!-- CTA Buttons -->
-        <div class="mb-8 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href={`https://wa.me/${BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-lg bg-accent-500 px-8 py-4 font-medium text-white shadow-lg transition-all duration-200 hover:bg-accent-600 hover:shadow-xl"
-          >
-            <Icon name="MessageCircle" size={20} client:load />
-            WhatsApp Us
-          </a>
-
-          <a
-            href={`tel:${BUSINESS_INFO.phone}`}
-            class="inline-flex items-center gap-2 rounded-lg border-2 border-white bg-white/10 px-8 py-4 font-medium text-white backdrop-blur-sm transition-all duration-200 hover:bg-white hover:text-primary-600"
-          >
-            <Icon name="Phone" size={20} client:load />
-            Call Now
-          </a>
-
-          <a
-            href="/services"
-            class="inline-flex items-center gap-2 rounded-lg border-2 border-white/30 bg-transparent px-8 py-4 font-medium text-white transition-all duration-200 hover:border-white hover:bg-white/10"
-          >
-            View All Services
-            <Icon name="ArrowRight" size={20} client:load />
-          </a>
+      <!-- Support -->
+      <div
+        class="rounded-2xl bg-white/5 p-6 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
+      >
+        <div class="mb-3 flex items-center justify-center gap-2">
+          <Icon name="Headphones" size={24} className="text-accent-400" client:load />
+          <h3 class="font-bold text-lg text-white">24/7 Support</h3>
         </div>
-
-        <!-- Quick Info Cards -->
-        <div class="grid gap-4 md:grid-cols-3">
-          <!-- Business Hours -->
-          <div class="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div class="mb-2 flex items-center justify-center gap-2">
-              <Icon name="Clock" size={20} className="text-accent-400" client:load />
-              <span class="font-semibold text-white">Open Now</span>
-            </div>
-            <p class="text-sm text-white/90">{BUSINESS_HOURS.weekdays}</p>
-          </div>
-
-          <!-- Location -->
-          <div class="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div class="mb-2 flex items-center justify-center gap-2">
-              <Icon name="MapPin" size={20} className="text-accent-400" client:load />
-              <span class="font-semibold text-white">Prime Location</span>
-            </div>
-            <p class="text-sm text-white/90">Opposite Khalidiya Mall</p>
-          </div>
-
-          <!-- Support -->
-          <div class="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div class="mb-2 flex items-center justify-center gap-2">
-              <Icon name="Headphones" size={20} className="text-accent-400" client:load />
-              <span class="font-semibold text-white">24/7 Support</span>
-            </div>
-            <p class="text-sm text-white/90">Always here to help</p>
-          </div>
-        </div>
+        <p class="text-sm text-primary-200">Always here to help</p>
       </div>
     </div>
-  </Container>
-
-  <!-- Wave separator -->
-  <div class="absolute bottom-0 left-0 right-0">
-    <svg
-      class="w-full text-white"
-      viewBox="0 0 1440 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
-    >
-      <path d="M0,0 C480,100 960,100 1440,0 L1440,120 L0,120 Z" fill="currentColor"></path>
-    </svg>
   </div>
 </section>
-
-<style>
-  .bg-grid-white\/\[0\.05\] {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  }
-</style>

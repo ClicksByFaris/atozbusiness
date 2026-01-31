@@ -1,0 +1,85 @@
+---
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import type { Location } from '../../types';
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+---
+
+<div class="rounded-3xl bg-white p-8 shadow-soft border border-neutral-100 h-full">
+  <h2 class="text-2xl font-display font-bold text-primary-900 mb-8">Contact & Hours</h2>
+
+  <div class="space-y-8">
+    <!-- Contact Details -->
+    <div class="space-y-4">
+      <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wider">Get in Touch</h3>
+
+      <a
+        href={`tel:${location.phone}`}
+        class="flex items-center gap-4 group p-3 -mx-3 rounded-xl hover:bg-neutral-50 transition-colors"
+      >
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-primary-600 transition-colors group-hover:bg-primary-100 group-hover:text-primary-700"
+        >
+          <Phone className="h-5 w-5" />
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 font-medium">Phone Number</p>
+          <p class="font-medium text-neutral-900 group-hover:text-primary-700">{location.phone}</p>
+        </div>
+      </a>
+
+      <a
+        href={`mailto:${location.email}`}
+        class="flex items-center gap-4 group p-3 -mx-3 rounded-xl hover:bg-neutral-50 transition-colors"
+      >
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-50 text-secondary-600 transition-colors group-hover:bg-secondary-100 group-hover:text-secondary-700"
+        >
+          <Mail className="h-5 w-5" />
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 font-medium">Email Address</p>
+          <p class="font-medium text-neutral-900 break-all">{location.email}</p>
+        </div>
+      </a>
+
+      <a
+        href={`https://wa.me/${location.whatsapp?.replace(/[^0-9]/g, '')}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-4 group p-3 -mx-3 rounded-xl hover:bg-neutral-50 transition-colors"
+      >
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600 transition-colors group-hover:bg-green-100 group-hover:text-green-700"
+        >
+          <MessageCircle className="h-5 w-5" />
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 font-medium">WhatsApp</p>
+          <p class="font-medium text-neutral-900">Chat with us</p>
+        </div>
+      </a>
+
+      <div class="flex items-start gap-4 p-3 -mx-3">
+        <div
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-50 text-accent-600"
+        >
+          <MapPin className="h-5 w-5" />
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 font-medium mb-1">Visit Us</p>
+          <p class="font-medium text-neutral-900 leading-relaxed">{location.address}</p>
+          {
+            location.landmark && (
+              <p class="text-sm text-neutral-500 mt-1">Near {location.landmark}</p>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

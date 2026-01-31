@@ -1,43 +1,73 @@
 ---
 import Container from '../ui/Container.astro';
 import Icon from '../icons/Icon';
-import { SERVICES_DATA } from '../../lib/services-data';
+import SanityImage from '../ui/SanityImage.astro';
+import type { Service } from '../../types';
 
 interface Props {
-  currentSlug: string;
-  relatedSlugs: string[];
+  services?: Service[];
 }
 
-const { currentSlug, relatedSlugs } = Astro.props;
-
-const relatedServices = SERVICES_DATA.filter((s) => relatedSlugs.includes(s.slug));
+const { services } = Astro.props;
+// Ensure services is always an array
+const validServices = Array.isArray(services) ? services : [];
 ---
 
 {
-  relatedServices.length > 0 && (
+  validServices.length > 0 && (
     <section class="py-16 bg-white border-t border-neutral-100">
       <Container>
         <h2 class="text-2xl font-bold text-neutral-900 mb-8">Related Services</h2>
 
         <div class="grid md:grid-cols-3 gap-6">
-          {relatedServices.map((service) => (
+          {validServices.map((service) => (
             <a
-              href={`/services/${service.slug}`}
-              class="group relative bg-white border border-neutral-200 rounded-2xl p-6 hover:shadow-lg transition-all hover:border-primary-100"
+              href={`/services/${service.slug.current}`}
+              class="group flex flex-col bg-white border border-neutral-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:border-primary-100"
             >
-              <div class="w-12 h-12 bg-primary-50 text-primary-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
-                <Icon name={service.icon as any} className="w-6 h-6" client:load />
+              <div class="h-48 w-full bg-neutral-100 relative overflow-hidden">
+                {service.featuredImage ? (
+                  <SanityImage
+                    node={service.featuredImage}
+                    width={400}
+                    height={300}
+                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div class="h-full w-full flex items-center justify-center bg-primary-50">
+                    <Icon
+                      name={(service.icon as any) || 'FileText'}
+                      className="w-12 h-12 text-primary-200"
+                      client:load
+                    />
+                  </div>
+                )}
               </div>
 
-              <h3 class="text-lg font-bold text-neutral-900 mb-2 group-hover:text-primary-700 transition-colors">
-                {service.name}
-              </h3>
+              <div class="p-6 flex flex-col flex-grow">
+                <div class="flex items-center gap-3 mb-3">
+                  {!service.featuredImage && (
+                    <div class="w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center text-primary-600">
+                      <Icon
+                        name={(service.icon as any) || 'FileText'}
+                        className="w-4 h-4"
+                        client:load
+                      />
+                    </div>
+                  )}
+                  <h3 class="text-lg font-bold text-neutral-900 group-hover:text-primary-700 transition-colors">
+                    {service.title}
+                  </h3>
+                </div>
 
-              <p class="text-neutral-500 text-sm line-clamp-2 mb-4">{service.shortDescription}</p>
+                <p class="text-neutral-500 text-sm line-clamp-2 mb-4 flex-grow">
+                  {service.excerpt}
+                </p>
 
-              <span class="text-secondary-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                Learn More <Icon name="ArrowRight" className="w-4 h-4" client:load />
-              </span>
+                <span class="text-secondary-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all mt-auto">
+                  Learn More <Icon name="ArrowRight" className="w-4 h-4" client:load />
+                </span>
+              </div>
             </a>
           ))}
         </div>

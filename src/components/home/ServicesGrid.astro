@@ -5,7 +5,12 @@ import Heading from '../ui/Heading.astro';
 import Card from '../ui/Card.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../icons/Icon';
-import { FEATURED_SERVICES } from '../../lib/constants';
+import SanityImage from '../ui/SanityImage.astro';
+import { sanityClient } from '../../lib/sanity';
+import { popularServicesQuery } from '../../lib/queries';
+import type { Service } from '../../types';
+
+const services: Service[] = await sanityClient.fetch(popularServicesQuery);
 ---
 
 <Section background="white" padding="lg">
@@ -20,7 +25,7 @@ import { FEATURED_SERVICES } from '../../lib/constants';
 
     <div class="relative min-h-screen mb-24">
       {
-        FEATURED_SERVICES.map((service, index) => (
+        services.map((service, index) => (
           <div
             class="sticky-card sticky mx-auto max-w-3xl reveal"
             data-animation="animate-fade-in-up"
@@ -34,13 +39,24 @@ import { FEATURED_SERVICES } from '../../lib/constants';
             <Card
               variant="hover"
               padding="lg"
-              class="border border-neutral-200/60 shadow-xl backdrop-blur-sm bg-white/90"
+              class="border border-neutral-200/60 shadow-xl backdrop-blur-sm bg-white/90 overflow-hidden"
             >
+              {service.featuredImage && (
+                <div class="-mx-8 -mt-8 mb-8 h-64 overflow-hidden relative">
+                  <SanityImage
+                    node={service.featuredImage}
+                    width={800}
+                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent opacity-80" />
+                </div>
+              )}
+
               <div class="grid md:grid-cols-[auto_1fr] gap-6 items-start">
                 {/* Icon */}
                 <div class="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-50">
                   <Icon
-                    name={service.icon as any}
+                    name={(service.icon as any) || 'FileText'}
                     size={32}
                     className="text-primary-600"
                     client:load
@@ -50,19 +66,19 @@ import { FEATURED_SERVICES } from '../../lib/constants';
                 <div class="flex flex-col gap-3">
                   {/* Service Name */}
                   <div class="flex items-center justify-between gap-4">
-                    <h3 class="font-display text-2xl font-bold text-neutral-900">{service.name}</h3>
+                    <h3 class="font-display text-2xl font-bold text-neutral-900">
+                      {service.title}
+                    </h3>
                     <div class="text-xs font-mono text-neutral-400">0{index + 1}</div>
                   </div>
 
                   {/* Description */}
-                  <p class="text-lg text-neutral-600 leading-relaxed max-w-xl">
-                    {service.description}
-                  </p>
+                  <p class="text-lg text-neutral-600 leading-relaxed max-w-xl">{service.excerpt}</p>
 
                   {/* Learn More Link */}
                   <div class="pt-2">
                     <a
-                      href={`/services/${service.slug}`}
+                      href={`/services/${service.slug.current}`}
                       class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-colors hover:text-primary-700 uppercase tracking-wider"
                     >
                       Learn More

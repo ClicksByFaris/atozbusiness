@@ -9,39 +9,65 @@ import RelatedServices from '../../components/services/RelatedServices.astro';
 import CTASection from '../../components/home/CTASection.astro';
 import Breadcrumbs from '../../components/shared/Breadcrumbs.astro';
 import Container from '../../components/ui/Container.astro';
-import { SERVICES_DATA } from '../../lib/services-data';
+import { sanityClient } from '../../lib/sanity';
+import { servicesQuery, serviceBySlugQuery } from '../../lib/queries';
+import type { Service } from '../../types';
 
 export async function getStaticPaths() {
-  return SERVICES_DATA.map((service) => ({
-    params: { slug: service.slug },
-    props: { service },
+  const services: Service[] = await sanityClient.fetch(servicesQuery);
+  return services.map((service) => ({
+    params: { slug: service.slug.current },
   }));
 }
 
-const { service } = Astro.props;
+const { slug } = Astro.params;
+const service: Service = await sanityClient.fetch(serviceBySlugQuery, { slug });
+
+if (!service) {
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not Found',
+  });
+}
 
 const breadcrumbs = [
   { name: 'Services', url: '/services' },
-  { name: service.name, url: `/services/${service.slug}` },
+  { name: service.title, url: `/services/${service.slug.current}` },
 ];
+
+// Map string array to object array for ServiceDocuments
+const documents = service.documentsRequired?.map((doc) => ({ name: doc, required: true })) || [];
+
+// Map process steps
+const processMap =
+  service.processSteps?.map((step: any, idx: number) => ({
+    step: idx + 1,
+    title: step.step || `Step ${idx + 1}`,
+    description: step.description,
+  })) || [];
 ---
 
 <ServiceLayout service={service}>
-  <ServiceHero name={service.name} description={service.shortDescription} icon={service.icon} />
+  <ServiceHero
+    name={service.title}
+    description={service.excerpt}
+    icon={service.icon || 'FileText'}
+    image={service.featuredImage}
+  />
 
   <Container class="pt-4 pb-4">
     <Breadcrumbs items={breadcrumbs} />
   </Container>
 
-  <ServiceFeatures features={service.features} fullDescription={service.fullDescription} />
+  <ServiceFeatures features={service.features || []} fullDescription={service.description} />
 
-  <ServiceProcess process={service.process} />
+  {processMap.length > 0 && <ServiceProcess process={processMap} />}
 
-  <ServiceDocuments documents={service.documents} />
+  {documents.length > 0 && <ServiceDocuments documents={documents} />}
 
-  <ServiceFAQ faqs={service.faqs} />
+  {service.faq && service.faq.length > 0 && <ServiceFAQ faqs={service.faq} />}
 
-  <RelatedServices currentSlug={service.slug} relatedSlugs={service.relatedServices} />
+  <RelatedServices services={service.relatedServices} />
 
   <CTASection />
 </ServiceLayout>

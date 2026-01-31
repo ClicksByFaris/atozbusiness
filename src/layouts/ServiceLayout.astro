@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import type { ServiceData } from '../lib/services-data';
+import type { Service } from '../types';
 import {
   generateServiceSchema,
   generateFAQSchema,
@@ -8,32 +8,33 @@ import {
 } from '../lib/schemas/service';
 
 interface Props {
-  service: ServiceData;
+  service: Service;
 }
 
 const { service } = Astro.props;
 
 // Generate all schemas using centralized utilities
 const serviceSchema = generateServiceSchema({
-  name: service.name,
-  description: service.shortDescription,
-  slug: service.slug,
+  name: service.title,
+  description: service.excerpt,
+  slug: service.slug.current,
+  image: service.featuredImage?.asset?.url,
   category: service.category,
   areaServed: 'Abu Dhabi, UAE',
 });
 
-const faqSchema = generateFAQSchema(service.faqs);
+const faqSchema = service.faq ? generateFAQSchema(service.faq) : null;
 
-const breadcrumbSchema = generateServiceBreadcrumbs(service.name, service.slug);
+const breadcrumbSchema = generateServiceBreadcrumbs(service.title, service.slug.current);
 
 // Combine all schemas
-const schemas = [serviceSchema, faqSchema, breadcrumbSchema];
+const schemas = [serviceSchema, faqSchema, breadcrumbSchema].filter(Boolean);
 ---
 
 <BaseLayout
-  title={`${service.name} in Abu Dhabi | A to Z Business`}
-  description={service.shortDescription}
-  ogImage={`/og/${service.slug}.jpg`}
+  title={`${service.title} in Abu Dhabi | A to Z Business`}
+  description={service.excerpt}
+  ogImage={service.featuredImage?.asset?.url || '/og-image.jpg'}
 >
   {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 

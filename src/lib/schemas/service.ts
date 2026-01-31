@@ -8,6 +8,7 @@ export interface ServiceSchemaProps {
     name: string;
     description: string;
     slug: string;
+    image?: string;
     category?: string;
     provider?: string;
     areaServed?: string;
@@ -24,6 +25,7 @@ export function generateServiceSchema(props: ServiceSchemaProps) {
         name,
         description,
         slug,
+        image,
         category = 'Professional Service',
         provider = BUSINESS_INFO.name,
         areaServed = 'Abu Dhabi, UAE',
@@ -36,6 +38,12 @@ export function generateServiceSchema(props: ServiceSchemaProps) {
         '@id': `${SEO_DEFAULTS.siteUrl}/services/${slug}#service`,
         name: name,
         description: description,
+        ...(image && {
+            image: {
+                '@type': 'ImageObject',
+                url: image
+            }
+        }),
         provider: {
             '@type': 'LocalBusiness',
             '@id': `${SEO_DEFAULTS.siteUrl}/#organization`,

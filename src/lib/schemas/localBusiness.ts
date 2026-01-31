@@ -120,11 +120,13 @@ export function generateLocationSchema(locationData: {
     latitude?: number;
     longitude?: number;
     phone?: string;
+    image?: string;
 }) {
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         name: `${BUSINESS_INFO.name} - ${locationData.name}`,
+        ...(locationData.image && { image: locationData.image }),
         address: {
             '@type': 'PostalAddress',
             streetAddress: locationData.address,
