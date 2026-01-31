@@ -33,7 +33,7 @@ export const TARGET_KEYWORDS = {
         'trade license abu dhabi',
         'visa services khalidiya',
         'government typing abu dhabi',
-        'typing center mussafah',
+        'typing center al zahiyah',
         'document attestation uae',
     ],
     local: [
@@ -41,7 +41,7 @@ export const TARGET_KEYWORDS = {
         'typing services khalidiya',
         'PRO services khalidiya',
         'visa typing near me',
-        'typing center mussafah',
+        'typing center al zahiyah',
     ],
 } as const;
 
@@ -62,7 +62,7 @@ export const PAGE_SEO = {
     home: {
         title: 'A to Z Business | Typing & PRO Services Abu Dhabi',
         description:
-            'Professional typing, PRO services, visa processing & company formation in Abu Dhabi. 13+ hours daily service in Khalidiya & Mussafah. Call +971-50-3489891',
+            'Professional typing, PRO services, visa processing & company formation in Abu Dhabi. 13+ hours daily service in Khalidiya & Al Zahiyah. Call +971-50-3489891',
         keywords: [
             ...TARGET_KEYWORDS.primary,
             'typing center',
@@ -80,7 +80,7 @@ export const PAGE_SEO = {
     locations: {
         title: 'Our Locations | A to Z Business',
         description:
-            'Visit our offices in Khalidiya (opposite Khalidiya Mall) and Mussafah. Open Mon-Sat 8AM-9PM. Expert typing and PRO services at both locations.',
+            'Visit our offices in Khalidiya (opposite Khalidiya Mall) and Al Zahiyah. Open Mon-Sat 8AM-9PM. Expert typing and PRO services at both locations.',
         keywords: [...TARGET_KEYWORDS.local, 'office location', 'address'],
     },
     contact: {

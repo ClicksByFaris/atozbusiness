@@ -43,7 +43,7 @@ const SERVICES = [
 
 const LOCATIONS = [
     'Khalidiya Branch',
-    'Mussafah Branch',
+    'Al Zahiyah Branch',
     'No Preference'
 ];
 
@@ -174,8 +174,8 @@ export default function ContactForm() {
                     value={formData.name}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.name
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                     placeholder="John Doe"
                 />
@@ -196,8 +196,8 @@ export default function ContactForm() {
                     value={formData.email}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.email
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                     placeholder="john@example.com"
                 />
@@ -218,8 +218,8 @@ export default function ContactForm() {
                     value={formData.phone}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.phone
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                     placeholder="+971 50 123 4567"
                 />
@@ -239,8 +239,8 @@ export default function ContactForm() {
                     value={formData.service}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.service
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                 >
                     <option value="">Select a service...</option>
@@ -264,8 +264,8 @@ export default function ContactForm() {
                     value={formData.location}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${errors.location
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                 >
                     <option value="">Select a location...</option>
@@ -290,8 +290,8 @@ export default function ContactForm() {
                     onChange={handleChange}
                     rows={5}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none ${errors.message
-                            ? 'border-red-500 focus:ring-red-500'
-                            : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-500 focus:ring-red-500'
+                        : 'border-neutral-300 focus:ring-primary-500 focus:border-primary-500'
                         }`}
                     placeholder="Please describe how we can help you..."
                 />

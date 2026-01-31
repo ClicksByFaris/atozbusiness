@@ -37,12 +37,14 @@ export const LOCATIONS = {
         quickAddress: 'Khalidiya, Abu Dhabi',
     },
     branch: {
-        name: 'Mussafah Branch',
+        name: 'Al Zahiyah Branch',
         type: 'Branch',
-        area: 'Mussafah',
+        address: 'Al Zahiyah - E16 02',
+        area: 'Al Zahiyah',
         city: 'Abu Dhabi',
-        shortDescription: 'Second branch serving the Mussafah industrial area',
-        quickAddress: 'Mussafah, Abu Dhabi',
+        phone: '056 663 6476',
+        shortDescription: 'Our city branch serving Al Zahiyah and surrounding areas',
+        quickAddress: 'Al Zahiyah, Abu Dhabi',
     },
 } as const;
 
