@@ -10,6 +10,7 @@ import { CircleCheck, Image as ImageIcon, Briefcase } from 'lucide-react';
 import { getImageUrl } from '../../lib/sanity';
 
 import SEO from '../../components/SEO.astro';
+import SanityImage from '../../components/ui/SanityImage.astro';
 import { generateLocationSchema } from '../../lib/schemas/localBusiness';
 
 export async function getStaticPaths() {
@@ -96,10 +97,12 @@ const breadcrumbs = [
               <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
                 {location.gallery.map((image) => (
                   <div class="relative overflow-hidden transition shadow-sm cursor-pointer aspect-square rounded-2xl hover:opacity-90 group">
-                    <img
-                      src={getImageUrl(image, 600, 600)}
+                    <SanityImage
+                      node={image}
+                      width={600}
+                      height={600}
                       alt={image.alt || 'Location photo'}
-                      class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                     />
                     <div class="absolute inset-0 transition-colors bg-black/0 group-hover:bg-black/10" />
                   </div>

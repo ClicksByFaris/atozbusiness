@@ -1,5 +1,5 @@
 ---
-import { getImageUrl } from '../../lib/sanity';
+import SanityImage from '../ui/SanityImage.astro';
 import type { Location } from '../../types';
 import { MapPin, Star, Clock, ChevronRight, Home } from 'lucide-react';
 
@@ -15,12 +15,14 @@ const { location } = Astro.props;
 >
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
-    {
       location.image ? (
-        <img
-          src={getImageUrl(location.image, 1920, 1080)}
+        <SanityImage
+          node={location.image}
+          width={1920}
+          height={1080}
           alt={location.name}
-          class="h-full w-full object-cover opacity-30"
+          className="h-full w-full object-cover opacity-30"
+          priority={true}
         />
       ) : (
         <div class="bg-[url('/images/pattern-bg.svg')] h-full w-full opacity-10" />
