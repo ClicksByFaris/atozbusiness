@@ -1,0 +1,73 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import ServiceHero from '../../components/services/ServiceHero.astro';
+import ServiceFeatures from '../../components/services/ServiceFeatures.astro';
+import ServiceProcess from '../../components/services/ServiceProcess.astro';
+import ServiceDocuments from '../../components/services/ServiceDocuments.astro';
+import ServiceFAQ from '../../components/services/ServiceFAQ.astro';
+import RelatedServices from '../../components/services/RelatedServices.astro';
+import CTASection from '../../components/home/CTASection.astro';
+import Breadcrumbs from '../../components/shared/Breadcrumbs.astro';
+import Container from '../../components/ui/Container.astro';
+import { sanityClient } from '../../lib/sanity';
+import { servicesQuery, serviceBySlugQuery } from '../../lib/queries';
+import type { Service } from '../../types';
+
+export async function getStaticPaths() {
+  const services: Service[] = await sanityClient.fetch(servicesQuery);
+  return services.map((service) => ({
+    params: { slug: service.slug.current },
+  }));
+}
+
+const { slug } = Astro.params;
+const service: Service = await sanityClient.fetch(serviceBySlugQuery, { slug });
+
+if (!service) {
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not Found',
+  });
+}
+
+const breadcrumbs = [
+  { name: 'Services', url: '/services' },
+  { name: service.title, url: `/services/${service.slug.current}` },
+];
+
+// Map string array to object array for ServiceDocuments
+const documents = service.documentsRequired?.map((doc) => ({ name: doc, required: true })) || [];
+
+// Map process steps
+const processMap =
+  service.processSteps?.map((step: any, idx: number) => ({
+    step: idx + 1,
+    title: step.step || `Step ${idx + 1}`,
+    description: step.description,
+  })) || [];
+---
+
+<ServiceLayout service={service}>
+  <ServiceHero
+    name={service.title}
+    description={service.excerpt}
+    icon={service.icon || 'FileText'}
+    image={service.featuredImage}
+  />
+
+  <Container class="pt-4 pb-4">
+    <Breadcrumbs items={breadcrumbs} />
+  </Container>
+
+  <ServiceFeatures features={service.features || []} fullDescription={service.description} />
+
+  {processMap.length > 0 && <ServiceProcess process={processMap} />}
+
+  {documents.length > 0 && <ServiceDocuments documents={documents} />}
+
+  {service.faq && service.faq.length > 0 && <ServiceFAQ faqs={service.faq} />}
+
+  <RelatedServices services={service.relatedServices} />
+
+  <CTASection />
+</ServiceLayout>

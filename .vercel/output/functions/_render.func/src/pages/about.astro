@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Section from '../components/ui/Section.astro';
+import Heading from '../components/ui/Heading.astro';
+import Button from '../components/ui/Button.astro';
+import ValueCard from '../components/about/ValueCard.astro';
+import Icon from '../components/icons/Icon';
+import { ABOUT_DATA } from '../lib/about-data';
+import { generateOrganizationSchema } from '../lib/schemas/organization';
+
+const organizationSchema = generateOrganizationSchema();
+
+const pageTitle = 'About Us | A to Z Business Services';
+const pageDescription =
+  "Learn about A to Z Business Services - Abu Dhabi's trusted PRO services and typing center. Our mission, values, and experienced team dedicated to simplifying government transactions.";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} ogImage="/og-about.jpg">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+  </Fragment>
+
+  <!-- Hero Section -->
+  <section class="relative bg-primary-900 py-24 overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0 z-0">
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/90 to-primary-800/80"
+      >
+      </div>
+    </div>
+
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/20 rounded-full blur-[100px] opacity-30 pointer-events-none"
+    >
+    </div>
+
+    <div class="container relative z-10 mx-auto px-4 text-center">
+      <div
+        class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-md border border-white/10 mb-6 animate-fade-in-up"
+      >
+        <Icon name="Building2" className="w-5 h-5" />
+        <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
+      </div>
+
+      <h1
+        class="font-display text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up [animation-delay:100ms] tracking-tight"
+      >
+        Your Trusted Partner in Government Services
+      </h1>
+      <p
+        class="mx-auto max-w-2xl text-lg text-primary-100/90 animate-fade-in-up [animation-delay:200ms] leading-relaxed"
+      >
+        Making life in the UAE easier, one service at a time
+      </p>
+    </div>
+  </section>
+
+  <!-- Company Story Section -->
+  <Section>
+    <Container>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <!-- Story Content -->
+        <div class="space-y-6">
+          <div
+            class="inline-block text-sm font-bold uppercase tracking-wider text-primary-600 mb-4"
+          >
+            Our Story
+          </div>
+          <Heading level="h2" size="3xl">
+            Building Trust Since {ABOUT_DATA.companyInfo.foundingYear}
+          </Heading>
+          <p class="text-lg leading-relaxed text-neutral-600">
+            {ABOUT_DATA.companyInfo.history}
+          </p>
+        </div>
+
+        <!-- Story Image -->
+        <div class="order-first lg:order-last">
+          <div class="relative rounded-2xl overflow-hidden aspect-[4/3]">
+            <div
+              class="w-full h-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center"
+            >
+              <Icon name="Building2" className="w-24 h-24 text-white/50" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Mission & Vision Section -->
+  <Section background="gradient">
+    <Container>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <!-- Mission Card -->
+        <div
+          class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 lg:p-12 text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10"
+        >
+          <div
+            class="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6"
+          >
+            <Icon name="Target" className="w-9 h-9 text-white" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-4">Our Mission</h3>
+          <p class="text-base leading-relaxed text-white/80">
+            {ABOUT_DATA.statements.mission}
+          </p>
+        </div>
+
+        <!-- Vision Card -->
+        <div
+          class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 md:p-8 lg:p-12 text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/10"
+        >
+          <div
+            class="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6"
+          >
+            <Icon name="Eye" className="w-9 h-9 text-white" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-4">Our Vision</h3>
+          <p class="text-base leading-relaxed text-white/80">
+            {ABOUT_DATA.statements.vision}
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Core Values Section -->
+  <Section>
+    <Container>
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+        <div class="inline-block text-sm font-bold uppercase tracking-wider text-primary-600 mb-4">
+          Our Values
+        </div>
+        <Heading level="h2" size="3xl" className="mb-4"> What We Stand For </Heading>
+        <p class="text-lg leading-relaxed text-neutral-600">
+          These core values guide everything we do, ensuring exceptional service and peace of mind
+          for every client.
+        </p>
+      </div>
+
+      <!-- Values Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {
+          ABOUT_DATA.values.map((value) => (
+            <ValueCard name={value.name} description={value.description} icon={value.icon} />
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Statistics Section -->
+  <Section background="gradient">
+    <Container>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {
+          ABOUT_DATA.statistics.map((stat) => (
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 lg:p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
+              <div class="w-14 h-14 rounded-xl bg-white flex items-center justify-center mx-auto mb-4">
+                <Icon name={stat.icon as any} className="w-8 h-8 text-primary-600" />
+              </div>
+              <div class="text-4xl lg:text-5xl font-extrabold text-white mb-2">{stat.value}</div>
+              <div class="text-sm font-semibold uppercase tracking-wide text-white/80">
+                {stat.label}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Team Section -->
+  {
+    ABOUT_DATA.team.showTeam && (
+      <Section>
+        <Container>
+          {/* Section Header */}
+          <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+            <div class="inline-block text-sm font-bold uppercase tracking-wider text-primary-600 mb-4">
+              Our Team
+            </div>
+            <Heading level="h2" size="3xl" className="mb-4">
+              Meet the Experts
+            </Heading>
+            {ABOUT_DATA.team.teamDescription && (
+              <p class="text-lg leading-relaxed text-neutral-600">
+                {ABOUT_DATA.team.teamDescription}
+              </p>
+            )}
+          </div>
+
+          {/* Team Grid */}
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+            {ABOUT_DATA.team.members?.map((member) => (
+              <div class="group text-center p-6 bg-gradient-to-br from-white/5 to-white/2 border border-neutral-200 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                <div class="w-28 h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6 overflow-hidden">
+                  <Icon name="User" className="w-14 h-14 lg:w-16 lg:h-16 text-white" />
+                </div>
+                <h3 class="text-lg font-bold text-neutral-900 mb-2">{member.name}</h3>
+                <p class="text-sm text-neutral-600">{member.role}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  <!-- CTA Section -->
+  <Section background="gradient">
+    <Container>
+      <div class="text-center max-w-3xl mx-auto space-y-8">
+        <Heading level="h2" size="3xl" className="text-white"> Ready to Get Started? </Heading>
+        <p class="text-xl text-white/90">
+          Let our experienced team handle your government services with care and efficiency.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" size="lg" href="https://wa.me/971503489891">
+            <Icon name="MessageCircle" className="w-5 h-5" />
+            WhatsApp Us
+          </Button>
+          <Button variant="outline" size="lg" href="/contact">Get in Touch</Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
