@@ -15,9 +15,10 @@ const { location } = Astro.props;
 >
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
+    {
       location.image ? (
         <SanityImage
-          node={location.image}
+          node={location.image as any}
           width={1920}
           height={1080}
           alt={location.name}

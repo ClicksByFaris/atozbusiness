@@ -17,12 +17,13 @@ const { location } = Astro.props;
 >
   <!-- Image -->
   <div class="relative h-48 w-full overflow-hidden bg-neutral-100">
+    {
       location.image ? (
         <SanityImage
-          node={location.image}
+          node={location.image as any}
           width={600}
           height={400}
-          alt={location.image.alt || location.name}
+          alt={location.image?.alt || location.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
       ) : (

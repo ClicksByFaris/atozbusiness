@@ -60,7 +60,7 @@ const schema = generateLocationSchema({
   phone: location.phone,
   latitude: location.coordinates?.lat,
   longitude: location.coordinates?.lng,
-  image: location.image ? getImageUrl(location.image) : undefined,
+  image: location.image ? getImageUrl(location.image as any) : undefined,
 });
 
 const breadcrumbs = [
@@ -98,7 +98,7 @@ const breadcrumbs = [
                 {location.gallery.map((image) => (
                   <div class="relative overflow-hidden transition shadow-sm cursor-pointer aspect-square rounded-2xl hover:opacity-90 group">
                     <SanityImage
-                      node={image}
+                      node={image as any}
                       width={600}
                       height={600}
                       alt={image.alt || 'Location photo'}
