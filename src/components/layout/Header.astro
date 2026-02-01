@@ -3,6 +3,8 @@ import Container from '../ui/Container.astro';
 import Navigation from './Navigation.astro';
 import MobileMenu from './MobileMenu';
 import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
+import logo from '../../assets/logo.png';
+import { Image } from 'astro:assets';
 ---
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -46,7 +48,7 @@ import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
     <div class="flex items-center justify-between h-20">
       <!-- Logo -->
       <a href="/" class="flex items-center">
-        <img src="/assets/logo.svg" alt="AtoZ Business Services" class="h-12 w-auto" />
+        <Image src={logo} alt="AtoZ Business Services" class="h-12 w-auto" />
       </a>
 
       <!-- Desktop Navigation -->
