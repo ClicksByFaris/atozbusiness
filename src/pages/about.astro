@@ -44,7 +44,7 @@ const pageDescription =
       <div
         class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-md border border-white/10 mb-6 animate-fade-in-up"
       >
-        <Icon name="Building2" className="w-5 h-5" />
+        <Icon name="Building2" className="w-5 h-5" client:idle />
         <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
       </div>
 
@@ -86,7 +86,7 @@ const pageDescription =
             <div
               class="w-full h-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center"
             >
-              <Icon name="Building2" className="w-24 h-24 text-white/50" />
+              <Icon name="Building2" className="w-24 h-24 text-white/50" client:idle />
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ const pageDescription =
           <div
             class="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6"
           >
-            <Icon name="Target" className="w-9 h-9 text-white" />
+            <Icon name="Target" className="w-9 h-9 text-white" client:idle />
           </div>
           <h3 class="text-2xl font-bold text-white mb-4">Our Mission</h3>
           <p class="text-base leading-relaxed text-white/80">
@@ -120,7 +120,7 @@ const pageDescription =
           <div
             class="w-16 h-16 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6"
           >
-            <Icon name="Eye" className="w-9 h-9 text-white" />
+            <Icon name="Eye" className="w-9 h-9 text-white" client:idle />
           </div>
           <h3 class="text-2xl font-bold text-white mb-4">Our Vision</h3>
           <p class="text-base leading-relaxed text-white/80">
@@ -165,7 +165,7 @@ const pageDescription =
           ABOUT_DATA.statistics.map((stat) => (
             <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 lg:p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-white/15">
               <div class="w-14 h-14 rounded-xl bg-white flex items-center justify-center mx-auto mb-4">
-                <Icon name={stat.icon as any} className="w-8 h-8 text-primary-600" />
+                <Icon name={stat.icon as any} className="w-8 h-8 text-primary-600" client:idle />
               </div>
               <div class="text-4xl lg:text-5xl font-extrabold text-white mb-2">{stat.value}</div>
               <div class="text-sm font-semibold uppercase tracking-wide text-white/80">
@@ -203,7 +203,7 @@ const pageDescription =
             {ABOUT_DATA.team.members?.map((member) => (
               <div class="group text-center p-6 bg-gradient-to-br from-white/5 to-white/2 border border-neutral-200 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                 <div class="w-28 h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6 overflow-hidden">
-                  <Icon name="User" className="w-14 h-14 lg:w-16 lg:h-16 text-white" />
+                  <Icon name="User" className="w-14 h-14 lg:w-16 lg:h-16 text-white" client:idle />
                 </div>
                 <h3 class="text-lg font-bold text-neutral-900 mb-2">{member.name}</h3>
                 <p class="text-sm text-neutral-600">{member.role}</p>
@@ -225,7 +225,7 @@ const pageDescription =
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <Button variant="primary" size="lg" href="https://wa.me/971503489891">
-            <Icon name="MessageCircle" className="w-5 h-5" />
+            <Icon name="MessageCircle" className="w-5 h-5" client:idle />
             WhatsApp Us
           </Button>
           <Button variant="outline" size="lg" href="/contact">Get in Touch</Button>

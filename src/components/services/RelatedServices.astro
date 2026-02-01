@@ -38,7 +38,7 @@ const validServices = Array.isArray(services) ? services : [];
                     <Icon
                       name={(service.icon as any) || 'FileText'}
                       className="w-12 h-12 text-primary-200"
-                      client:load
+                      client:idle
                     />
                   </div>
                 )}
@@ -51,7 +51,7 @@ const validServices = Array.isArray(services) ? services : [];
                       <Icon
                         name={(service.icon as any) || 'FileText'}
                         className="w-4 h-4"
-                        client:load
+                        client:idle
                       />
                     </div>
                   )}
@@ -65,7 +65,7 @@ const validServices = Array.isArray(services) ? services : [];
                 </p>
 
                 <span class="text-secondary-600 text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all mt-auto">
-                  Learn More <Icon name="ArrowRight" className="w-4 h-4" client:load />
+                  Learn More <Icon name="ArrowRight" className="w-4 h-4" client:idle />
                 </span>
               </div>
             </a>

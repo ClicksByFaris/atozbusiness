@@ -21,7 +21,7 @@ const { documents } = Astro.props;
           <div
             class="w-16 h-16 bg-secondary-50 text-secondary-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
           >
-            <Icon name="FileText" className="w-8 h-8" client:load />
+            <Icon name="FileText" className="w-8 h-8" client:idle />
           </div>
           <h2 class="text-3xl font-bold text-neutral-900 mb-4">Required Documents</h2>
           <p class="text-neutral-600">
@@ -58,7 +58,7 @@ const { documents } = Astro.props;
 
         <div class="mt-8 pt-8 border-t border-neutral-100 text-center">
           <p class="text-neutral-500 text-sm flex items-center justify-center gap-2">
-            <Icon name="Info" className="w-4 h-4" client:load />
+            <Icon name="Info" className="w-4 h-4" client:idle />
             Need help with document attestation or translation? We can handle that too.
           </p>
         </div>

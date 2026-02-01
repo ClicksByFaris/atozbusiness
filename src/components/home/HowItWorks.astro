@@ -40,7 +40,7 @@ import { HOW_IT_WORKS } from '../../lib/constants';
 
                 {/* Inner Circle */}
                 <div class="relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 shadow-lg">
-                  <Icon name={step.icon as any} size={28} className="text-white" client:load />
+                  <Icon name={step.icon as any} size={28} className="text-white" client:idle />
                 </div>
 
                 {/* Step Number */}
@@ -70,7 +70,7 @@ import { HOW_IT_WORKS } from '../../lib/constants';
         class="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-8 py-4 font-medium text-white shadow-md transition-all duration-200 hover:bg-primary-600 hover:shadow-lg"
       >
         Contact Us Now
-        <Icon name="ArrowRight" size={20} client:load />
+        <Icon name="ArrowRight" size={20} client:idle />
       </a>
     </div>
   </Container>

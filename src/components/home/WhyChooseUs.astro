@@ -36,7 +36,7 @@ import { WHY_CHOOSE_US } from '../../lib/constants';
           >
             {/* Icon: Removed 'mx-auto' to align left, added shadow glow */}
             <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 shadow-lg shadow-primary-500/30 transition-transform duration-300 group-hover:scale-110">
-              <Icon name={item.icon as any} size={32} className="text-white" client:load />
+              <Icon name={item.icon as any} size={32} className="text-white" client:idle />
             </div>
 
             {/* Title: Changed font-semibold to font-bold to match image */}

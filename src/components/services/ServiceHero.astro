@@ -44,7 +44,7 @@ const { name, description, icon, image } = Astro.props;
       <div
         class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm mb-8 border border-white/20 text-secondary-400"
       >
-        <Icon name={icon as any} className="w-8 h-8" client:load />
+        <Icon name={icon as any} className="w-8 h-8" client:idle />
       </div>
 
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">

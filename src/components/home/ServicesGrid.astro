@@ -59,7 +59,7 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                     name={(service.icon as any) || 'FileText'}
                     size={32}
                     className="text-primary-600"
-                    client:load
+                    client:idle
                   />
                 </div>
 
@@ -82,7 +82,7 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                       class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-colors hover:text-primary-700 uppercase tracking-wider"
                     >
                       Learn More
-                      <Icon name="ArrowRight" size={16} client:load />
+                      <Icon name="ArrowRight" size={16} client:idle />
                     </a>
                   </div>
                 </div>

@@ -29,7 +29,7 @@ import Icon from '../icons/Icon';
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 rounded-lg bg-accent-500 px-8 py-4 font-medium text-white shadow-lg transition-all duration-200 hover:bg-accent-600 hover:shadow-xl hover:scale-105"
         >
-          <Icon name="MessageCircle" size={24} client:load />
+          <Icon name="MessageCircle" size={24} client:idle />
           <span class="text-lg">WhatsApp Us Now</span>
         </a>
 
@@ -38,7 +38,7 @@ import Icon from '../icons/Icon';
           href={`tel:${BUSINESS_INFO.phone}`}
           class="inline-flex items-center gap-2 rounded-lg border-2 border-white bg-white px-8 py-4 font-medium text-primary-600 shadow-lg transition-all duration-200 hover:bg-neutral-50 hover:shadow-xl hover:scale-105"
         >
-          <Icon name="Phone" size={24} client:load />
+          <Icon name="Phone" size={24} client:idle />
           <span class="text-lg">Call {BUSINESS_INFO.phone}</span>
         </a>
       </div>
@@ -50,15 +50,15 @@ import Icon from '../icons/Icon';
         style={{ animationDelay: '300ms' }}
       >
         <div class="flex items-center gap-2">
-          <Icon name="Clock" size={20} className="text-accent-400" client:load />
+          <Icon name="Clock" size={20} className="text-accent-400" client:idle />
           <span>Open Mon-Sat: 8 AM - 9 PM</span>
         </div>
         <div class="flex items-center gap-2">
-          <Icon name="MapPin" size={20} className="text-accent-400" client:load />
+          <Icon name="MapPin" size={20} className="text-accent-400" client:idle />
           <span>Khalidiya & Al Zahiyah</span>
         </div>
         <div class="flex items-center gap-2">
-          <Icon name="Mail" size={20} className="text-accent-400" client:load />
+          <Icon name="Mail" size={20} className="text-accent-400" client:idle />
           <a href={`mailto:${BUSINESS_INFO.email}`} class="hover:text-white transition-colors">
             {BUSINESS_INFO.email}
           </a>

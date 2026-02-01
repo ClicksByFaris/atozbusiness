@@ -36,7 +36,7 @@ const { name, description, icon, slug, category, image } = Astro.props;
     ) : (
       <div class="p-6 pb-0 flex items-start justify-between">
         <div class="w-14 h-14 bg-primary-50 text-primary-600 rounded-2xl flex items-center justify-center group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-          <Icon name={icon as any} className="w-7 h-7" client:load />
+          <Icon name={icon as any} className="w-7 h-7" client:idle />
         </div>
         <span class="text-xs font-medium px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full group-hover:bg-primary-50 group-hover:text-primary-700 transition-colors">
           {category}
@@ -50,7 +50,7 @@ const { name, description, icon, slug, category, image } = Astro.props;
       image && (
         <div class="flex items-start justify-between mb-4">
           <div class="w-10 h-10 bg-primary-50 text-primary-600 rounded-lg flex items-center justify-center group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
-            <Icon name={icon as any} className="w-5 h-5" client:load />
+            <Icon name={icon as any} className="w-5 h-5" client:idle />
           </div>
         </div>
       )
@@ -73,7 +73,7 @@ const { name, description, icon, slug, category, image } = Astro.props;
       <Icon
         name="ArrowRight"
         className="w-4 h-4 transition-transform group-hover:translate-x-1"
-        client:load
+        client:idle
       />
     </div>
   </div>
