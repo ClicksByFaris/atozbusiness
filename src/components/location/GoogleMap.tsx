@@ -43,10 +43,10 @@ export default function GoogleMap({ embedUrl, className = '' }: GoogleMapProps) 
 
   return (
     <div
-      className={`relative h-full w-full overflow-hidden rounded-3xl shadow-soft border border-neutral-100 ${className}`}
+      className={`relative overflow-hidden rounded-3xl shadow-soft border border-neutral-100 ${className}`}
     >
       {!isLoaded && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-neutral-100 text-neutral-400 animate-pulse">
+        <div className="absolute inset-0 flex flex-col items-center justify-center aspect-video bg-neutral-100 text-neutral-400 animate-pulse">
           <div className="flex items-center justify-center w-12 h-12 mb-3 rounded-full bg-neutral-200">
             <div className="w-6 h-6 text-neutral-400">
               <svg
@@ -77,7 +77,7 @@ export default function GoogleMap({ embedUrl, className = '' }: GoogleMapProps) 
           allowFullScreen={true}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          className="h-full w-full grayscale-[0.2] hover:grayscale-0 transition-all duration-500"
+          className="aspect-video grayscale-[0.2] hover:grayscale-0 transition-all duration-500"
           title="Location Map"
         ></iframe>
       )}
