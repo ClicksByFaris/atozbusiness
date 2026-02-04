@@ -90,7 +90,9 @@ const description = post.metaDescription || post.excerpt;
   </div>
 
   <!-- Hero Section -->
-  <Section class="bg-primary-950 text-white pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden relative">
+  <Section
+    class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white pt-24 pb-40 md:pt-32 md:pb-56 lg:pt-40 lg:pb-64 overflow-hidden relative"
+  >
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">
       {
@@ -99,35 +101,35 @@ const description = post.metaDescription || post.excerpt;
             <SanityImage
               node={post.featuredImage}
               width={1920}
-              className="w-full h-full object-cover opacity-40 scale-110 blur-[2px]"
+              className="w-full h-full object-cover opacity-25 scale-105 blur-sm"
               priority={true}
             />
-            <div class="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-primary-950/40 to-primary-950" />
+            <div class="absolute inset-0 bg-gradient-to-b from-primary-950/95 via-primary-900/90 to-primary-950/85" />
           </div>
         )
       }
       <div
-        class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"
+        class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]"
       >
       </div>
     </div>
 
     <!-- Animated blobs for depth -->
     <div
-      class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary-500/20 rounded-full blur-[120px] opacity-40 animate-pulse pointer-events-none"
+      class="absolute -top-1/3 -left-1/4 w-2/3 h-2/3 bg-secondary-500/15 rounded-full blur-[140px] opacity-50 animate-pulse-slow pointer-events-none"
     >
     </div>
     <div
-      class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-secondary-500/20 rounded-full blur-[120px] opacity-30 animate-pulse-slow pointer-events-none"
+      class="absolute -bottom-1/3 -right-1/4 w-2/3 h-2/3 bg-accent-500/10 rounded-full blur-[140px] opacity-40 animate-pulse pointer-events-none"
     >
     </div>
 
     <Container>
-      <header class="max-w-4xl mx-auto text-center relative z-10">
-        <div class="reveal inline-block mb-8" data-animation="animate-fade-in-up">
+      <header class="max-w-5xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
+        <div class="reveal inline-block mb-6 md:mb-8" data-animation="animate-fade-in-up">
           <Badge
             variant="secondary"
-            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-6 py-2 uppercase tracking-wider text-xs font-bold"
+            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-5 py-2.5 md:px-7 md:py-3 uppercase tracking-widest text-xs md:text-sm font-bold shadow-lg"
           >
             {post.category.title}
           </Badge>
@@ -136,7 +138,7 @@ const description = post.metaDescription || post.excerpt;
         <Heading
           as="h1"
           size="6xl"
-          class="mb-10 text-white reveal leading-tight"
+          class="mb-8 md:mb-12 text-white reveal leading-[1.1] font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold px-4"
           data-animation="animate-fade-in-up"
           style="transition-delay: 100ms"
         >
@@ -144,25 +146,29 @@ const description = post.metaDescription || post.excerpt;
         </Heading>
 
         <div
-          class="flex flex-wrap items-center justify-center gap-6 text-primary-100/80 reveal"
+          class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-primary-100/90 reveal text-sm md:text-base"
           data-animation="animate-fade-in-up"
           style="transition-delay: 200ms"
         >
-          <div class="flex items-center gap-3">
+          <div
+            class="flex items-center gap-3 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
+          >
             {
               post.author.photo && (
-                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white/30 shadow-lg">
                   <SanityImage node={post.author.photo} width={80} height={80} />
                 </div>
               )
             }
             <span class="font-semibold text-white">{post.author.name}</span>
           </div>
-          <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden md:block"></span>
-          <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full hidden sm:block"></span>
+          <div
+            class="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4"
+              class="w-4 h-4 md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -175,11 +181,13 @@ const description = post.metaDescription || post.excerpt;
             </svg>
             <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
           </div>
-          <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden md:block"></span>
-          <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-white/30 rounded-full hidden sm:block"></span>
+          <div
+            class="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4"
+              class="w-4 h-4 md:w-5 md:h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -196,37 +204,42 @@ const description = post.metaDescription || post.excerpt;
   </Section>
 
   <!-- Article Body -->
-  <article class="bg-neutral-50 -mt-32 relative z-20 pb-24">
-    <Container class="pt-16">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 max-w-7xl mx-auto">
+  <article class="bg-neutral-50 -mt-24 md:-mt-32 lg:-mt-40 relative z-20 pb-16 md:pb-24 lg:pb-32">
+    <Container class="pt-8 md:pt-12 lg:pt-16">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto px-4 sm:px-0"
+      >
         <!-- Main Content -->
         <div class="lg:col-span-8">
-          <div class="bg-white rounded-4xl p-8 md:p-12 shadow-soft border border-neutral-100/50">
+          <div
+            class="bg-white rounded-2xl md:rounded-3xl lg:rounded-4xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-soft border border-neutral-100/50 hover:shadow-xl transition-shadow duration-500"
+          >
             <!-- Key Takeaways -->
             {
               post.keyTakeaways && post.keyTakeaways.length > 0 && (
-                <div class="bg-primary-50/50 rounded-3xl p-8 mb-12 border-2 border-primary-100/50 relative overflow-hidden group">
-                  <div class="absolute -top-12 -right-12 w-24 h-24 bg-primary-200/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-                  <h2 class="text-2xl font-display font-bold text-primary-900 mb-6 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center">
+                <div class="bg-gradient-to-br from-primary-50 to-primary-100/30 rounded-2xl md:rounded-3xl p-6 md:p-8 mb-10 md:mb-12 border-2 border-primary-200/50 relative overflow-hidden group">
+                  <div class="absolute -top-12 -right-12 w-24 h-24 bg-primary-300/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+                  <h2 class="text-xl md:text-2xl lg:text-3xl font-display font-bold text-primary-900 mb-6 md:mb-8 flex items-center gap-3 relative z-10">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="w-6 h-6"
+                        class="w-5 h-5 md:w-6 md:h-6"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         stroke-width="2"
                       >
-                        <path d="M12 2v20m10-10H2" />
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
                       </svg>
                     </div>
                     Article Highlights
                   </h2>
-                  <ul class="space-y-4">
+                  <ul class="space-y-4 md:space-y-5 relative z-10">
                     {post.keyTakeaways.map((item) => (
-                      <li class="flex items-start gap-4 text-primary-900">
-                        <div class="mt-1.5 flex-shrink-0 w-2 h-2 rounded-full bg-primary-500" />
-                        <span class="text-lg leading-relaxed">{item}</span>
+                      <li class="flex items-start gap-3 md:gap-4 text-primary-900">
+                        <div class="mt-1.5 flex-shrink-0 w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 shadow-sm" />
+                        <span class="text-base md:text-lg leading-relaxed font-sans">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -234,17 +247,23 @@ const description = post.metaDescription || post.excerpt;
               )
             }
 
-            <div class="reveal mb-12" data-animation="animate-fade-in">
+            <div
+              class="reveal mb-10 md:mb-12 prose prose-lg md:prose-xl max-w-none"
+              data-animation="animate-fade-in"
+            >
               <PortableText value={post.content} />
             </div>
 
             <!-- Tags -->
             {
               post.tags && (
-                <div class="pt-12 border-t border-neutral-100">
-                  <div class="flex flex-wrap gap-2">
+                <div class="pt-8 md:pt-12 border-t border-neutral-200">
+                  <h3 class="text-sm font-bold text-neutral-500 uppercase tracking-wider mb-4">
+                    Topics
+                  </h3>
+                  <div class="flex flex-wrap gap-2 md:gap-3">
                     {post.tags.map((tag) => (
-                      <span class="px-5 py-2 bg-neutral-100 text-neutral-600 rounded-xl text-sm font-bold transition-all hover:bg-primary-500 hover:text-white cursor-default">
+                      <span class="px-4 md:px-5 py-2 md:py-2.5 bg-neutral-100 text-neutral-700 rounded-xl text-sm md:text-base font-semibold transition-all duration-300 hover:bg-gradient-to-r hover:from-primary-500 hover:to-secondary-500 hover:text-white hover:shadow-lg hover:scale-105 cursor-default">
                         #{tag}
                       </span>
                     ))}
@@ -256,13 +275,13 @@ const description = post.metaDescription || post.excerpt;
         </div>
 
         <!-- Sidebar -->
-        <aside class="lg:col-span-4 space-y-10">
+        <aside class="lg:col-span-4 space-y-6 md:space-y-8 lg:space-y-10">
           <!-- Author Card (Extended) -->
           <div
-            class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100/50 text-center"
+            class="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-soft border border-neutral-100/50 text-center hover:shadow-lg transition-shadow duration-300"
           >
             <div
-              class="w-24 h-24 rounded-2xl overflow-hidden mx-auto mb-6 border-4 border-primary-50"
+              class="w-20 h-20 md:w-24 md:h-24 rounded-xl md:rounded-2xl overflow-hidden mx-auto mb-5 md:mb-6 border-4 border-primary-100 shadow-md"
             >
               {
                 post.author.photo ? (
@@ -273,16 +292,23 @@ const description = post.metaDescription || post.excerpt;
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div class="w-full h-full bg-primary-100 flex items-center justify-center text-primary-500 text-3xl font-bold">
+                  <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center text-primary-600 text-2xl md:text-3xl font-display font-bold">
                     {post.author.name.charAt(0)}
                   </div>
                 )
               }
             </div>
-            <h3 class="text-xl font-display font-bold text-neutral-900 mb-1">{post.author.name}</h3>
-            <p class="text-sm text-neutral-500 mb-6">{post.author.role}</p>
-            <div class="h-px bg-neutral-100 w-full mb-6"></div>
-            <p class="text-neutral-600 text-sm italic leading-relaxed">
+            <h3 class="text-lg md:text-xl font-display font-bold text-neutral-900 mb-1">
+              {post.author.name}
+            </h3>
+            <p class="text-xs md:text-sm text-neutral-500 mb-5 md:mb-6 font-medium">
+              {post.author.role}
+            </p>
+            <div
+              class="h-px bg-gradient-to-r from-transparent via-neutral-200 to-transparent w-full mb-5 md:mb-6"
+            >
+            </div>
+            <p class="text-neutral-600 text-sm md:text-base leading-relaxed font-sans">
               Expert in Abu Dhabi business regulations and government services.
             </p>
           </div>
@@ -290,18 +316,18 @@ const description = post.metaDescription || post.excerpt;
           <!-- Related Locations -->
           {
             post.relatedLocations && post.relatedLocations.length > 0 && (
-              <div class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100/50">
-                <h3 class="text-xl font-display font-bold text-neutral-900 mb-8 border-l-4 border-secondary-500 pl-4">
+              <div class="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-soft border border-neutral-100/50 hover:shadow-lg transition-shadow duration-300">
+                <h3 class="text-lg md:text-xl font-display font-bold text-neutral-900 mb-6 md:mb-8 border-l-4 border-secondary-500 pl-4">
                   Visit Our Nearest Office
                 </h3>
-                <div class="space-y-6">
+                <div class="space-y-4 md:space-y-5">
                   {post.relatedLocations.map((loc) => (
                     <a href={`/locations/${loc.slug.current}`} class="group block">
-                      <div class="flex items-center gap-4 p-4 rounded-2xl transition-all bg-neutral-50/50 border border-transparent hover:border-primary-100 hover:bg-primary-50">
-                        <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                      <div class="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl transition-all bg-neutral-50 border border-neutral-100 hover:border-primary-200 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 hover:shadow-md">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-white shadow-sm flex items-center justify-center text-primary-500 group-hover:bg-gradient-to-br group-hover:from-primary-500 group-hover:to-secondary-500 group-hover:text-white transition-all duration-300">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6"
+                            class="w-5 h-5 md:w-6 md:h-6"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -312,7 +338,7 @@ const description = post.metaDescription || post.excerpt;
                           </svg>
                         </div>
                         <div>
-                          <p class="font-bold text-neutral-900 group-hover:text-primary transition-colors">
+                          <p class="font-bold text-sm md:text-base text-neutral-900 group-hover:text-primary-700 transition-colors">
                             {loc.name}
                           </p>
                           <p class="text-xs text-neutral-500">{loc.area}</p>
@@ -326,30 +352,36 @@ const description = post.metaDescription || post.excerpt;
           }
 
           <!-- Latest Posts Sidebar -->
-          <div class="bg-primary-900 rounded-3xl p-8 text-white overflow-hidden relative shadow-xl">
-            <div class="absolute inset-0 opacity-10 bg-[url('/assets/grid-pattern.svg')]"></div>
+          <div
+            class="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-900 rounded-2xl md:rounded-3xl p-6 md:p-8 text-white overflow-hidden relative shadow-xl hover:shadow-2xl transition-shadow duration-300"
+          >
+            <div class="absolute inset-0 opacity-5 bg-[url('/assets/grid-pattern.svg')]"></div>
             <!-- Animated background effect -->
             <div
-              class="absolute -top-10 -right-10 w-32 h-32 bg-secondary-500/20 rounded-full blur-3xl"
+              class="absolute -top-10 -right-10 w-32 h-32 bg-secondary-500/20 rounded-full blur-3xl animate-pulse-slow"
+            >
+            </div>
+            <div
+              class="absolute -bottom-10 -left-10 w-32 h-32 bg-accent-500/15 rounded-full blur-3xl animate-pulse"
             >
             </div>
 
             <h3
-              class="text-xl font-display font-bold mb-8 relative z-10 border-l-4 border-accent-500 pl-4"
+              class="text-lg md:text-xl font-display font-bold mb-6 md:mb-8 relative z-10 border-l-4 border-accent-400 pl-4"
             >
-              Trending Now
+              🔥 Trending Now
             </h3>
-            <div class="space-y-8 relative z-10">
+            <div class="space-y-6 md:space-y-8 relative z-10">
               {
                 latestPosts.slice(0, 3).map((lp) => (
                   <a href={`/blog/${lp.slug.current}`} class="group block">
                     <time
                       datetime={lp.publishedAt}
-                      class="text-[10px] uppercase tracking-widest text-primary-300 font-bold mb-2 block"
+                      class="text-[10px] md:text-xs uppercase tracking-widest text-primary-200 font-bold mb-2 block"
                     >
                       {formatDate(lp.publishedAt)}
                     </time>
-                    <p class="font-medium text-white group-hover:text-secondary-400 transition-colors leading-tight text-lg">
+                    <p class="font-semibold text-white group-hover:text-accent-300 transition-colors leading-tight text-base md:text-lg font-sans">
                       {lp.title}
                     </p>
                   </a>
@@ -358,9 +390,9 @@ const description = post.metaDescription || post.excerpt;
             </div>
             <a
               href="/blog"
-              class="mt-10 block text-center py-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl transition-all text-sm font-bold relative z-10 backdrop-blur-sm"
+              class="mt-8 md:mt-10 block text-center py-3 md:py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl md:rounded-2xl transition-all text-sm md:text-base font-bold relative z-10 backdrop-blur-sm hover:shadow-lg"
             >
-              Explore All Insights
+              Explore All Insights →
             </a>
           </div>
         </aside>
@@ -376,40 +408,51 @@ const description = post.metaDescription || post.excerpt;
   </div>
 
   <!-- More Articles -->
-  <Section class="bg-neutral-50 pt-0 pb-32">
+  <Section class="bg-neutral-50 pt-0 pb-16 md:pb-24 lg:pb-32">
     <Container>
-      <header class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+      <header
+        class="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-16 gap-6 md:gap-8 px-4 sm:px-0"
+      >
         <div class="max-w-2xl">
-          <Badge variant="secondary" class="mb-6 px-6 py-2">Continue the Journey</Badge>
-          <Heading as="h2" size="5xl" class="mb-4"
+          <Badge
+            variant="secondary"
+            class="mb-4 md:mb-6 px-5 py-2 md:px-6 md:py-2.5 text-xs md:text-sm"
+            >✨ Continue the Journey</Badge
+          >
+          <Heading
+            as="h2"
+            size="5xl"
+            class="mb-3 md:mb-4 text-3xl sm:text-4xl md:text-5xl font-display font-extrabold"
             >Related <span
-              class="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent"
+              class="bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500 bg-clip-text text-transparent"
               >Insights & Updates</span
             ></Heading
           >
-          <p class="text-neutral-600 text-lg">
-            Stay informed with more expert perspectives on business in Abu Dhabi.
+          <p class="text-neutral-600 text-base md:text-lg lg:text-xl leading-relaxed">
+            Stay informed with more expert perspectives on business in <span
+              class="text-primary-700 font-semibold">Abu Dhabi</span
+            >.
           </p>
         </div>
         <a
           href="/blog"
-          class="inline-flex items-center gap-3 px-8 py-4 bg-white border border-neutral-200 rounded-2xl font-bold text-primary transition-all hover:bg-primary hover:text-white hover:border-primary hover:shadow-glow group"
+          class="inline-flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-white border-2 border-neutral-200 rounded-xl md:rounded-2xl font-bold text-sm md:text-base text-primary-700 transition-all hover:bg-gradient-to-r hover:from-primary-600 hover:to-secondary-500 hover:text-white hover:border-transparent hover:shadow-glow group w-full md:w-auto"
         >
-          View All news
+          View All News
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5 transition-transform group-hover:translate-x-1"
+            class="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-1"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            stroke-width="2.5"
           >
             <path d="M5 12h14m-7-7 7 7-7 7"></path>
           </svg>
         </a>
       </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 px-4 sm:px-0">
         {relatedPosts.map((rp) => <BlogCard post={rp} />)}
       </div>
     </Container>
