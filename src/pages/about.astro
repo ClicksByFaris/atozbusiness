@@ -22,44 +22,93 @@ const pageDescription =
   </Fragment>
 
   <!-- Hero Section -->
-  <section class="relative bg-primary-900 py-24 overflow-hidden">
-    <!-- Background Effects -->
+  <Section
+    class="bg-gradient-to-br from-primary-950 via-primary-900 to-primary-800 text-white pt-24 pb-40 md:pt-32 md:pb-56 lg:pt-40 lg:pb-64 overflow-hidden relative"
+  >
+    <!-- Background Pattern & Effects -->
     <div class="absolute inset-0 z-0">
       <div
-        class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:14px_24px]"
+        class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:40px_40px]"
       >
       </div>
+      <!-- Gradient overlay for depth -->
       <div
-        class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/90 to-primary-800/80"
+        class="absolute inset-0 bg-gradient-to-b from-primary-950/95 via-primary-900/90 to-primary-950/85"
       >
       </div>
     </div>
 
+    <!-- Animated blobs for depth -->
     <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/20 rounded-full blur-[100px] opacity-30 pointer-events-none"
+      class="absolute -top-1/3 -left-1/4 w-2/3 h-2/3 bg-secondary-500/15 rounded-full blur-[140px] opacity-50 animate-pulse-slow pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute -bottom-1/3 -right-1/4 w-2/3 h-2/3 bg-accent-500/10 rounded-full blur-[140px] opacity-40 animate-pulse pointer-events-none"
     >
     </div>
 
-    <div class="container relative z-10 mx-auto px-4 text-center">
-      <div
-        class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-md border border-white/10 mb-6 animate-fade-in-up"
-      >
-        <Icon name="Building2" className="w-5 h-5" client:idle />
-        <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
-      </div>
+    <Container>
+      <div class="max-w-5xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
+        <div class="reveal inline-block mb-6 md:mb-8" data-animation="animate-fade-in-up">
+          <div
+            class="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 md:px-7 md:py-3 text-xs md:text-sm font-bold text-white backdrop-blur-md border border-white/20 uppercase tracking-widest shadow-lg"
+          >
+            <Icon name="Building2" className="w-4 h-4 md:w-5 md:h-5" client:idle />
+            <span>Since {ABOUT_DATA.companyInfo.foundingYear}</span>
+          </div>
+        </div>
 
-      <h1
-        class="font-display text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up [animation-delay:100ms] tracking-tight"
-      >
-        Your Trusted Partner in Government Services
-      </h1>
-      <p
-        class="mx-auto max-w-2xl text-lg text-primary-100/90 animate-fade-in-up [animation-delay:200ms] leading-relaxed"
-      >
-        Making life in the UAE easier, one service at a time
-      </p>
-    </div>
-  </section>
+        <Heading
+          level="h1"
+          size="6xl"
+          className="mb-6 md:mb-8 text-white reveal leading-[1.1] font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold"
+          data-animation="animate-fade-in-up"
+          style="animation-delay: 100ms"
+        >
+          Your Trusted Partner in <span
+            class="bg-gradient-to-r from-secondary-300 via-secondary-400 to-accent-400 bg-clip-text text-transparent"
+            >Government Services</span
+          >
+        </Heading>
+        <p
+          class="text-lg sm:text-xl md:text-2xl lg:text-2xl text-primary-50/95 max-w-3xl mx-auto leading-relaxed reveal font-sans"
+          data-animation="animate-fade-in-up"
+          style="animation-delay: 200ms"
+        >
+          Making life in the <span class="text-accent-300 font-semibold">UAE</span> easier, one service
+          at a time.
+        </p>
+
+        <!-- Stats Section -->
+        <div
+          class="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto reveal"
+          data-animation="animate-fade-in-up"
+          style="animation-delay: 300ms"
+        >
+          {
+            ABOUT_DATA.statistics.map((stat, index) => (
+              <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 md:p-6 hover:bg-white/10 transition-all duration-300">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/10 flex items-center justify-center mx-auto mb-3 md:mb-4">
+                  <Icon
+                    name={stat.icon as any}
+                    className="w-5 h-5 md:w-6 md:h-6 text-accent-300"
+                    client:idle
+                  />
+                </div>
+                <p class="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white mb-1">
+                  {stat.value}
+                </p>
+                <p class="text-xs md:text-sm text-primary-200 uppercase tracking-wider font-semibold">
+                  {stat.label}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </Container>
+  </Section>
 
   <!-- Company Story Section -->
   <Section>
