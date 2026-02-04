@@ -35,3 +35,85 @@ export function getImageUrl(
 
     return urlBuilder.url();
 }
+
+// Blog Queries
+export async function getAllPosts() {
+    return await sanityClient.fetch(`*[_type == "post" && isPublished == true] | order(publishedAt desc) {
+        ...,
+        author->,
+        category->
+    }`);
+}
+
+export async function getPostBySlug(slug: string) {
+    return await sanityClient.fetch(`*[_type == "post" && slug.current == $slug][0] {
+        ...,
+        author->,
+        category->,
+        relatedLocations[]->
+    }`, { slug });
+}
+
+export async function getAllCategories() {
+    return await sanityClient.fetch(`*[_type == "category"] | order(order asc)`);
+}
+
+export async function getLatestPosts(limit: number = 3) {
+    return await sanityClient.fetch(`*[_type == "post" && isPublished == true] | order(publishedAt desc)[0...$limit] {
+        ...,
+        author->,
+        category->
+    }`, { limit });
+}
+
+export async function getGalleryItems() {
+    const query = `*[_type == "gallery"] | order(order asc) {
+        _id,
+        title,
+        category,
+        photos[] {
+            "key": _key,
+            image {
+                asset->{
+                    ...,
+                    metadata
+                }
+            },
+            caption,
+            alt
+        }
+    }`;
+    const albums = await sanityClient.fetch(query);
+
+    // Flatten logic
+    const galleryItems: any[] = [];
+    albums.forEach((album: any) => {
+        if (album.photos) {
+            album.photos.forEach((photo: any) => {
+                galleryItems.push({
+                    _id: `${album._id}-${photo.key}`,
+                    title: photo.caption || album.title,
+                    category: album.category || 'Other',
+                    image: photo.image,
+                    description: photo.alt || '',
+                    // We can add more fields if needed
+                });
+            });
+        }
+    });
+
+    return galleryItems;
+}
+
+export async function getHomePageData() {
+    return await sanityClient.fetch(`*[_type == "home"][0] {
+        ...,
+        hero {
+            ...,
+            images[] {
+                ...,
+                asset->
+            }
+        }
+    }`);
+}

@@ -4,9 +4,10 @@ import { Menu, X } from 'lucide-react';
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Services', href: '/services' },
-  { name: 'Locations', href: '/locations' },
   { name: 'Blog', href: '/blog' },
+  { name: 'Gallery', href: '/gallery' },
   { name: 'About', href: '/about' },
+  { name: 'Careers', href: '/careers' },
   { name: 'Contact', href: '/contact' },
 ];
 

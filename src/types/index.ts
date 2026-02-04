@@ -90,25 +90,23 @@ export interface WeekHours {
 
 export interface BlogPost {
   _id: string;
+  _createdAt: string;
   title: string;
   slug: { current: string };
   publishedAt: string;
   author: Author;
-  categories: Category[];
+  category: Category;
   excerpt: string;
-  mainImage?: {
-    asset: {
-      _ref: string;
-      url?: string;
-    };
-    alt?: string;
-  };
+  featuredImage: SanityImageObject;
   content: any[];
-  relatedServices?: Service[];
+  keyTakeaways?: string[];
+  faqs?: FAQItem[];
+  relatedLocations?: Location[];
   metaTitle?: string;
   metaDescription?: string;
   tags?: string[];
   readingTime?: number;
+  featured?: boolean;
 }
 
 export interface Category {
@@ -116,21 +114,24 @@ export interface Category {
   title: string;
   slug: { current: string };
   description?: string;
+  color?: string;
+  icon?: string;
+  order?: number;
 }
 
 export interface Author {
   _id: string;
   name: string;
   slug: { current: string };
-  image?: {
-    asset: {
-      _ref: string;
-      url?: string;
-    };
-    alt?: string;
-  };
+  photo?: SanityImageObject;
   bio?: string;
   role?: string;
+  email?: string;
+  social?: {
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+  };
 }
 
 export interface SiteSettings {
@@ -173,4 +174,30 @@ export interface SEOProps {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+}
+
+export interface GalleryItem {
+  _id: string;
+  title: string;
+  category: string;
+  image: SanityImageObject;
+  description?: string;
+  date?: string;
+}
+
+export interface JobListing {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  department: string;
+  location: string;
+  type: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
+  description: any[]; // Portable Text
+  requirements: string[];
+  responsibilities: string[];
+  benefits: string[];
+  isClosed?: boolean;
+  publishedAt: string;
+  metaTitle?: string;
+  metaDescription?: string;
 }

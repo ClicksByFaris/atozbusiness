@@ -1,0 +1,91 @@
+---
+import SanityImage from '../ui/SanityImage.astro';
+
+interface Props {
+  value: any[];
+}
+
+const { value } = Astro.props;
+
+/**
+ * Basic Portable Text renderer for Astro
+ * This handles common block types: normal, h1, h2, h3, h4, bullet/number lists, and images.
+ */
+---
+
+<div
+  class="prose prose-lg prose-primary max-w-none prose-headings:font-display prose-headings:font-bold prose-headings:text-neutral-900 prose-p:text-neutral-600 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-neutral-900 prose-img:rounded-2xl"
+>
+  {
+    value.map((block) => {
+      // Handle Images
+      if (block._type === 'image') {
+        return (
+          <figure class="my-8">
+            <SanityImage node={block} width={1000} className="w-full rounded-2xl shadow-sm" />
+            {block.caption && (
+              <figcaption class="mt-3 text-center text-sm text-neutral-500 italic">
+                {block.caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+
+      // Handle standard blocks
+      if (block._type === 'block') {
+        const { style = 'normal', children = [], listItem, level } = block;
+
+        // Handle list items
+        if (listItem === 'bullet') {
+          return (
+            <ul class="list-disc pl-6 mb-4 space-y-2">
+              {children.map((child: any) => (
+                <li class="text-neutral-600">{child.text}</li>
+              ))}
+            </ul>
+          );
+        }
+
+        if (listItem === 'number') {
+          return (
+            <ol class="list-decimal pl-6 mb-4 space-y-2">
+              {children.map((child: any) => (
+                <li class="text-neutral-600">{child.text}</li>
+              ))}
+            </ol>
+          );
+        }
+
+        // Handle headings and paragraphs
+        const text = children.map((child: any) => {
+          if (child.marks?.includes('strong'))
+            return <strong class="text-neutral-900">{child.text}</strong>;
+          if (child.marks?.includes('em')) return <em class="italic">{child.text}</em>;
+          return child.text;
+        });
+
+        switch (style) {
+          case 'h1':
+            return <h1 class="text-4xl md:text-5xl mb-6">{text}</h1>;
+          case 'h2':
+            return <h2 class="text-3xl md:text-4xl mb-5 mt-10">{text}</h2>;
+          case 'h3':
+            return <h3 class="text-2xl md:text-3xl mb-4 mt-8">{text}</h3>;
+          case 'h4':
+            return <h4 class="text-xl md:text-2xl mb-3 mt-6">{text}</h4>;
+          case 'blockquote':
+            return (
+              <blockquote class="border-l-4 border-primary pl-6 py-2 my-8 italic text-xl text-neutral-700 bg-primary-50/50 rounded-r-lg">
+                {text}
+              </blockquote>
+            );
+          default:
+            return <p class="mb-6 leading-relaxed text-neutral-600">{text}</p>;
+        }
+      }
+
+      return null;
+    })
+  }
+</div>

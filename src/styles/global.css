@@ -104,4 +104,14 @@
     /* Fallback for no animation */
     pointer-events: auto;
   }
+
+  /* Ken Burns Animation */
+  @keyframes kenBurns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+  }
+
+  .animate-ken-burns {
+    animation: kenBurns 8s infinite alternate;
+  }
 }

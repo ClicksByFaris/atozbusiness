@@ -1,0 +1,106 @@
+---
+import SanityImage from '../ui/SanityImage.astro';
+import Badge from '../ui/Badge.astro';
+import type { BlogPost } from '../../types';
+import { formatDate } from '../../lib/utils';
+
+interface Props {
+  post: BlogPost;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+---
+
+<article
+  class={`group flex flex-col bg-white rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary-500/10 border border-neutral-100/50 hover:-translate-y-1 ${featured ? 'md:flex-row shadow-xl' : 'shadow-soft'}`}
+>
+  <!-- Image Container -->
+  <div
+    class={`relative overflow-hidden ${featured ? 'md:w-1/2 aspect-[16/9] md:aspect-auto' : 'aspect-[16/10]'}`}
+  >
+    <a href={`/blog/${post.slug.current}`} class="block h-full">
+      <SanityImage
+        node={post.featuredImage}
+        width={featured ? 800 : 600}
+        height={featured ? 500 : 375}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </a>
+    <div class="absolute top-4 left-4">
+      <Badge variant="primary" class="shadow-sm">
+        {post.category.title}
+      </Badge>
+    </div>
+  </div>
+
+  <!-- Content Container -->
+  <div class={`flex flex-col p-6 ${featured ? 'md:w-1/2 md:p-10 justify-center' : 'flex-1'}`}>
+    <div class="flex items-center gap-3 mb-4 text-xs font-medium text-neutral-500">
+      <time datetime={post.publishedAt}>
+        {formatDate(post.publishedAt)}
+      </time>
+      <span class="w-1 h-1 bg-neutral-300 rounded-full"></span>
+      <span>{post.readingTime || 5} min read</span>
+    </div>
+
+    <h3
+      class={`font-display font-bold text-neutral-900 group-hover:text-primary transition-colors mb-3 leading-tight ${featured ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl md:text-2xl'}`}
+    >
+      <a href={`/blog/${post.slug.current}`}>
+        {post.title}
+      </a>
+    </h3>
+
+    <p
+      class={`text-neutral-600 mb-6 line-clamp-2 ${featured ? 'text-lg line-clamp-3' : 'text-base'}`}
+    >
+      {post.excerpt}
+    </p>
+
+    <!-- Author -->
+    <div class="mt-auto flex items-center justify-between border-t border-neutral-100 pt-6">
+      <div class="flex items-center gap-3">
+        {
+          post.author.photo && (
+            <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-primary-50">
+              <SanityImage
+                node={post.author.photo}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )
+        }
+        <div>
+          <p class="text-sm font-semibold text-neutral-900 leading-tight">
+            {post.author.name}
+          </p>
+          <p class="text-xs text-neutral-500">
+            {post.author.role || 'Author'}
+          </p>
+        </div>
+      </div>
+
+      <a
+        href={`/blog/${post.slug.current}`}
+        class="flex items-center justify-center w-10 h-10 rounded-full bg-primary-50 text-primary transition-all duration-300 hover:bg-primary hover:text-white"
+        aria-label={`Read ${post.title}`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14m-7-7 7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

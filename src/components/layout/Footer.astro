@@ -1,6 +1,6 @@
 ---
 import Container from '../ui/Container.astro';
-import {Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { BUSINESS_INFO, LOCATIONS } from '../../lib/constants';
 import logo from '../../assets/logo.png';
 import { Image } from 'astro:assets';
@@ -29,55 +29,55 @@ const footerLinks = {
 };
 ---
 
-<footer class="bg-gray-900 text-gray-300">
+<footer class="bg-neutral-950 text-neutral-400 border-t border-white/5">
   <!-- Main Footer -->
   <Container>
-    <div class="py-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
         <!-- Company Info -->
-        <div>
-          <Image
-            src={logo}
-            alt="AtoZ Business Services"
-            class="h-12 w-auto mb-4 brightness-0 invert"
-          />
-          <p class="text-sm mb-4">
-            Your trusted partner for typing and PRO services in Abu Dhabi. Fast, reliable, and
-            professional assistance for all your government documentation needs.
-          </p>
+        <div class="space-y-8">
+          <div>
+            <Image
+              src={logo}
+              alt="AtoZ Business Services"
+              class="h-14 w-auto mb-6 brightness-0 invert opacity-90"
+            />
+            <p class="text-sm leading-relaxed max-w-xs">
+              Your elite partner for typing and PRO services in Abu Dhabi. We bridge the gap between
+              complexity and efficiency for all your government documentation needs.
+            </p>
+          </div>
+
           <div class="flex gap-4">
-            <a
-              href={BUSINESS_INFO.website}
-              class="text-gray-400 hover:text-white transition-colors"
-              aria-label="Facebook"
-            >
-              <Facebook size={20} />
-            </a>
-            <a
-              href={BUSINESS_INFO.website}
-              class="text-gray-400 hover:text-white transition-colors"
-              aria-label="Instagram"
-            >
-              <Instagram size={20} />
-            </a>
-            <a
-              href={BUSINESS_INFO.website}
-              class="text-gray-400 hover:text-white transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
+            {
+              [Facebook, Instagram, Linkedin].map((Icon, i) => (
+                <a
+                  href={BUSINESS_INFO.website}
+                  class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-500 hover:text-white transition-all duration-300"
+                  aria-label="Social Link"
+                >
+                  <Icon size={18} />
+                </a>
+              ))
+            }
           </div>
         </div>
 
         <!-- Quick Links - Services -->
         <div>
-          <h3 class="text-white font-semibold text-lg mb-4">Our Services</h3>
-          <ul class="space-y-2">
+          <h3 class="text-white font-display font-bold text-lg mb-8 relative inline-block">
+            Our Services
+            <span class="absolute -bottom-2 left-0 w-8 h-1 bg-secondary-500 rounded-full"></span>
+          </h3>
+          <ul class="space-y-4">
             {
               footerLinks.services.map((link) => (
                 <li>
-                  <a href={link.href} class="text-sm hover:text-white transition-colors">
+                  <a
+                    href={link.href}
+                    class="text-sm hover:text-secondary-400 transition-colors flex items-center gap-2 group"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-secondary-500 transition-colors" />
                     {link.name}
                   </a>
                 </li>
@@ -88,12 +88,19 @@ const footerLinks = {
 
         <!-- Quick Links - Company -->
         <div>
-          <h3 class="text-white font-semibold text-lg mb-4">Company</h3>
-          <ul class="space-y-2">
+          <h3 class="text-white font-display font-bold text-lg mb-8 relative inline-block">
+            Company
+            <span class="absolute -bottom-2 left-0 w-8 h-1 bg-secondary-500 rounded-full"></span>
+          </h3>
+          <ul class="space-y-4">
             {
               footerLinks.company.map((link) => (
                 <li>
-                  <a href={link.href} class="text-sm hover:text-white transition-colors">
+                  <a
+                    href={link.href}
+                    class="text-sm hover:text-secondary-400 transition-colors flex items-center gap-2 group"
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-secondary-500 transition-colors" />
                     {link.name}
                   </a>
                 </li>
@@ -104,39 +111,43 @@ const footerLinks = {
 
         <!-- Contact Info -->
         <div>
-          <h3 class="text-white font-semibold text-lg mb-4">Contact Us</h3>
-          <ul class="space-y-4">
-            <li class="flex items-start gap-2 text-sm">
-              <MapPin size={16} className="mt-1 flex-shrink-0 text-primary-500" />
+          <h3 class="text-white font-display font-bold text-lg mb-8 relative inline-block">
+            Contact Us
+            <span class="absolute -bottom-2 left-0 w-8 h-1 bg-secondary-500 rounded-full"></span>
+          </h3>
+          <ul class="space-y-6">
+            <li class="flex items-start gap-4 text-sm group">
+              <div
+                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 flex-shrink-0"
+              >
+                <MapPin size={18} />
+              </div>
               <div>
-                <span class="block text-white font-medium mb-1">{LOCATIONS.main.name}</span>
-                <span class="block text-xs mb-1 text-gray-400">{LOCATIONS.main.address}</span>
+                <span class="block text-white font-bold mb-1">{LOCATIONS.main.name}</span>
+                <span class="block text-xs mb-2 text-neutral-500">{LOCATIONS.main.address}</span>
                 <a
                   href={`tel:${BUSINESS_INFO.phone}`}
-                  class="hover:text-white transition-colors text-primary-400 block"
+                  class="text-secondary-400 font-bold hover:text-secondary-300 transition-colors"
                 >
                   {BUSINESS_INFO.phone}
                 </a>
               </div>
             </li>
-            <li class="flex items-start gap-2 text-sm">
-              <MapPin size={16} className="mt-1 flex-shrink-0 text-primary-500" />
-              <div>
-                <span class="block text-white font-medium mb-1">{LOCATIONS.branch.name}</span>
-                <span class="block text-xs mb-1 text-gray-400">{LOCATIONS.branch.address}</span>
+            <li class="flex items-start gap-4 text-sm pt-6 border-t border-white/5 group">
+              <div
+                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-secondary-500 group-hover:bg-secondary-500 group-hover:text-white transition-all duration-300 flex-shrink-0"
+              >
+                <Mail size={18} />
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs text-neutral-500 mb-1">Email us at</span>
                 <a
-                  href={`tel:${LOCATIONS.branch.phone}`}
-                  class="hover:text-white transition-colors text-primary-400 block"
+                  href={`mailto:${BUSINESS_INFO.email}`}
+                  class="text-white font-medium hover:text-secondary-400 transition-colors"
                 >
-                  {LOCATIONS.branch.phone}
+                  {BUSINESS_INFO.email}
                 </a>
               </div>
-            </li>
-            <li class="flex items-start gap-2 text-sm pt-2 border-t border-gray-800">
-              <Mail size={16} className="mt-1 flex-shrink-0" />
-              <a href={`mailto:${BUSINESS_INFO.email}`} class="hover:text-white transition-colors">
-                {BUSINESS_INFO.email}
-              </a>
             </li>
           </ul>
         </div>
@@ -145,13 +156,17 @@ const footerLinks = {
   </Container>
 
   <!-- Bottom Bar -->
-  <div class="border-t border-gray-800">
+  <div class="border-t border-white/5 bg-black/20">
     <Container>
-      <div class="py-6 flex flex-col md:flex-row justify-between items-center text-sm">
+      <div
+        class="py-10 flex flex-col md:flex-row justify-between items-center text-xs tracking-widest uppercase font-bold text-neutral-500"
+      >
         <p>
-          © {currentYear} AtoZ Business Services. All rights reserved.
+          © {currentYear} AtoZ Business Services. <span class="hidden sm:inline"
+            >Crafted with precision in Abu Dhabi.</span
+          >
         </p>
-        <div class="flex gap-6 mt-4 md:mt-0">
+        <div class="flex gap-8 mt-6 md:mt-0">
           {
             footerLinks.resources.slice(-2).map((link) => (
               <a href={link.href} class="hover:text-white transition-colors">

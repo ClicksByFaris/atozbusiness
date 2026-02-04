@@ -1,0 +1,430 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Badge from '../../components/ui/Badge.astro';
+import SanityImage from '../../components/ui/SanityImage.astro';
+import PortableText from '../../components/blog/PortableText.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import SEO from '../../components/SEO.astro';
+import { getAllPosts, getPostBySlug, getLatestPosts } from '../../lib/sanity';
+import { formatDate } from '../../lib/utils';
+import type { BlogPost } from '../../types';
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return posts.map((post: BlogPost) => ({
+    params: { slug: post.slug.current },
+  }));
+}
+
+const { slug } = Astro.params;
+const post: BlogPost = await getPostBySlug(slug as string);
+const latestPosts: BlogPost[] = await getLatestPosts(5);
+const relatedPosts = latestPosts.filter((p) => p._id !== post._id).slice(0, 2);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// Generate Article Schema
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.title,
+  image: post.featuredImage?.asset?.url,
+  datePublished: post.publishedAt,
+  dateModified: post.publishedAt, // Simplified
+  author: {
+    '@type': 'Person',
+    name: post.author.name,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'AtoZ Business Services',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://atozbusiness.ae/logo.svg', // Placeholder
+    },
+  },
+  description: post.excerpt,
+};
+
+// Generate FAQ Schema if exists
+const faqSchema =
+  post.faqs && post.faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: post.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
+const schemas: any[] = [articleSchema];
+if (faqSchema) schemas.push(faqSchema);
+
+const title = `${post.metaTitle || post.title} | AtoZ Blog`;
+const description = post.metaDescription || post.excerpt;
+---
+
+<BaseLayout title={title} description={description} ogImage={post.featuredImage?.asset?.url}>
+  <SEO
+    slot="head"
+    author={post.author.name}
+    publishDate={post.publishedAt}
+    keywords={post.tags}
+    schema={schemas}
+  />
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-[100] bg-neutral-100">
+    <div id="progress-bar" class="h-full bg-primary-500 w-0 transition-all duration-150"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <Section class="bg-primary-950 text-white pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden relative">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      {
+        post.featuredImage && (
+          <div class="absolute inset-0">
+            <SanityImage
+              node={post.featuredImage}
+              width={1920}
+              className="w-full h-full object-cover opacity-40 scale-110 blur-[2px]"
+              priority={true}
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-primary-950/40 to-primary-950" />
+          </div>
+        )
+      }
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"
+      >
+      </div>
+    </div>
+
+    <!-- Animated blobs for depth -->
+    <div
+      class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary-500/20 rounded-full blur-[120px] opacity-40 animate-pulse pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-secondary-500/20 rounded-full blur-[120px] opacity-30 animate-pulse-slow pointer-events-none"
+    >
+    </div>
+
+    <Container>
+      <header class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="reveal inline-block mb-8" data-animation="animate-fade-in-up">
+          <Badge
+            variant="secondary"
+            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-6 py-2 uppercase tracking-wider text-xs font-bold"
+          >
+            {post.category.title}
+          </Badge>
+        </div>
+
+        <Heading
+          as="h1"
+          size="6xl"
+          class="mb-10 text-white reveal leading-tight"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 100ms"
+        >
+          {post.title}
+        </Heading>
+
+        <div
+          class="flex flex-wrap items-center justify-center gap-6 text-primary-100/80 reveal"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 200ms"
+        >
+          <div class="flex items-center gap-3">
+            {
+              post.author.photo && (
+                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                  <SanityImage node={post.author.photo} width={80} height={80} />
+                </div>
+              )
+            }
+            <span class="font-semibold text-white">{post.author.name}</span>
+          </div>
+          <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden md:block"></span>
+          <div class="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+          </div>
+          <span class="w-1.5 h-1.5 bg-white/20 rounded-full hidden md:block"></span>
+          <div class="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>{post.readingTime || 5} min read</span>
+          </div>
+        </div>
+      </header>
+    </Container>
+  </Section>
+
+  <!-- Article Body -->
+  <article class="bg-neutral-50 -mt-32 relative z-20 pb-24">
+    <Container class="pt-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 max-w-7xl mx-auto">
+        <!-- Main Content -->
+        <div class="lg:col-span-8">
+          <div class="bg-white rounded-4xl p-8 md:p-12 shadow-soft border border-neutral-100/50">
+            <!-- Key Takeaways -->
+            {
+              post.keyTakeaways && post.keyTakeaways.length > 0 && (
+                <div class="bg-primary-50/50 rounded-3xl p-8 mb-12 border-2 border-primary-100/50 relative overflow-hidden group">
+                  <div class="absolute -top-12 -right-12 w-24 h-24 bg-primary-200/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+                  <h2 class="text-2xl font-display font-bold text-primary-900 mb-6 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M12 2v20m10-10H2" />
+                      </svg>
+                    </div>
+                    Article Highlights
+                  </h2>
+                  <ul class="space-y-4">
+                    {post.keyTakeaways.map((item) => (
+                      <li class="flex items-start gap-4 text-primary-900">
+                        <div class="mt-1.5 flex-shrink-0 w-2 h-2 rounded-full bg-primary-500" />
+                        <span class="text-lg leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+
+            <div class="reveal mb-12" data-animation="animate-fade-in">
+              <PortableText value={post.content} />
+            </div>
+
+            <!-- Tags -->
+            {
+              post.tags && (
+                <div class="pt-12 border-t border-neutral-100">
+                  <div class="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span class="px-5 py-2 bg-neutral-100 text-neutral-600 rounded-xl text-sm font-bold transition-all hover:bg-primary-500 hover:text-white cursor-default">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 space-y-10">
+          <!-- Author Card (Extended) -->
+          <div
+            class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100/50 text-center"
+          >
+            <div
+              class="w-24 h-24 rounded-2xl overflow-hidden mx-auto mb-6 border-4 border-primary-50"
+            >
+              {
+                post.author.photo ? (
+                  <SanityImage
+                    node={post.author.photo}
+                    width={200}
+                    height={200}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div class="w-full h-full bg-primary-100 flex items-center justify-center text-primary-500 text-3xl font-bold">
+                    {post.author.name.charAt(0)}
+                  </div>
+                )
+              }
+            </div>
+            <h3 class="text-xl font-display font-bold text-neutral-900 mb-1">{post.author.name}</h3>
+            <p class="text-sm text-neutral-500 mb-6">{post.author.role}</p>
+            <div class="h-px bg-neutral-100 w-full mb-6"></div>
+            <p class="text-neutral-600 text-sm italic leading-relaxed">
+              Expert in Abu Dhabi business regulations and government services.
+            </p>
+          </div>
+
+          <!-- Related Locations -->
+          {
+            post.relatedLocations && post.relatedLocations.length > 0 && (
+              <div class="bg-white rounded-3xl p-8 shadow-soft border border-neutral-100/50">
+                <h3 class="text-xl font-display font-bold text-neutral-900 mb-8 border-l-4 border-secondary-500 pl-4">
+                  Visit Our Nearest Office
+                </h3>
+                <div class="space-y-6">
+                  {post.relatedLocations.map((loc) => (
+                    <a href={`/locations/${loc.slug.current}`} class="group block">
+                      <div class="flex items-center gap-4 p-4 rounded-2xl transition-all bg-neutral-50/50 border border-transparent hover:border-primary-100 hover:bg-primary-50">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class="font-bold text-neutral-900 group-hover:text-primary transition-colors">
+                            {loc.name}
+                          </p>
+                          <p class="text-xs text-neutral-500">{loc.area}</p>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
+          <!-- Latest Posts Sidebar -->
+          <div class="bg-primary-900 rounded-3xl p-8 text-white overflow-hidden relative shadow-xl">
+            <div class="absolute inset-0 opacity-10 bg-[url('/assets/grid-pattern.svg')]"></div>
+            <!-- Animated background effect -->
+            <div
+              class="absolute -top-10 -right-10 w-32 h-32 bg-secondary-500/20 rounded-full blur-3xl"
+            >
+            </div>
+
+            <h3
+              class="text-xl font-display font-bold mb-8 relative z-10 border-l-4 border-accent-500 pl-4"
+            >
+              Trending Now
+            </h3>
+            <div class="space-y-8 relative z-10">
+              {
+                latestPosts.slice(0, 3).map((lp) => (
+                  <a href={`/blog/${lp.slug.current}`} class="group block">
+                    <time
+                      datetime={lp.publishedAt}
+                      class="text-[10px] uppercase tracking-widest text-primary-300 font-bold mb-2 block"
+                    >
+                      {formatDate(lp.publishedAt)}
+                    </time>
+                    <p class="font-medium text-white group-hover:text-secondary-400 transition-colors leading-tight text-lg">
+                      {lp.title}
+                    </p>
+                  </a>
+                ))
+              }
+            </div>
+            <a
+              href="/blog"
+              class="mt-10 block text-center py-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl transition-all text-sm font-bold relative z-10 backdrop-blur-sm"
+            >
+              Explore All Insights
+            </a>
+          </div>
+        </aside>
+      </div>
+    </Container>
+  </article>
+
+  <!-- Related Content Divider -->
+  <div class="bg-neutral-50 py-12">
+    <Container>
+      <div class="h-px bg-neutral-200 w-full"></div>
+    </Container>
+  </div>
+
+  <!-- More Articles -->
+  <Section class="bg-neutral-50 pt-0 pb-32">
+    <Container>
+      <header class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+        <div class="max-w-2xl">
+          <Badge variant="secondary" class="mb-6 px-6 py-2">Continue the Journey</Badge>
+          <Heading as="h2" size="5xl" class="mb-4"
+            >Related <span
+              class="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent"
+              >Insights & Updates</span
+            ></Heading
+          >
+          <p class="text-neutral-600 text-lg">
+            Stay informed with more expert perspectives on business in Abu Dhabi.
+          </p>
+        </div>
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-3 px-8 py-4 bg-white border border-neutral-200 rounded-2xl font-bold text-primary transition-all hover:bg-primary hover:text-white hover:border-primary hover:shadow-glow group"
+        >
+          View All news
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 transition-transform group-hover:translate-x-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M5 12h14m-7-7 7 7-7 7"></path>
+          </svg>
+        </a>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10">
+        {relatedPosts.map((rp) => <BlogCard post={rp} />)}
+      </div>
+    </Container>
+  </Section>
+
+  <script>
+    // Reading progress bar logic
+    window.onscroll = function () {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      const progressBar = document.getElementById('progress-bar');
+      if (progressBar) {
+        progressBar.style.width = scrolled + '%';
+      }
+    };
+  </script>
+</BaseLayout>

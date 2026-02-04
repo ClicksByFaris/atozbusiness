@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Badge from '../../components/ui/Badge.astro';
+
+// Dummy data for open positions
+const openPositions = [
+  {
+    title: 'Senior PRO Specialist',
+    department: 'Government Relations',
+    type: 'Full-time',
+    location: 'Abu Dhabi (Khalidiya)',
+    description:
+      'Expert in navigating government portals and managing visa processes for corporate clients.',
+  },
+  {
+    title: 'Customer Success Manager',
+    department: 'Operations',
+    type: 'Full-time',
+    location: 'Abu Dhabi (Al Zahiyah)',
+    description:
+      'Provide personalized support to our high-net-worth clients and corporate partners.',
+  },
+  {
+    title: 'Digital Marketing Lead',
+    department: 'Marketing',
+    type: 'Full-time',
+    location: 'Remote/Office',
+    description:
+      'Drive our brand presence and manage lead generation across social channels and search.',
+  },
+];
+
+const perks = [
+  {
+    title: 'Professional Growth',
+    icon: '🚀',
+    description: 'We invest in your development through training and certification programs.',
+  },
+  {
+    title: 'Dynamic Culture',
+    icon: '✨',
+    description: 'Work in a fast-paced environment with a diverse and supportive team.',
+  },
+  {
+    title: 'Competitive Benefits',
+    icon: '💎',
+    description: 'We offer market-leading packages and comprehensive health coverage.',
+  },
+  {
+    title: 'Impactful Work',
+    icon: '🌎',
+    description: 'Be part of the system that helps businesses and individuals thrive in the UAE.',
+  },
+];
+
+const title = 'Careers | Join Our Team at AtoZ Business Services';
+const description =
+  "Start your journey with Abu Dhabi's leading PRO and business services firm. Explore open positions and grow with us.";
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <Section class="bg-primary-950 text-white pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden relative">
+    <div class="absolute inset-0 z-0">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-primary-900/40 to-secondary-900/40 opacity-60"
+      >
+      </div>
+      <div
+        class="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_70%_30%,#2D86C7_0%,transparent_70%)] opacity-30"
+      >
+      </div>
+    </div>
+
+    <Container>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="reveal inline-block mb-6" data-animation="animate-fade-in-up">
+          <Badge
+            variant="secondary"
+            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-6 py-2 uppercase tracking-wider text-xs font-bold"
+          >
+            Careers at AtoZ
+          </Badge>
+        </div>
+
+        <Heading
+          as="h1"
+          size="6xl"
+          class="mb-8 text-white reveal leading-tight"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 100ms"
+        >
+          Shape the Future of <span
+            class="bg-gradient-to-r from-secondary-400 to-accent-400 bg-clip-text text-transparent"
+            >Business in Abu Dhabi</span
+          >
+        </Heading>
+
+        <p
+          class="text-xl md:text-2xl text-primary-100/90 max-w-3xl mx-auto leading-relaxed reveal"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 200ms"
+        >
+          Join a team of experts dedicated to excellence, innovation, and helping our clients
+          succeed in the UAE.
+        </p>
+
+        <div
+          class="mt-12 reveal"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 300ms"
+        >
+          <a href="#positions" class="btn btn-primary px-10 py-5 text-lg">View Open Positions</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Perks Section -->
+  <Section class="bg-white -mt-24 relative z-20 pb-24">
+    <Container>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {
+          perks.map((perk, index) => (
+            <div
+              class="p-8 rounded-4xl bg-neutral-50 border border-neutral-100 shadow-soft hover:shadow-xl transition-all duration-500 reveal"
+              data-animation="animate-fade-in-up"
+              style={`transition-delay: ${index * 100}ms`}
+            >
+              <div class="text-4xl mb-6">{perk.icon}</div>
+              <h3 class="text-xl font-display font-bold text-neutral-900 mb-4">{perk.title}</h3>
+              <p class="text-neutral-600 leading-relaxed text-sm">{perk.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Open Positions Section -->
+  <Section id="positions" class="bg-neutral-50 py-24">
+    <Container>
+      <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-16 reveal" data-animation="animate-fade-in-up">
+          <h2 class="text-4xl font-display font-bold text-neutral-900 mb-6">
+            Current Opportunities
+          </h2>
+          <p class="text-lg text-neutral-600">
+            We are always looking for passionate individuals to join our growing team.
+          </p>
+        </header>
+
+        <div class="space-y-6">
+          {
+            openPositions.map((job, index) => (
+              <div
+                class="group block bg-white p-8 rounded-3xl border border-neutral-100 shadow-soft hover:shadow-2xl transition-all duration-500 reveal"
+                data-animation="animate-fade-in-up"
+                style={`transition-delay: ${index * 100}ms`}
+              >
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                      <span class="px-3 py-1 bg-primary-50 text-primary-700 text-xs font-bold rounded-full">
+                        {job.department}
+                      </span>
+                      <span class="px-3 py-1 bg-secondary-50 text-secondary-700 text-xs font-bold rounded-full">
+                        {job.type}
+                      </span>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-neutral-900 mb-3 group-hover:text-primary-500 transition-colors uppercase">
+                      {job.title}
+                    </h3>
+                    <div class="flex items-center gap-2 text-neutral-500 text-sm mb-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <>
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                          <circle cx="12" cy="10" r="3" />
+                        </>
+                      </svg>
+                      {job.location}
+                    </div>
+                    <p class="text-neutral-600 max-w-2xl">{job.description}</p>
+                  </div>
+                  <div>
+                    <a
+                      href="/contact"
+                      class="btn btn-outline whitespace-nowrap group-hover:bg-primary-500 group-hover:text-white group-hover:border-primary-500"
+                    >
+                      Apply Now
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <!-- No Matching Positions -->
+        <div
+          class="mt-16 bg-primary-900 rounded-4xl p-12 text-center text-white relative overflow-hidden reveal"
+          data-animation="animate-fade-in-up"
+        >
+          <div
+            class="absolute -top-12 -right-12 w-48 h-48 bg-secondary-500/20 rounded-full blur-3xl"
+          >
+          </div>
+          <div class="relative z-10">
+            <h3 class="text-2xl font-display font-bold mb-4">Don't see a role that fits?</h3>
+            <p class="text-primary-100 mb-8 max-w-xl mx-auto">
+              Send us your CV anyway at <a
+                href="mailto:careers@atozbusiness.ae"
+                class="underline font-bold">careers@atozbusiness.ae</a
+              >. We're always looking for talented people to join our talent pool.
+            </p>
+            <a
+              href="/contact"
+              class="inline-flex items-center gap-2 font-bold hover:text-secondary-400 transition-colors"
+            >
+              Contact our HR team
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14m-7-7 7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>

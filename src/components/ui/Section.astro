@@ -3,9 +3,11 @@ interface Props {
   background?: 'white' | 'light' | 'gray' | 'gradient' | 'transparent';
   padding?: 'sm' | 'md' | 'lg';
   class?: string;
+  id?: string;
+  [key: string]: any;
 }
 
-const { background = 'white', padding = 'md', class: className = '' } = Astro.props;
+const { background = 'white', padding = 'md', class: className = '', id, ...rest } = Astro.props;
 
 const backgroundClasses = {
   white: 'bg-white',
@@ -24,6 +26,6 @@ const paddingClasses = {
 const classes = `${backgroundClasses[background]} ${paddingClasses[padding]} ${className}`;
 ---
 
-<section class={classes}>
+<section id={id} class={classes} {...rest}>
   <slot />
 </section>

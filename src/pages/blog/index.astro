@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Section from '../../components/ui/Section.astro';
+import Heading from '../../components/ui/Heading.astro';
+import Badge from '../../components/ui/Badge.astro';
+import SanityImage from '../../components/ui/SanityImage.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import { getAllPosts, getAllCategories } from '../../lib/sanity';
+import type { BlogPost, Category } from '../../types';
+
+const posts: BlogPost[] = await getAllPosts();
+const categories: Category[] = await getAllCategories();
+
+// Separate featured post (first post marked as featured, or just the latest one)
+const featuredPost = posts.find((p) => p.featured) || posts[0];
+const remainingPosts = posts.filter((p) => p._id !== featuredPost?._id);
+
+const title = 'Insights & News | AtoZ Business Services Abu Dhabi';
+const description =
+  'Stay updated with the latest news on UAE Visas, Golden Visas, PRO Services, and Business Setup in Abu Dhabi.';
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <Section class="bg-primary-950 text-white pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden relative">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+      {
+        featuredPost && featuredPost.featuredImage && (
+          <div class="absolute inset-0">
+            <SanityImage
+              node={featuredPost.featuredImage}
+              width={1920}
+              className="w-full h-full object-cover opacity-30"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-primary-950/80 via-primary-950/60 to-primary-950" />
+          </div>
+        )
+      }
+
+      <div
+        class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"
+      >
+      </div>
+    </div>
+
+    <!-- Animated blobs for depth -->
+    <div
+      class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary-500/20 rounded-full blur-[120px] opacity-40 animate-pulse pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-secondary-500/20 rounded-full blur-[120px] opacity-30 animate-pulse-slow pointer-events-none"
+    >
+    </div>
+
+    <Container>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <div class="reveal inline-block mb-6" data-animation="animate-fade-in-up">
+          <Badge
+            variant="secondary"
+            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-6 py-2 uppercase tracking-wider text-xs font-bold"
+          >
+            Insights & Updates
+          </Badge>
+        </div>
+
+        <Heading
+          as="h1"
+          size="6xl"
+          class="mb-8 text-white reveal leading-tight"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 100ms"
+        >
+          Stay Ahead with <span
+            class="bg-gradient-to-r from-secondary-400 to-accent-400 bg-clip-text text-transparent"
+            >Expert Insights</span
+          >
+        </Heading>
+
+        <p
+          class="text-xl md:text-2xl text-primary-100/90 max-w-3xl mx-auto leading-relaxed reveal"
+          data-animation="animate-fade-in-up"
+          style="transition-delay: 200ms"
+        >
+          Expert advice, step-by-step guides, and regulatory updates for businesses and residents in
+          Abu Dhabi.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Blog Listing -->
+  <Section class="bg-neutral-50 -mt-24 relative z-20 pb-24">
+    <Container>
+      <!-- Featured Post Overlay -->
+      {
+        featuredPost && (
+          <div
+            class="mb-20 shadow-2xl rounded-3xl overflow-hidden reveal"
+            data-animation="animate-fade-in-up"
+          >
+            <BlogCard post={featuredPost} featured={true} />
+          </div>
+        )
+      }
+
+      <!-- Main Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {
+          remainingPosts.map((post, index) => (
+            <div
+              class="reveal"
+              data-animation="animate-fade-in-up"
+              style={`transition-delay: ${index * 100}ms`}
+            >
+              <BlogCard post={post} />
+            </div>
+          ))
+        }
+      </div>
+
+      {
+        posts.length === 0 && (
+          <div class="text-center py-20 bg-white rounded-2xl border border-dashed border-neutral-300">
+            <p class="text-neutral-500 italic">No blog posts found. Check back soon!</p>
+          </div>
+        )
+      }
+    </Container>
+  </Section>
+</BaseLayout>
+
+<script>
+  // Simple category filter logic can be added here if needed statically
+</script>
