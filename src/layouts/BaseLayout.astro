@@ -112,17 +112,29 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteU
 
       function initReveal() {
         const revealElements = document.querySelectorAll('.reveal');
+
+        // Batch reads first to avoid forced reflow
+        const visibleElements = [];
+        const hiddenElements = [];
+
         revealElements.forEach((el) => {
-          // If already visible (e.g., top of page), trigger immediately
           const rect = el.getBoundingClientRect();
           if (rect.top < window.innerHeight && rect.bottom > 0) {
-            const animation = el.getAttribute('data-animation') || 'animate-fade-in-up';
-            el.classList.add(animation);
-            el.classList.add('is-visible');
+            visibleElements.push(el);
           } else {
-            observer.observe(el);
+            hiddenElements.push(el);
           }
         });
+
+        // Loop through visible elements and apply styles (writes)
+        visibleElements.forEach((el) => {
+          const animation = el.getAttribute('data-animation') || 'animate-fade-in-up';
+          el.classList.add(animation);
+          el.classList.add('is-visible');
+        });
+
+        // Observe the rest
+        hiddenElements.forEach((el) => observer.observe(el));
       }
 
       initReveal();

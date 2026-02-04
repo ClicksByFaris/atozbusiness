@@ -1,0 +1,87 @@
+---
+import SanityImage from '../ui/SanityImage.astro';
+
+interface Props {
+  images: any[];
+}
+
+const { images = [] } = Astro.props;
+---
+
+<div class="absolute inset-0 z-0 overflow-hidden bg-primary-900" id="hero-slider">
+  {
+    images.length === 0 ? (
+      <div class="absolute inset-0 bg-gradient-to-br from-primary-900 to-primary-800" />
+    ) : (
+      images.map((img, index) => (
+        <div
+          class={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out hero-slide will-change-[opacity,transform]
+        ${index === 0 ? 'opacity-100 z-20' : 'opacity-0 z-10'}`}
+          data-index={index}
+        >
+          <div
+            class={`relative w-full h-full ${index === 0 ? 'animate-ken-burns' : ''} slide-content`}
+          >
+            <SanityImage
+              node={img}
+              width={1920}
+              priority={index === 0}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        </div>
+      ))
+    )
+  }
+
+  <!-- Overlay -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-primary-900/10 via-primary-900/30 to-primary-900/80 z-30 pointer-events-none"
+  >
+  </div>
+</div>
+
+<script>
+  function initSlider() {
+    const slider = document.getElementById('hero-slider');
+    if (!slider) return;
+
+    const slides = slider.querySelectorAll('.hero-slide');
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    const intervalTime = 5000; // 5 seconds
+
+    // Clear any existing interval to prevent duplicates on navigation
+    if ((slider as any).__sliderInterval) {
+      clearInterval((slider as any).__sliderInterval);
+    }
+
+    const interval = setInterval(() => {
+      // Remove active state from current
+      const currentSlide = slides[currentIndex];
+      currentSlide.classList.remove('opacity-100', 'z-20');
+      currentSlide.classList.add('opacity-0', 'z-10');
+
+      const currentContent = currentSlide.querySelector('.slide-content');
+      currentContent?.classList.remove('animate-ken-burns');
+
+      // Update index
+      currentIndex = (currentIndex + 1) % slides.length;
+
+      // Add active state to next
+      const nextSlide = slides[currentIndex];
+      nextSlide.classList.remove('opacity-0', 'z-10');
+      nextSlide.classList.add('opacity-100', 'z-20');
+
+      const nextContent = nextSlide.querySelector('.slide-content');
+      nextContent?.classList.add('animate-ken-burns');
+    }, intervalTime);
+
+    (slider as any).__sliderInterval = interval;
+  }
+
+  // Run on load and View Transitions
+  initSlider();
+  document.addEventListener('astro:after-swap', initSlider);
+</script>

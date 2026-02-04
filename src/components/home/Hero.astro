@@ -1,7 +1,7 @@
 ---
 import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
 import Icon from '../icons/Icon';
-import HeroSlider from './HeroSlider.tsx';
+import HeroSlider from './HeroSlider.astro';
 import { getHomePageData } from '../../lib/sanity';
 
 const homeData = await getHomePageData();
@@ -12,7 +12,7 @@ const tagline = homeData?.hero?.tagline || BUSINESS_INFO.tagline;
 
 <section class="relative bg-primary-900 text-white py-20 lg:py-28 overflow-hidden">
   <!-- Dynamic Slider Background -->
-  <HeroSlider images={heroImages} client:load />
+  <HeroSlider images={heroImages} />
 
   <!-- Overlay Pattern (Optional, but adds texture over the images) -->
   <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10 z-0 pointer-events-none">
