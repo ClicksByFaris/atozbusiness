@@ -1,0 +1,142 @@
+---
+interface Props {
+  color?: 'primary' | 'secondary' | 'accent' | 'gradient';
+  height?: string;
+  showPercentage?: boolean;
+}
+
+const { color = 'gradient', height = '3px', showPercentage = false } = Astro.props;
+
+const colorClasses = {
+  primary: 'bg-primary-500',
+  secondary: 'bg-secondary-500',
+  accent: 'bg-accent-500',
+  gradient: 'bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500',
+};
+---
+
+<!-- Reading Progress Bar -->
+<div
+  class="reading-progress-container fixed top-0 left-0 right-0 z-[100]"
+  style={`height: ${height}`}
+  data-reading-progress
+>
+  <!-- Background Track -->
+  <div class="absolute inset-0 bg-neutral-100/50 backdrop-blur-sm"></div>
+
+  <!-- Progress Bar -->
+  <div
+    class:list={[
+      'reading-progress-bar absolute top-0 left-0 h-full w-0 transition-all duration-150 ease-out',
+      colorClasses[color],
+    ]}
+    style="width: 0%"
+    data-progress-bar
+  >
+    <!-- Glow Effect -->
+    <div
+      class="absolute right-0 top-1/2 -translate-y-1/2 w-20 h-8 bg-gradient-to-r from-transparent to-white/50 blur-md"
+    >
+    </div>
+  </div>
+
+  <!-- Percentage Indicator (optional) -->
+  {
+    showPercentage && (
+      <div
+        class="reading-progress-percent absolute top-full right-4 mt-2 px-2 py-1 bg-white/95 backdrop-blur-sm rounded-lg shadow-md text-xs font-bold text-primary-600 opacity-0 transition-opacity duration-300"
+        data-progress-percent
+      >
+        0%
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .reading-progress-bar {
+    will-change: width;
+  }
+
+  .reading-progress-percent.visible {
+    opacity: 1;
+  }
+
+  @media print {
+    .reading-progress-container {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('[data-reading-progress]');
+    const progressBar = document.querySelector('[data-progress-bar]') as HTMLElement;
+    const percentDisplay = document.querySelector('[data-progress-percent]');
+
+    if (!progressBar) return;
+
+    let ticking = false;
+    let hidePercentTimeout: ReturnType<typeof setTimeout>;
+
+    const updateProgress = () => {
+      // Calculate progress based on article content, not whole page
+      const article = document.querySelector('article');
+      if (!article) {
+        // Fallback to full page
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = Math.min((scrollY / docHeight) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+        return;
+      }
+
+      const articleTop = article.offsetTop;
+      const articleHeight = article.offsetHeight;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+
+      // Calculate progress within article
+      const articleStart = articleTop;
+      const articleEnd = articleTop + articleHeight - windowHeight;
+
+      let progress = 0;
+      if (scrollY >= articleStart && scrollY <= articleEnd) {
+        progress = ((scrollY - articleStart) / (articleEnd - articleStart)) * 100;
+      } else if (scrollY > articleEnd) {
+        progress = 100;
+      }
+
+      progress = Math.max(0, Math.min(100, progress));
+      progressBar.style.width = `${progress}%`;
+
+      // Update percentage display
+      if (percentDisplay) {
+        percentDisplay.textContent = `${Math.round(progress)}%`;
+
+        if (progress > 0 && progress < 100) {
+          percentDisplay.classList.add('visible');
+          clearTimeout(hidePercentTimeout);
+          hidePercentTimeout = setTimeout(() => {
+            percentDisplay.classList.remove('visible');
+          }, 1500);
+        } else {
+          percentDisplay.classList.remove('visible');
+        }
+      }
+
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    });
+
+    // Initial update
+    updateProgress();
+  });
+</script>

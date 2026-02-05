@@ -1,0 +1,123 @@
+---
+interface Props {
+  showAfter?: number; // Scroll position in px to show button
+  position?: 'right' | 'left';
+}
+
+const { showAfter = 500, position = 'right' } = Astro.props;
+const positionClass = position === 'right' ? 'right-6 md:right-8' : 'left-6 md:left-8';
+---
+
+<button
+  type="button"
+  class:list={[
+    'back-to-top fixed bottom-24 lg:bottom-8 z-40 w-12 h-12 md:w-14 md:h-14 rounded-2xl',
+    'bg-gradient-to-br from-primary-500 to-secondary-500 text-white',
+    'shadow-xl shadow-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/40',
+    'flex items-center justify-center',
+    'opacity-0 translate-y-4 pointer-events-none',
+    'transition-all duration-300 ease-out',
+    'hover:scale-110 active:scale-95',
+    'focus:outline-none focus:ring-4 focus:ring-primary-500/30',
+    positionClass,
+  ]}
+  aria-label="Back to top"
+  title="Scroll to top"
+  data-back-to-top
+  data-show-after={showAfter}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-5 h-5 md:w-6 md:h-6"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+  >
+    <path d="M18 15l-6-6-6 6"></path>
+  </svg>
+
+  <!-- Progress ring (optional visual) -->
+  <svg class="absolute inset-0 w-full h-full -rotate-90 opacity-30" viewBox="0 0 100 100">
+    <circle
+      class="progress-ring-circle"
+      cx="50"
+      cy="50"
+      r="46"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-dasharray="289"
+      stroke-dashoffset="289"></circle>
+  </svg>
+</button>
+
+<style>
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .progress-ring-circle {
+    transition: stroke-dashoffset 0.1s ease;
+  }
+
+  @media print {
+    .back-to-top {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.querySelector('[data-back-to-top]') as HTMLButtonElement;
+    if (!backToTopBtn) return;
+
+    const showAfter = parseInt(backToTopBtn.dataset.showAfter || '500');
+    const progressCircle = backToTopBtn.querySelector('.progress-ring-circle') as SVGCircleElement;
+    const circumference = 2 * Math.PI * 46; // radius = 46
+    let ticking = false;
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(scrollY / docHeight, 1);
+
+      // Show/hide button
+      if (scrollY > showAfter) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+
+      // Update progress ring
+      if (progressCircle) {
+        const offset = circumference - scrollPercent * circumference;
+        progressCircle.style.strokeDashoffset = String(offset);
+      }
+
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(handleScroll);
+        ticking = true;
+      }
+    });
+
+    // Scroll to top on click
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
+
+    // Initial check
+    handleScroll();
+  });
+</script>

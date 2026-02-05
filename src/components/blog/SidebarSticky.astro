@@ -1,0 +1,51 @@
+---
+interface Props {
+  class?: string;
+  topOffset?: string;
+}
+
+const { class: className = '', topOffset = '6rem' } = Astro.props;
+---
+
+<aside class:list={['sidebar-sticky lg:col-span-4', className]}>
+  <div
+    class="sidebar-sticky-inner space-y-6 md:space-y-8 lg:space-y-10"
+    style={`--sticky-top: ${topOffset}`}
+  >
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .sidebar-sticky-inner {
+    position: relative;
+  }
+
+  @media (min-width: 1024px) {
+    .sidebar-sticky-inner {
+      position: sticky;
+      top: var(--sticky-top, 6rem);
+      max-height: calc(100vh - var(--sticky-top, 6rem) - 2rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(42, 82, 152, 0.2) transparent;
+    }
+
+    .sidebar-sticky-inner::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-sticky-inner::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar-sticky-inner::-webkit-scrollbar-thumb {
+      background-color: rgba(42, 82, 152, 0.2);
+      border-radius: 4px;
+    }
+
+    .sidebar-sticky-inner::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(42, 82, 152, 0.4);
+    }
+  }
+</style>

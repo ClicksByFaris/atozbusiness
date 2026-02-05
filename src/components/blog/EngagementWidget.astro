@@ -1,0 +1,167 @@
+---
+interface Props {
+  articleId?: string;
+  question?: string;
+}
+
+const { articleId = '', question = 'Was this article helpful?' } = Astro.props;
+---
+
+<div
+  class="engagement-widget bg-neutral-50 rounded-2xl md:rounded-3xl p-6 md:p-8 text-center"
+  data-engagement-widget
+  data-article-id={articleId}
+>
+  <!-- Question -->
+  <p class="text-lg md:text-xl font-display font-semibold text-neutral-800 mb-5">
+    {question}
+  </p>
+
+  <!-- Feedback Buttons -->
+  <div class="feedback-buttons flex items-center justify-center gap-4" data-feedback-buttons>
+    <!-- Yes Button -->
+    <button
+      type="button"
+      class="feedback-btn feedback-yes group flex items-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-neutral-200 text-neutral-700 font-semibold transition-all duration-300 hover:border-green-400 hover:bg-green-50 hover:text-green-600 active:scale-95"
+      data-feedback="yes"
+      aria-label="Yes, this was helpful"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 transition-transform group-hover:scale-110"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+        ></path>
+      </svg>
+      <span>Yes</span>
+    </button>
+
+    <!-- No Button -->
+    <button
+      type="button"
+      class="feedback-btn feedback-no group flex items-center gap-2 px-6 py-3 rounded-xl bg-white border-2 border-neutral-200 text-neutral-700 font-semibold transition-all duration-300 hover:border-red-400 hover:bg-red-50 hover:text-red-600 active:scale-95"
+      data-feedback="no"
+      aria-label="No, this was not helpful"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 transition-transform group-hover:scale-110 rotate-180"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+        ></path>
+      </svg>
+      <span>No</span>
+    </button>
+  </div>
+
+  <!-- Thank You Message (hidden by default) -->
+  <div class="thank-you-message hidden mt-6" data-thank-you>
+    <div class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-50 text-primary-700">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 text-primary-500"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+        ></path>
+      </svg>
+      <span class="font-medium">Thank you for your feedback!</span>
+    </div>
+  </div>
+
+  <!-- Improvement Form (shown when "No" is clicked) -->
+  <div class="improvement-form hidden mt-6" data-improvement-form>
+    <p class="text-sm text-neutral-600 mb-3">How can we improve this article?</p>
+    <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+      <input
+        type="text"
+        placeholder="Your suggestion (optional)"
+        class="flex-1 px-4 py-3 rounded-xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+        data-improvement-input
+      />
+      <button
+        type="button"
+        class="px-5 py-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-semibold text-sm transition-colors"
+        data-submit-improvement
+      >
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const widget = document.querySelector('[data-engagement-widget]');
+    if (!widget) return;
+
+    const feedbackButtons = widget.querySelector('[data-feedback-buttons]');
+    const thankYouMessage = widget.querySelector('[data-thank-you]');
+    const improvementForm = widget.querySelector('[data-improvement-form]');
+    const submitImprovement = widget.querySelector('[data-submit-improvement]');
+    const articleId = widget.getAttribute('data-article-id');
+
+    const handleFeedback = (value: string) => {
+      // Hide buttons
+      feedbackButtons?.classList.add('hidden');
+
+      if (value === 'yes') {
+        // Show thank you
+        thankYouMessage?.classList.remove('hidden');
+      } else {
+        // Show improvement form
+        improvementForm?.classList.remove('hidden');
+      }
+
+      // Log feedback (replace with actual analytics/API call)
+      console.log('Feedback submitted:', { articleId, value });
+
+      // Store in localStorage to prevent repeated submissions
+      if (articleId) {
+        localStorage.setItem(`feedback-${articleId}`, value);
+      }
+    };
+
+    // Add click handlers
+    widget.querySelectorAll('[data-feedback]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const value = btn.getAttribute('data-feedback');
+        if (value) handleFeedback(value);
+      });
+    });
+
+    // Submit improvement
+    submitImprovement?.addEventListener('click', () => {
+      const input = widget.querySelector('[data-improvement-input]') as HTMLInputElement;
+      const suggestion = input?.value || '';
+
+      console.log('Improvement suggestion:', { articleId, suggestion });
+
+      improvementForm?.classList.add('hidden');
+      thankYouMessage?.classList.remove('hidden');
+    });
+
+    // Check if feedback was already given
+    if (articleId) {
+      const existingFeedback = localStorage.getItem(`feedback-${articleId}`);
+      if (existingFeedback) {
+        feedbackButtons?.classList.add('hidden');
+        thankYouMessage?.classList.remove('hidden');
+      }
+    }
+  });
+</script>

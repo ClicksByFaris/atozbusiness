@@ -91,6 +91,7 @@ export interface WeekHours {
 export interface BlogPost {
   _id: string;
   _createdAt: string;
+  _updatedAt: string;
   title: string;
   slug: { current: string };
   publishedAt: string;
