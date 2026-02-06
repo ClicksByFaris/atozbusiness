@@ -1,182 +1,128 @@
 ---
-import Heading from '../ui/Heading.astro';
-
-interface FAQ {
+interface FAQItem {
   question: string;
   answer: string;
 }
 
 interface Props {
-  faqs: FAQ[];
+  title?: string;
+  faqs: FAQItem[];
 }
 
-const { faqs } = Astro.props;
+const { title = 'Frequently Asked Questions', faqs } = Astro.props;
 ---
 
-<div class="faq-section mt-10 md:mt-14">
-  <!-- Section Header -->
-  <div class="flex items-center gap-4 mb-8 md:mb-10">
-    <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br from-accent-500 via-accent-500 to-secondary-500 text-white flex items-center justify-center shadow-xl shadow-accent-500/25">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-        <line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-    </div>
-    <div>
-      <Heading as="h2" size="3xl" class="text-neutral-900 leading-tight">
-        Frequently Asked Questions
-      </Heading>
-      <p class="text-sm text-neutral-500 font-medium mt-0.5 hidden sm:block">
-        Common questions about this topic
-      </p>
-    </div>
-  </div>
+<section class="max-w-3xl mx-auto py-12 px-4">
+  <h2 class="text-3xl font-bold text-gray-900 mb-8 tracking-tight">
+    {title}
+  </h2>
 
-  <!-- FAQ Accordion Container -->
-  <div class="faq-accordion space-y-4" data-accordion>
-    {faqs.map((faq, index) => (
-      <div 
-        class="faq-item group bg-gradient-to-br from-neutral-50 to-white rounded-xl md:rounded-2xl border border-neutral-200/80 overflow-hidden transition-all duration-300 hover:border-primary-200 hover:shadow-md"
-        data-faq-item
-      >
-        <!-- Question Button -->
-        <button
-          type="button"
-          class="faq-trigger w-full flex items-center justify-between gap-4 p-5 md:p-6 text-left transition-all duration-300 group-hover:bg-primary-50/30"
-          aria-expanded="false"
-          data-faq-trigger
-        >
-          <div class="flex items-center gap-4">
-            <!-- Number Badge -->
-            <div class="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-primary-100 to-secondary-100 text-primary-600 flex items-center justify-center font-display font-bold text-sm md:text-base transition-all duration-300 group-hover:from-primary-500 group-hover:to-secondary-500 group-hover:text-white group-hover:shadow-md">
-              {index + 1}
-            </div>
-            <!-- Question Text -->
-            <span class="text-base md:text-lg font-semibold text-neutral-800 group-hover:text-primary-700 transition-colors duration-200 leading-snug">
+  <div class="border-t border-gray-200 divide-y divide-gray-200">
+    {
+      faqs.map((faq, index) => (
+        <div class="group py-4">
+          {/* Trigger Button */}
+          <button
+            type="button"
+            class="faq-trigger flex items-center justify-between w-full text-left focus:outline-none"
+            aria-expanded="false"
+            data-index={index}
+          >
+            <span class="text-lg font-medium text-gray-900 group-hover:text-primary-600 transition-colors duration-200">
               {faq.question}
             </span>
-          </div>
-          <!-- Toggle Icon -->
-          <div class="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-100 group-hover:bg-primary-100 flex items-center justify-center transition-all duration-300">
-            <svg 
-              class="faq-icon w-5 h-5 text-neutral-500 group-hover:text-primary-600 transition-all duration-300" 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              stroke-width="2.5"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" class="faq-icon-vertical transition-transform duration-300 origin-center"/>
-              <line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-          </div>
-        </button>
 
-        <!-- Answer Panel -->
-        <div 
-          class="faq-content overflow-hidden transition-all duration-500 ease-out"
-          style="max-height: 0;"
-          data-faq-content
-        >
-          <div class="px-5 md:px-6 pb-6 md:pb-8 pt-0">
-            <div class="pl-12 md:pl-14 border-l-2 border-primary-200/50 ml-4 md:ml-5">
-              <p class="text-neutral-600 leading-relaxed text-base md:text-lg">
-                {faq.answer}
-              </p>
-            </div>
+            {/* Icon Wrapper */}
+            <span class="ml-6 flex-shrink-0 relative w-6 h-6 flex items-center justify-center">
+              {/* Vertical Line (rotates to horizontal) */}
+              <span class="absolute w-0.5 h-full bg-gray-400 transition-transform duration-300 ease-out origin-center icon-v" />
+              {/* Horizontal Line */}
+              <span class="absolute w-full h-0.5 bg-gray-400" />
+            </span>
+          </button>
+
+          {/* Content Wrapper */}
+          <div
+            class="faq-content overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0"
+            aria-hidden="true"
+          >
+            <div class="pt-4 pb-2 text-gray-600 leading-relaxed text-base">{faq.answer}</div>
           </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
-</div>
+</section>
 
 <style>
-  /* Active state for FAQ items */
-  .faq-item.active {
-    border-color: rgba(42, 82, 152, 0.3);
-    box-shadow: 0 4px 20px -4px rgba(42, 82, 152, 0.15);
-  }
+  /* The following CSS handles the rotation animation 
+    triggered by the class 'active' added via JS 
+  */
 
-  .faq-item.active .faq-trigger {
-    background: linear-gradient(to right, rgba(42, 82, 152, 0.05), transparent);
-  }
+  /* When active, hide the vertical line (making it a minus sign) */
+  /* Or rotate it 90deg to form a cross? Let's do a rotation for a smooth effect */
 
-  .faq-item.active .faq-icon-vertical {
+  button[aria-expanded='true'] .icon-v {
     transform: rotate(90deg);
-    opacity: 0;
   }
 
-  .faq-item.active .faq-icon {
-    color: #2A5298;
-  }
-
-  .faq-item.active .faq-trigger > div:first-child > div:first-child {
-    background: linear-gradient(to bottom right, #2A5298, #2D86C7);
-    color: white;
-    box-shadow: 0 4px 12px -2px rgba(42, 82, 152, 0.4);
-  }
-
-  /* Smooth content transition */
-  .faq-content {
-    will-change: max-height;
+  /* Optional: Change color when active */
+  button[aria-expanded='true'] span.bg-gray-400 {
+    @apply bg-primary-600;
   }
 </style>
 
 <script>
-  // FAQ Accordion Functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const accordion = document.querySelector('[data-accordion]');
-    if (!accordion) return;
+  // Function to initialize accordion logic
+  function initAccordion() {
+    // Select all triggers with explicit HTMLButtonElement type
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.faq-trigger');
 
-    const items = accordion.querySelectorAll('[data-faq-item]');
-
-    items.forEach((item) => {
-      const trigger = item.querySelector('[data-faq-trigger]');
-      const content = item.querySelector('[data-faq-content]');
-
-      if (!trigger || !content) return;
-
+    triggers.forEach((trigger) => {
       trigger.addEventListener('click', () => {
-        const isOpen = item.classList.contains('active');
+        // 1. Get the content associated with this trigger
+        // We traverse up to the parent div, then find the content div
+        const parent = trigger.parentElement as HTMLDivElement;
+        const content = parent.querySelector('.faq-content') as HTMLDivElement;
 
-        // Close all other items (optional - for single open behavior)
-        items.forEach((otherItem) => {
-          if (otherItem !== item && otherItem.classList.contains('active')) {
-            otherItem.classList.remove('active');
-            const otherContent = otherItem.querySelector('[data-faq-content]') as HTMLElement;
-            const otherTrigger = otherItem.querySelector('[data-faq-trigger]');
-            if (otherContent) otherContent.style.maxHeight = '0';
-            if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+        // 2. Check if currently open
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        // 3. Close ALL other items (Accordion behavior)
+        // If you want multiple items open at once, remove this block
+        triggers.forEach((otherTrigger) => {
+          if (otherTrigger !== trigger) {
+            const otherParent = otherTrigger.parentElement as HTMLDivElement;
+            const otherContent = otherParent.querySelector('.faq-content') as HTMLDivElement;
+
+            otherTrigger.setAttribute('aria-expanded', 'false');
+            otherContent.style.maxHeight = '0px';
+            otherContent.style.opacity = '0';
+            otherContent.setAttribute('aria-hidden', 'true');
           }
         });
 
-        // Toggle current item
-        if (isOpen) {
-          item.classList.remove('active');
-          (content as HTMLElement).style.maxHeight = '0';
-          trigger.setAttribute('aria-expanded', 'false');
-        } else {
-          item.classList.add('active');
-          (content as HTMLElement).style.maxHeight = content.scrollHeight + 'px';
+        // 4. Toggle current item
+        if (!isOpen) {
+          // Open
           trigger.setAttribute('aria-expanded', 'true');
+          content.setAttribute('aria-hidden', 'false');
+          content.style.maxHeight = `${content.scrollHeight}px`;
+          content.style.opacity = '1';
+        } else {
+          // Close
+          trigger.setAttribute('aria-expanded', 'false');
+          content.setAttribute('aria-hidden', 'true');
+          content.style.maxHeight = '0px';
+          content.style.opacity = '0';
         }
       });
     });
+  }
 
-    // Open first FAQ by default for better UX
-    const firstItem = items[0];
-    if (firstItem) {
-      const trigger = firstItem.querySelector('[data-faq-trigger]');
-      const content = firstItem.querySelector('[data-faq-content]') as HTMLElement;
-      if (trigger && content) {
-        setTimeout(() => {
-          firstItem.classList.add('active');
-          content.style.maxHeight = content.scrollHeight + 'px';
-          trigger.setAttribute('aria-expanded', 'true');
-        }, 500);
-      }
-    }
-  });
+  // Run on initial load
+  initAccordion();
+
+  // Run on View Transitions navigation (if using Astro View Transitions)
+  document.addEventListener('astro:after-swap', initAccordion);
 </script>

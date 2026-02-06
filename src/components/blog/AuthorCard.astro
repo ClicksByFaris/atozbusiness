@@ -70,13 +70,6 @@ const { author, showBio = true, showSocial = true } = Astro.props;
       >
       </div>
 
-      <!-- Bio -->
-      {
-        showBio && author.bio && (
-          <p class="text-neutral-600 text-sm md:text-base leading-relaxed mb-5">{author.bio}</p>
-        )
-      }
-
       <!-- Social Links -->
       {
         showSocial && (

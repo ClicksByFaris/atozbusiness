@@ -10,18 +10,22 @@ const headline = homeData?.hero?.heading || BUSINESS_INFO.name;
 const tagline = homeData?.hero?.tagline || BUSINESS_INFO.tagline;
 ---
 
-<section class="relative bg-primary-900 text-white py-20 lg:py-28 overflow-hidden">
+<section
+  class="relative bg-gradient-to-b from-primary-900 to-primary-800 text-white flex flex-col justify-center py-16 lg:py-24 overflow-hidden"
+>
   <!-- Dynamic Slider Background -->
   <HeroSlider images={heroImages} />
 
   <!-- Overlay Pattern (Optional, but adds texture over the images) -->
-  <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10 z-0 pointer-events-none">
+  <div
+    class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-20 mix-blend-overlay z-0 pointer-events-none"
+  >
   </div>
 
   <div class="container relative z-10 mx-auto px-4 text-center">
     <!-- Badge -->
     <div
-      class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md border border-white/10 animate-fade-in-up"
+      class="mb-4 lg:mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-md border border-white/10 animate-fade-in-up"
     >
       <Icon name="Award" size={16} className="text-accent-400" client:idle />
       <span>Trusted by 15,000+ Clients Across UAE</span>
@@ -29,21 +33,21 @@ const tagline = homeData?.hero?.tagline || BUSINESS_INFO.tagline;
 
     <!-- Main Heading -->
     <h1
-      class="mb-6 font-display text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight animate-fade-in-up drop-shadow-lg [animation-delay:100ms]"
+      class="mb-4 lg:mb-6 font-display text-4xl md:text-5xl lg:text-7xl font-bold text-white tracking-tight animate-fade-in-up drop-shadow-lg [animation-delay:100ms]"
     >
       {headline}
     </h1>
 
     <!-- Tagline -->
     <p
-      class="mb-8 mx-auto max-w-2xl text-xl md:text-2xl text-primary-100/90 leading-relaxed animate-fade-in-up drop-shadow-md [animation-delay:200ms]"
+      class="mb-6 lg:mb-8 mx-auto max-w-2xl text-xl md:text-2xl text-primary-100/90 leading-relaxed animate-fade-in-up drop-shadow-md [animation-delay:200ms]"
     >
       {tagline}
     </p>
 
     <!-- Location Indicator -->
     <div
-      class="mb-10 flex items-center justify-center gap-2 text-primary-200 animate-fade-in-up drop-shadow-md [animation-delay:300ms]"
+      class="mb-8 lg:mb-10 flex items-center justify-center gap-2 text-primary-200 animate-fade-in-up drop-shadow-md [animation-delay:300ms]"
     >
       <Icon name="MapPin" size={20} className="text-accent-400" client:idle />
       <span class="text-lg">Khalidiya & Al Zahiyah, Abu Dhabi</span>
@@ -82,7 +86,7 @@ const tagline = homeData?.hero?.tagline || BUSINESS_INFO.tagline;
 
     <!-- Quick Info Cards -->
     <div
-      class="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto mt-16 animate-fade-in-up [animation-delay:500ms]"
+      class="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto mt-10 lg:mt-16 animate-fade-in-up [animation-delay:500ms]"
     >
       <!-- Business Hours -->
       <div

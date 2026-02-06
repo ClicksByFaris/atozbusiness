@@ -1,0 +1,139 @@
+---
+import Container from '../ui/Container.astro';
+import Section from '../ui/Section.astro';
+import Heading from '../ui/Heading.astro';
+import Badge from '../ui/Badge.astro';
+import SanityImage from '../ui/SanityImage.astro';
+import type { BlogPost } from '../../types';
+
+interface Props {
+  posts: BlogPost[];
+  categories: any[];
+  featuredPost?: BlogPost;
+}
+
+const { posts, categories, featuredPost } = Astro.props;
+---
+
+<!-- Blog Hero Banner - Compact Design -->
+<Section
+  class="bg-primary-800 text-white pt-12 pb-16 sm:pt-14 sm:pb-20 md:pt-16 md:pb-24 overflow-hidden relative"
+>
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    {
+      featuredPost && featuredPost.featuredImage && (
+        <div class="absolute inset-0">
+          <SanityImage
+            node={featuredPost.featuredImage}
+            width={1920}
+            className="w-full h-full object-cover opacity-20 scale-105 blur-sm"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-neutral-900/95 via-primary-700/90 to-primary-600/85" />
+        </div>
+      )
+    }
+    <!-- Premium Grid Pattern -->
+    <div
+      class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:24px_24px] sm:bg-[size:32px_32px] md:bg-[size:40px_40px]"
+    >
+    </div>
+  </div>
+
+  <!-- Animated blobs for depth - Responsive sizing -->
+  <div
+    class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 sm:w-2/3 sm:h-2/3 bg-secondary-500/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] opacity-60 animate-pulse-slow pointer-events-none"
+  >
+  </div>
+  <div
+    class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 sm:w-2/3 sm:h-2/3 bg-accent-500/15 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] opacity-50 animate-pulse pointer-events-none"
+  >
+  </div>
+  <!-- Additional accent blob for premium effect -->
+  <div
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-1/2 bg-primary-400/10 rounded-full blur-[100px] md:blur-[150px] opacity-40 pointer-events-none"
+  >
+  </div>
+
+  <Container>
+    <header class="max-w-6xl mx-auto text-center relative z-10 px-3 xs:px-4 sm:px-6 lg:px-8">
+      <div class="reveal inline-block mb-3 xs:mb-4 sm:mb-5" data-animation="animate-fade-in-up">
+        <Badge
+          variant="secondary"
+          class="bg-white/10 text-white border border-white/25 backdrop-blur-lg px-3 py-1.5 xs:px-4 xs:py-2 sm:px-5 sm:py-2.5 uppercase tracking-wider sm:tracking-widest text-[10px] xs:text-xs sm:text-sm font-semibold shadow-xl shadow-primary-900/20"
+        >
+          📚 Insights & Updates
+        </Badge>
+      </div>
+
+      <Heading
+        as="h1"
+        size="6xl"
+        class="mb-3 xs:mb-4 sm:mb-5 md:mb-6 text-white reveal leading-[1.05] font-display text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight px-2 xs:px-3 sm:px-4"
+        data-animation="animate-fade-in-up"
+        style="transition-delay: 100ms"
+      >
+        Stay Ahead with <span class="text-secondary-300">Expert Insights</span>
+      </Heading>
+
+      <p
+        class="text-sm xs:text-base sm:text-lg md:text-xl text-white/90 max-w-xs xs:max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed reveal font-sans mb-6 xs:mb-8 sm:mb-10 md:mb-12 px-2 xs:px-3 sm:px-4"
+        data-animation="animate-fade-in-up"
+        style="transition-delay: 200ms"
+      >
+        Expert advice, step-by-step guides, and regulatory updates for businesses and residents in
+        <span class="text-accent-300 font-semibold">Abu Dhabi</span>.
+      </p>
+
+      <!-- Stats Section - Enhanced Responsiveness -->
+      <div
+        class="grid grid-cols-2 md:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-6 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl mx-auto reveal"
+        data-animation="animate-fade-in-up"
+        style="transition-delay: 300ms"
+      >
+        <div
+          class="group bg-white/8 backdrop-blur-xl border border-white/15 rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-5 md:p-6 hover:bg-white/15 hover:border-accent-400/30 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-500 shadow-lg shadow-primary-900/10"
+        >
+          <p
+            class="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-display font-bold text-accent-400 group-hover:text-accent-300 transition-colors duration-300"
+          >
+            {posts.length}+
+          </p>
+          <p
+            class="text-xs xs:text-sm sm:text-base text-white/80 mt-1.5 sm:mt-2 font-sans font-medium"
+          >
+            Articles
+          </p>
+        </div>
+        <div
+          class="group bg-white/8 backdrop-blur-xl border border-white/15 rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-5 md:p-6 hover:bg-white/15 hover:border-secondary-400/30 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-500 shadow-lg shadow-primary-900/10"
+        >
+          <p
+            class="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-display font-bold text-secondary-300 group-hover:text-secondary-200 transition-colors duration-300"
+          >
+            {categories.length}+
+          </p>
+          <p
+            class="text-xs xs:text-sm sm:text-base text-white/80 mt-1.5 sm:mt-2 font-sans font-medium"
+          >
+            Categories
+          </p>
+        </div>
+        <div
+          class="group bg-white/8 backdrop-blur-xl border border-white/15 rounded-xl sm:rounded-2xl p-3 xs:p-4 sm:p-5 md:p-6 hover:bg-white/15 hover:border-primary-300/30 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-500 col-span-2 md:col-span-1 shadow-lg shadow-primary-900/10"
+        >
+          <p
+            class="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary-200 group-hover:text-primary-100 transition-colors duration-300"
+          >
+            Weekly
+          </p>
+          <p
+            class="text-xs xs:text-sm sm:text-base text-white/80 mt-1.5 sm:mt-2 font-sans font-medium"
+          >
+            Updates
+          </p>
+        </div>
+      </div>
+    </header>
+  </Container>
+</Section>
