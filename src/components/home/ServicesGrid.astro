@@ -59,16 +59,6 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                   <div class="absolute top-4 right-4 flex items-center justify-center w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
                     <span class="font-mono text-sm font-bold text-primary-600">0{index + 1}</span>
                   </div>
-
-                  {/* Icon Badge */}
-                  <div class="absolute bottom-4 left-6 flex items-center justify-center w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm shadow-lg transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
-                    <Icon
-                      name={(service.icon as any) || 'FileText'}
-                      size={28}
-                      className="text-primary-600"
-                      client:idle
-                    />
-                  </div>
                 </div>
               )}
 
@@ -83,7 +73,7 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                 </h3>
 
                 {/* Description */}
-                <p class="text-base text-neutral-600 leading-relaxed mb-6 line-clamp-3">
+                <p class="hidden md:block text-base text-neutral-600 leading-relaxed mb-6 md:line-clamp-3">
                   {service.excerpt}
                 </p>
 
@@ -91,9 +81,8 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                 <a
                   href={`/services/${service.slug.current}`}
                   class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-all duration-300 hover:text-primary-700 hover:gap-3 uppercase tracking-wider group/link"
-                  aria-label={`Learn more about ${service.title}`}
                 >
-                  <span>Learn More</span>
+                  <span>Learn More About {service.title}</span>
                   <Icon
                     name="ArrowRight"
                     size={16}
@@ -173,11 +162,22 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
   }
 
   /* Line Clamp Utility */
-  .line-clamp-3 {
+  /* Line Clamp Utility - only applies when visible */
+  .line-clamp-3:not(.hidden) {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* For large screens and above */
+  @media (min-width: 1024px) {
+    .lg\:line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   }
 
   /* Fade In Up Animation */
