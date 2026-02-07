@@ -1,6 +1,7 @@
 ---
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
+import ServiceBanner from '../../components/services/ServiceBanner.astro';
 import ServiceFeatures from '../../components/services/ServiceFeatures.astro';
 import ServiceProcess from '../../components/services/ServiceProcess.astro';
 import ServiceDocuments from '../../components/services/ServiceDocuments.astro';
@@ -16,12 +17,12 @@ import type { Service } from '../../types';
 export async function getStaticPaths() {
   try {
     const services: Service[] = await sanityClient.fetch(servicesQuery);
-    
+
     if (!services || services.length === 0) {
       console.warn('No services found in Sanity CMS');
       return [];
     }
-    
+
     return services.map((service) => ({
       params: { slug: service.slug.current },
     }));
@@ -77,6 +78,8 @@ const processMap =
   </Container>
 
   <ServiceFeatures features={service.features || []} fullDescription={service.description} />
+
+  <!-- <ServiceBanner image={service.featuredImage} height="medium" /> -->
 
   {processMap.length > 0 && <ServiceProcess process={processMap} />}
 

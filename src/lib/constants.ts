@@ -89,11 +89,6 @@ export const FEATURED_SERVICES = [
 
 export const WHY_CHOOSE_US = [
     {
-        title: '13+ Hours Daily Service',
-        description: "We're open from 8 AM to 9 PM Monday to Saturday, providing extended hours to serve you better and meet urgent requirements.",
-        icon: 'Clock',
-    },
-    {
         title: 'One-Stop Solution',
         description: 'From visa services to company formation, TAMM services to attestation - we handle all your government documentation needs under one roof.',
         icon: 'CheckCircle2',

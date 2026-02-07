@@ -17,13 +17,6 @@ const { name, description, icon, image } = Astro.props;
 <section
   class="relative bg-gradient-to-br from-primary-900 to-primary-800 text-white py-20 lg:py-28 overflow-hidden"
 >
-  {
-    image && (
-      <div class="absolute inset-0 z-0 mix-blend-overlay opacity-30">
-        <SanityImage node={image} width={1600} class="w-full h-full object-cover" priority />
-      </div>
-    )
-  }
   <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10 z-0"></div>
   <div class="absolute -bottom-1 left-0 w-full overflow-hidden leading-none rotate-180 z-10">
     <svg
@@ -47,7 +40,7 @@ const { name, description, icon, image } = Astro.props;
         <Icon name={icon as any} className="w-8 h-8" client:idle />
       </div>
 
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
         {name}
       </h1>
 

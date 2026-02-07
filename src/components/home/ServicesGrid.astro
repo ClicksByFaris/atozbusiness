@@ -15,101 +15,195 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
 
 <Section background="white" padding="lg">
   <Container>
-    <div class="text-center mb-12 reveal" data-animation="animate-fade-in-up">
-      <Heading as="h2" class="mb-4 text-neutral-900"> Our Featured Services </Heading>
-      <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+    <!-- Header Section -->
+    <div class="text-center mb-16 reveal" data-animation="animate-fade-in-up">
+      <div class="inline-block mb-4">
+        <span
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 text-primary-700 text-sm font-semibold tracking-wide"
+        >
+          <Icon name="Sparkles" size={16} client:idle />
+          <span>Our Expertise</span>
+        </span>
+      </div>
+      <Heading as="h2" class="mb-6 text-neutral-900">Featured Services</Heading>
+      <p class="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
         From visa services to company formation, we offer comprehensive solutions for all your
         government documentation needs in Abu Dhabi.
       </p>
     </div>
 
-    <div class="relative min-h-screen mb-24">
+    <!-- Services Grid -->
+    <div class="services-grid mb-16">
       {
         services.map((service, index) => (
-          <div
-            class="sticky-card sticky mx-auto max-w-3xl reveal"
+          <article
+            class="service-card reveal"
             data-animation="animate-fade-in-up"
             style={{
-              '--index': index,
-              zIndex: index + 1,
-              marginTop: index === 0 ? '0' : '2rem', // Add some spacing between cards initially
-              animationDelay: `${index * 150}ms`,
+              animationDelay: `${index * 100}ms`,
             }}
+            aria-labelledby={`service-${service.slug.current}`}
           >
-            <Card
-              variant="hover"
-              padding="lg"
-              class="border border-neutral-200/60 shadow-xl backdrop-blur-sm bg-white/90 overflow-hidden"
-            >
+            <Card variant="hover" padding="none" class="h-full service-card-inner group">
+              {/* Featured Image */}
               {service.featuredImage && (
-                <div class="-mx-8 -mt-8 mb-8 h-64 overflow-hidden relative">
+                <div class="relative h-56 overflow-hidden">
                   <SanityImage
                     node={service.featuredImage}
-                    width={800}
-                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                    width={600}
+                    class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
-                  <div class="absolute inset-0 bg-gradient-to-t from-white/90 to-transparent opacity-80" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-neutral-900/20 to-transparent" />
+
+                  {/* Service Number Badge */}
+                  <div class="absolute top-4 right-4 flex items-center justify-center w-12 h-12 rounded-full bg-white/95 backdrop-blur-sm shadow-lg">
+                    <span class="font-mono text-sm font-bold text-primary-600">0{index + 1}</span>
+                  </div>
+
+                  {/* Icon Badge */}
+                  <div class="absolute bottom-4 left-6 flex items-center justify-center w-16 h-16 rounded-2xl bg-white/95 backdrop-blur-sm shadow-lg transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                    <Icon
+                      name={(service.icon as any) || 'FileText'}
+                      size={28}
+                      className="text-primary-600"
+                      client:idle
+                    />
+                  </div>
                 </div>
               )}
 
-              <div class="grid md:grid-cols-[auto_1fr] gap-6 items-start">
-                {/* Icon */}
-                <div class="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-primary-50">
+              {/* Card Content */}
+              <div class="p-6 sm:p-8">
+                {/* Service Title */}
+                <h3
+                  id={`service-${service.slug.current}`}
+                  class="font-display text-2xl sm:text-3xl font-bold text-neutral-900 mb-4 leading-tight group-hover:text-primary-600 transition-colors duration-300"
+                >
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p class="text-base text-neutral-600 leading-relaxed mb-6 line-clamp-3">
+                  {service.excerpt}
+                </p>
+
+                {/* Learn More Link */}
+                <a
+                  href={`/services/${service.slug.current}`}
+                  class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-all duration-300 hover:text-primary-700 hover:gap-3 uppercase tracking-wider group/link"
+                  aria-label={`Learn more about ${service.title}`}
+                >
+                  <span>Learn More</span>
                   <Icon
-                    name={(service.icon as any) || 'FileText'}
-                    size={32}
-                    className="text-primary-600"
+                    name="ArrowRight"
+                    size={16}
+                    className="transition-transform duration-300 group-hover/link:translate-x-1"
                     client:idle
                   />
-                </div>
-
-                <div class="flex flex-col gap-3">
-                  {/* Service Name */}
-                  <div class="flex items-center justify-between gap-4">
-                    <h3 class="font-display text-2xl font-bold text-neutral-900">
-                      {service.title}
-                    </h3>
-                    <div class="text-xs font-mono text-neutral-400">0{index + 1}</div>
-                  </div>
-
-                  {/* Description */}
-                  <p class="text-lg text-neutral-600 leading-relaxed max-w-xl">{service.excerpt}</p>
-
-                  {/* Learn More Link */}
-                  <div class="pt-2">
-                    <a
-                      href={`/services/${service.slug.current}`}
-                      class="inline-flex items-center gap-2 text-sm font-bold text-primary-600 transition-colors hover:text-primary-700 uppercase tracking-wider"
-                    >
-                      Learn More
-                      <Icon name="ArrowRight" size={16} client:idle />
-                    </a>
-                  </div>
-                </div>
+                </a>
               </div>
             </Card>
-          </div>
+          </article>
         ))
       }
     </div>
 
     {/* View All Services CTA */}
-    <div class="text-center">
+    <div class="text-center reveal" data-animation="animate-fade-in-up">
       <Button variant="primary" size="lg" href="/services"> View All Services </Button>
     </div>
   </Container>
-
-  <style>
-    .sticky-card {
-      /* Mobile: tighter stacking */
-      top: calc(5rem + var(--index) * 1rem);
-    }
-
-    @media (min-width: 768px) {
-      .sticky-card {
-        /* Desktop: loose stacking for "folder" effect */
-        top: calc(8rem + var(--index) * 3rem);
-      }
-    }
-  </style>
 </Section>
+
+<style>
+  /* Services Grid - Responsive Layout */
+  .services-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  /* Tablet: 2 columns */
+  @media (min-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  /* Desktop: 3 columns */
+  @media (min-width: 1024px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  /* Large Desktop: Better spacing */
+  @media (min-width: 1280px) {
+    .services-grid {
+      gap: 2.5rem;
+    }
+  }
+
+  /* Service Card Styling */
+  .service-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .service-card.reveal[data-animation='animate-fade-in-up'] {
+    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .service-card-inner {
+    border: 1px solid hsl(0 0% 90% / 0.6);
+    background: linear-gradient(to bottom, white, hsl(0 0% 98%));
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+
+  .service-card-inner:hover {
+    border-color: hsl(var(--primary-600) / 0.3);
+    box-shadow:
+      0 20px 40px -12px hsl(var(--primary-600) / 0.15),
+      0 4px 12px -4px hsl(0 0% 0% / 0.1);
+    transform: translateY(-8px);
+  }
+
+  /* Line Clamp Utility */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Fade In Up Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Ensure smooth hardware acceleration */
+  .service-card-inner,
+  .service-card img {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  /* Responsive Typography */
+  @media (max-width: 640px) {
+    .service-card-inner h3 {
+      font-size: 1.5rem;
+    }
+  }
+</style>

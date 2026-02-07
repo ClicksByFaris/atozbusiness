@@ -1,0 +1,35 @@
+# robots.txt for atozbusiness.ae
+# This file tells search engine crawlers which URLs they can access
+
+# Allow all crawlers to access all pages except restricted areas
+User-agent: *
+Allow: /
+
+# Block access to API endpoints
+Disallow: /api/
+
+# Block access to Sanity Studio (CMS)
+Disallow: /studio/
+
+# Block internal Astro build files
+Disallow: /_astro/
+
+# Block private/admin areas (if any)
+Disallow: /admin/
+
+# Allow CSS and JavaScript files for proper rendering in search results
+Allow: /assets/*.css
+Allow: /assets/*.js
+
+# Sitemap location
+Sitemap: https://atozbusiness.ae/sitemap.xml
+
+# Optional: Block AI crawlers (uncomment if you want to block AI training)
+# User-agent: GPTBot
+# Disallow: /
+
+# User-agent: ChatGPT-User
+# Disallow: /
+
+# User-agent: CCBot
+# Disallow: /
