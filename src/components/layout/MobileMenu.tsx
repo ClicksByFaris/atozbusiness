@@ -49,11 +49,11 @@ export default function MobileMenu() {
               ))}
               <div className="pt-4 border-t border-gray-200">
                 <a
-                  href="/contact"
+                  href="/#cost-calculator"
                   className="block w-full text-center py-3 px-6 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  Get Started
+                  Cost Calculator
                 </a>
               </div>
             </nav>
