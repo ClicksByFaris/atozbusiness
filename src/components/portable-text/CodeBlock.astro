@@ -1,0 +1,18 @@
+---
+const { node } = Astro.props;
+const { code, language } = node;
+---
+
+<div class="my-6 rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800 shadow-inner">
+  {
+    language && (
+      <div class="bg-neutral-800/50 px-4 py-2 border-b border-neutral-800 text-xs text-neutral-400 font-mono uppercase tracking-wider">
+        {language}
+      </div>
+    )
+  }
+  <pre
+    class="p-4 overflow-x-auto text-sm font-mono text-neutral-200 leading-relaxed">
+        <code>{code}</code>
+    </pre>
+</div>

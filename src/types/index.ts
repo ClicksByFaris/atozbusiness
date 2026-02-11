@@ -6,7 +6,7 @@ export interface Service {
   slug: { current: string };
   category: 'visa' | 'pro' | 'government' | 'documents';
   excerpt: string;
-  description: string;
+  description: any[];
   featuredImage?: {
     asset: {
       _ref: string;

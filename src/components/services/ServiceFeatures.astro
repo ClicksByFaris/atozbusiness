@@ -1,10 +1,11 @@
 ---
 import Container from '../ui/Container.astro';
 import Icon from '../icons/Icon';
+import PortableText from '../portable-text/PortableText.astro';
 
 interface Props {
   features: string[];
-  fullDescription: string;
+  fullDescription: any;
 }
 
 const { features, fullDescription } = Astro.props;
@@ -15,8 +16,8 @@ const { features, fullDescription } = Astro.props;
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
       <div class="prose prose-lg text-neutral-600">
         <h2 class="text-3xl font-bold text-neutral-900 mb-6 font-heading">About This Service</h2>
-        <div class="whitespace-pre-line leading-relaxed">
-          {fullDescription}
+        <div class="leading-relaxed">
+          <PortableText value={fullDescription} />
         </div>
       </div>
 

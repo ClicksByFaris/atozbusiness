@@ -5,7 +5,6 @@ import Hero from '../components/home/Hero.astro';
 import ServicesGrid from '../components/home/ServicesGrid.astro';
 import WhyChooseUs from '../components/home/WhyChooseUs.astro';
 import HowItWorks from '../components/home/HowItWorks.astro';
-import { CostCalculator } from '../components/home/CostCalculator';
 import Stats from '../components/home/Stats.astro';
 import LocationsSection from '../components/home/LocationsSection.astro';
 import FAQ from '../components/home/FAQ.astro';
@@ -37,13 +36,6 @@ const faqSchema = generateFAQPageSchema(FAQS);
 
   <!-- How It Works -->
   <HowItWorks />
-
-  <!-- Cost Calculator -->
-  <section class="py-16 bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-      <CostCalculator client:visible />
-    </div>
-  </section>
 
   <!-- Statistics -->
   <Stats />

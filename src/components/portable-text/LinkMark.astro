@@ -1,0 +1,13 @@
+---
+const { href, ...props } = Astro.props; // Extract href from props
+---
+
+<a
+  href={href}
+  {...props}
+  class="font-medium text-primary-600 underline decoration-primary-200 hover:decoration-primary-500 transition-colors duration-200"
+  target={href?.startsWith('http') ? '_blank' : undefined}
+  rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+>
+  <slot />
+</a>

@@ -1,0 +1,59 @@
+---
+import { PortableText as PortableTextInternal } from 'astro-portabletext';
+import Heading1 from './Heading1.astro';
+import Heading2 from './Heading2.astro';
+import Heading3 from './Heading3.astro';
+import Heading4 from './Heading4.astro';
+import Paragraph from './Paragraph.astro';
+import Blockquote from './Blockquote.astro';
+import ListBullet from './ListBullet.astro';
+import ListNumber from './ListNumber.astro';
+import ListItem from './ListItem.astro';
+import Strong from './Strong.astro';
+import Em from './Em.astro';
+import LinkMark from './LinkMark.astro';
+import ImageBlock from './ImageBlock.astro';
+import CodeBlock from './CodeBlock.astro';
+import YouTubeBlock from './YouTubeBlock.astro';
+import CalloutBlock from './CalloutBlock.astro';
+import InlineCode from './InlineCode.astro';
+
+interface Props {
+  value: any[];
+}
+
+const { value } = Astro.props;
+
+const components = {
+  block: {
+    h1: Heading1,
+    h2: Heading2,
+    h3: Heading3,
+    h4: Heading4,
+    normal: Paragraph,
+    blockquote: Blockquote,
+  },
+  list: {
+    bullet: ListBullet,
+    number: ListNumber,
+  },
+  listItem: {
+    bullet: ListItem,
+    number: ListItem,
+  },
+  mark: {
+    strong: Strong,
+    em: Em,
+    link: LinkMark,
+    code: InlineCode,
+  },
+  type: {
+    image: ImageBlock,
+    code: CodeBlock,
+    youtube: YouTubeBlock,
+    callout: CalloutBlock,
+  },
+};
+---
+
+<PortableTextInternal value={value} components={components} />

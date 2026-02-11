@@ -1,0 +1,7 @@
+---
+const props = Astro.props;
+---
+
+<ul {...props} class="list-disc pl-6 mb-4 space-y-2 marker:text-primary-500">
+  <slot />
+</ul>
