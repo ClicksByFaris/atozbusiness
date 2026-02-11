@@ -8,6 +8,7 @@ import Badge from '../../components/ui/Badge.astro';
 import Icon from '../../components/icons/Icon';
 import { getGalleryItems } from '../../lib/sanity';
 import type { GalleryItem } from '../../types';
+export const prerender = true
 
 const galleryItems: GalleryItem[] = await getGalleryItems();
 

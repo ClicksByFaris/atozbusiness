@@ -16,6 +16,8 @@ import { generateLocalBusinessSchema } from '../lib/schemas/localBusiness';
 import { generateFAQPageSchema } from '../lib/schemas/faqPage';
 import { FAQS } from '../lib/constants';
 
+export const prerender = true;
+
 // Generate schema markup
 const localBusinessSchema = generateLocalBusinessSchema({ location: 'all' });
 const faqSchema = generateFAQPageSchema(FAQS);

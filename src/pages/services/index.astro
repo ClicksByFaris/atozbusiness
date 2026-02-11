@@ -8,6 +8,8 @@ import { sanityClient } from '../../lib/sanity';
 import { servicesQuery } from '../../lib/queries';
 import type { Service } from '../../types';
 
+export const prerender = true;
+
 // Fetch services from Sanity
 const services: Service[] = await sanityClient.fetch(servicesQuery);
 

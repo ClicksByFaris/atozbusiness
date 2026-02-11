@@ -19,6 +19,8 @@ import SEO from '../../components/SEO.astro';
 import { getAllPosts, getPostBySlug, getLatestPosts } from '../../lib/sanity';
 import type { BlogPost } from '../../types';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const posts = await getAllPosts();
   return posts.map((post: BlogPost) => ({

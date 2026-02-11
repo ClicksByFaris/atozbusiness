@@ -10,6 +10,8 @@ import BlogHero from '../../components/blog/BlogHero.astro';
 import { getAllPosts, getAllCategories } from '../../lib/sanity';
 import type { BlogPost, Category } from '../../types';
 
+export const prerender = true;
+
 const posts: BlogPost[] = await getAllPosts();
 const categories: Category[] = await getAllCategories();
 

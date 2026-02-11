@@ -14,6 +14,8 @@ import { sanityClient } from '../../lib/sanity';
 import { servicesQuery, serviceBySlugQuery } from '../../lib/queries';
 import type { Service } from '../../types';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   try {
     const services: Service[] = await sanityClient.fetch(servicesQuery);

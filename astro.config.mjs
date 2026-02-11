@@ -27,7 +27,7 @@ export default defineConfig({
       'https://atozbusiness.ae/terms-of-service',
     ],
   }), favicons()],
-  output: 'static',
+  output: 'server',
   adapter: vercel({
     imagesConfig: {
       sizes: [320, 640, 1280],

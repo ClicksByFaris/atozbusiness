@@ -13,15 +13,17 @@ import SEO from '../../components/SEO.astro';
 import SanityImage from '../../components/ui/SanityImage.astro';
 import { generateLocationSchema } from '../../lib/schemas/localBusiness';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   try {
     const locations: Location[] = await sanityClient.fetch(locationsQuery);
-    
+
     if (!locations || locations.length === 0) {
       console.warn('No locations found in Sanity CMS');
       return [];
     }
-    
+
     return locations.map((location) => ({
       params: { slug: location.slug.current },
     }));
