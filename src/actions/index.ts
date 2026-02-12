@@ -17,7 +17,15 @@ export const server = {
         }),
         handler: async (input) => {
             const { name, email, phone, subject, message } = input;
-            const resend = new Resend(import.meta.env.RESEND_API_KEY);
+            const apiKey = import.meta.env.RESEND_API_KEY;
+            if (!apiKey) {
+                throw new ActionError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Resend API key is not configured.',
+                });
+            }
+
+            const resend = new Resend(apiKey);
 
             try {
                 const data = await resend.emails.send({
