@@ -108,12 +108,12 @@ export const ABOUT_DATA: AboutData = {
         },
         {
             label: 'Happy Clients',
-            value: '5,000+',
+            value: '5,0000+',
             icon: 'Users'
         },
         {
             label: 'Success Rate',
-            value: '99%',
+            value: '100%',
             icon: 'TrendingUp'
         },
         {
