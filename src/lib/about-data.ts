@@ -30,6 +30,7 @@ export interface AboutData {
             name: string;      // Full name
             role: string;      // Job title
             photo?: string;    // Photo URL or path (optional)
+            isLeader?: boolean; // Highlight as leader
         }[];
     };
 
@@ -78,6 +79,7 @@ export const ABOUT_DATA: AboutData = {
             {
                 name: 'Mohammed Alhur Al Suwaidi',
                 role: 'Senior PRO & Owner',
+                isLeader: true,
             },
             {
                 name: 'Ahmed Hassan',

@@ -1,5 +1,26 @@
 // GROQ queries for Sanity CMS
 
+// About
+export const aboutPageQuery = `*[_type == "about"][0] {
+  teamMembers[] | order(order asc) {
+    name,
+    position,
+    order,
+    isLeader,
+    image {
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      },
+      alt
+    }
+  }
+}`;
+
 // Services
 export const servicesQuery = `*[_type == "service"] | order(title asc) {
   _id,

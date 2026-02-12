@@ -13,6 +13,30 @@ export const prerender = true;
 
 const organizationSchema = generateOrganizationSchema();
 
+import { sanityClient } from '../lib/sanity';
+import { aboutPageQuery } from '../lib/queries';
+
+interface TeamMember {
+  name: string;
+  position?: string;
+  role?: string;
+  order?: number;
+  isLeader?: boolean;
+  image?: {
+    asset?: {
+      url: string;
+    };
+    alt?: string;
+  };
+}
+
+const aboutPageData = await sanityClient.fetch(aboutPageQuery);
+const teamMembers = aboutPageData?.teamMembers || [];
+
+// Use Sanity data if available, otherwise fall back to static data
+const displayMembers = teamMembers.length > 0 ? teamMembers : ABOUT_DATA.team.members;
+const showTeamSection = teamMembers.length > 0 || ABOUT_DATA.team.showTeam;
+
 const pageTitle = 'About Us | A to Z Business Services';
 const pageDescription =
   "Learn about A to Z Business Services - Abu Dhabi's trusted PRO services and typing center. Our mission, values, and experienced team dedicated to simplifying government transactions.";
@@ -182,7 +206,7 @@ const pageDescription =
 
   <!-- Team Section -->
   {
-    ABOUT_DATA.team.showTeam && (
+    showTeamSection && (
       <Section>
         <Container>
           {/* Section Header */}
@@ -202,13 +226,32 @@ const pageDescription =
 
           {/* Team Grid */}
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-            {ABOUT_DATA.team.members?.map((member) => (
-              <div class="group text-center p-6 bg-gradient-to-br from-white/5 to-white/2 border border-neutral-200 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+            {displayMembers?.map((member: TeamMember) => (
+              <div
+                class:list={[
+                  'group text-center p-6 bg-gradient-to-br from-white/5 to-white/2 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl',
+                  member.isLeader
+                    ? 'border-2 border-primary-500 shadow-lg shadow-primary-500/10 relative overflow-hidden'
+                    : 'border border-neutral-200',
+                ]}
+              >
                 <div class="w-28 h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mx-auto mb-6 overflow-hidden">
-                  <Icon name="User" className="w-14 h-14 lg:w-16 lg:h-16 text-white" client:idle />
+                  {member.image?.asset?.url ? (
+                    <img
+                      src={member.image.asset.url}
+                      alt={member.image.alt || member.name}
+                      class="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Icon
+                      name="User"
+                      className="w-14 h-14 lg:w-16 lg:h-16 text-white"
+                      client:idle
+                    />
+                  )}
                 </div>
                 <h3 class="text-lg font-bold text-neutral-900 mb-2">{member.name}</h3>
-                <p class="text-sm text-neutral-600">{member.role}</p>
+                <p class="text-sm text-neutral-600">{member.position || member.role}</p>
               </div>
             ))}
           </div>
