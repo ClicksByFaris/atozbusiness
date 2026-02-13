@@ -77,7 +77,8 @@ const { location } = Astro.props;
             href={location.gbpUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center justify-center rounded-xl border border-neutral-200 px-4 py-3 text-sm font-semibold text-neutral-600 transition-all hover:bg-neutral-50 hover:text-neutral-900"
+            id={`get-directions-${location.slug.current}`}
+            class="get-directions-btn flex items-center justify-center rounded-xl border border-neutral-200 px-4 py-3 text-sm font-semibold text-neutral-600 transition-all hover:bg-neutral-50 hover:text-neutral-900"
             aria-label="Get Directions"
           >
             <MapPin className="h-4 w-4" />
@@ -87,3 +88,18 @@ const { location } = Astro.props;
     </div>
   </div>
 </div>
+
+<script is:inline define:vars={{ btnId: `get-directions-${location.slug.current}` }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById(btnId);
+    if (button) {
+      button.addEventListener('click', function () {
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            send_to: 'AW-17948691189/T2pCCNvFpfcbEPWVze5C',
+          });
+        }
+      });
+    }
+  });
+</script>
