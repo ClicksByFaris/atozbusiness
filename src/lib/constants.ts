@@ -3,7 +3,7 @@
 
 export const BUSINESS_INFO = {
     name: 'A to Z Business',
-    tagline: 'Official Typing, Residency & Business Setup Services – The A to Z Solution.',
+    tagline: 'Professional Typing, Residency & Business Setup Services – The A to Z Solution.',
     phone: '+971-50-3489891',
     whatsapp: '+971-50-3489891',
     email: 'contact@atozbusiness.ae',
