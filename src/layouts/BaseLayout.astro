@@ -25,7 +25,7 @@ const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site).href :
 const fullTitle =
   title === 'Home' ? SEO_DEFAULTS.defaultTitle : `${title} | ${SEO_DEFAULTS.siteName}`;
 
-// Generate full OG image URL
+// Generate full OG image URLt
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteUrl}${ogImage}`;
 ---
 
