@@ -11,7 +11,6 @@ import LPSocialProof from '../../components/lp/LPSocialProof.astro';
 import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
 import LPStickyFooter from '../../components/lp/LPStickyFooter.astro';
-import LPFloatingCall from '../../components/lp/LPFloatingCall.astro';
 
 export const prerender = true;
 
@@ -143,12 +142,9 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
     <LPStickyFooter
-      whatsappLink={whatsappLink}
-      ctaText={page.secondaryCta?.text || 'Chat on WhatsApp'}
-      enabled={page.secondaryCta?.enabled || false}
+      phoneNumber={page.whatsappNumber}
+      enabled={page.secondaryCta?.enabled || true}
     />
-
-    <LPFloatingCall phoneNumber={page.whatsappNumber} />
   </div>
 
   <style>
