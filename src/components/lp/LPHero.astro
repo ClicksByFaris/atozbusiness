@@ -1,0 +1,53 @@
+---
+import SanityImage from '../ui/SanityImage.astro';
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+interface Props {
+  mainHeadline: string;
+  subHeadline?: string;
+  heroImage?: any;
+}
+
+const { mainHeadline, subHeadline, heroImage } = Astro.props;
+---
+
+<!-- Hero Section - Responsive -->
+<Section background="light" padding="md" class="py-6">
+  <Container maxWidth="7xl">
+    <div class="max-w-4xl mx-auto text-center flex flex-col items-center gap-8 sm:gap-12">
+      <!-- Hero Image -->
+      {
+        heroImage && (
+          <div class="w-full max-w-3xl animate-fade-in-up animation-delay-300">
+            <div class="relative rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl border border-slate-200 bg-slate-50">
+              <SanityImage
+                node={heroImage}
+                alt={heroImage.altText || ''}
+                class="w-full h-auto object-cover"
+                width={1200}
+              />
+            </div>
+          </div>
+        )
+      }
+      <!-- Content Wrapper -->
+      <div class="space-y-6">
+        <!-- Main Headline -->
+        <h1
+          class="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight text-slate-900 animate-fade-in-up"
+        >
+          {mainHeadline}
+        </h1>
+
+        <!-- Sub-headline -->
+        {
+          subHeadline && (
+            <p class="text-xl sm:text-2xl text-slate-700 font-medium animate-fade-in-up animation-delay-100 max-w-2xl mx-auto">
+              {subHeadline}
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</Section>

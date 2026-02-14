@@ -13,8 +13,7 @@ export default defineConfig({
   integrations: [react(), tailwind(), sitemap({
     filter: (page) =>
       !page.includes('/studio') &&
-      !page.includes('/admin') &&
-      !page.includes('/components-demo'),
+      !page.includes('/admin'),
     changefreq: 'weekly',
     priority: 0.7,
     lastmod: new Date(),

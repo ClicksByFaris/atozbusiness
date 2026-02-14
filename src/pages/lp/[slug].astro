@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sanityClient, urlFor } from '../../lib/sanity';
+
+// Import all LP components
+import LPHeader from '../../components/lp/LPHeader.astro';
+import LPHero from '../../components/lp/LPHero.astro';
+import LPPrimaryCTA from '../../components/lp/LPPrimaryCTA.astro';
+import LPBenefits from '../../components/lp/LPBenefits.astro';
+import LPSocialProof from '../../components/lp/LPSocialProof.astro';
+import LPTestimonials from '../../components/lp/LPTestimonials.astro';
+import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
+import LPStickyFooter from '../../components/lp/LPStickyFooter.astro';
+import LPFloatingCall from '../../components/lp/LPFloatingCall.astro';
+
+export const prerender = true;
+
+// Define the data type
+interface LandingPageData {
+  title: string;
+  slug: { current: string };
+
+  published: boolean;
+  active: boolean;
+  mainHeadline: string;
+  subHeadline?: string;
+  heroImage?: {
+    asset: any;
+    altText: string;
+  };
+  primaryCtaText: string;
+  whatsappNumber: string;
+  secondaryCta?: {
+    text: string;
+    enabled: boolean;
+  };
+  benefits: Array<{
+    emoji: string;
+    text: string;
+  }>;
+
+  googleRating: number;
+  reviewCount?: number;
+  testimonials?: Array<{
+    customerName: string;
+    customerPhoto?: any;
+    rating: number;
+    testimonial: string;
+  }>;
+  metaTitle: string;
+  metaDescription: string;
+  ogImage?: {
+    asset: any;
+    altText: string;
+  };
+}
+
+export async function getStaticPaths() {
+  const landingPages = await sanityClient.fetch<LandingPageData[]>(
+    `*[_type == "landingPage" && published == true && active == true] {
+      title,
+      slug,
+
+      published,
+      active,
+      mainHeadline,
+      subHeadline,
+      heroImage {
+        asset,
+        altText
+      },
+      primaryCtaText,
+      whatsappNumber,
+      secondaryCta,
+      benefits,
+
+      googleRating,
+      reviewCount,
+      testimonials[] {
+        customerName,
+        customerPhoto,
+        rating,
+        testimonial
+      },
+      metaTitle,
+      metaDescription,
+      ogImage {
+        asset,
+        altText
+      }
+    }`
+  );
+
+  return landingPages.map((page) => ({
+    params: { slug: page.slug.current },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props as { page: LandingPageData };
+
+// Create WhatsApp link
+const whatsappNumber = page.whatsappNumber.replace(/[^0-9]/g, '');
+const whatsappMessage = encodeURIComponent(`Hi, I'm interested in ${page.title}`);
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+// Get image URLs
+const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(630).url() : '';
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  ogImage={ogImageUrl}
+  showNav={false}
+>
+  <!-- Landing Page Container - Mobile-First Optimized -->
+  <div class="min-h-screen max-w-7xl mx-auto bg-white font-sans antialiased">
+    <LPHeader title="A to Z Business" />
+
+    <LPHero
+      mainHeadline={page.mainHeadline}
+      subHeadline={page.subHeadline}
+      heroImage={page.heroImage}
+    />
+
+    <LPPrimaryCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
+
+    <LPBenefits benefits={page.benefits} />
+
+    <LPSocialProof
+      googleRating={page.googleRating}
+      reviewCount={page.reviewCount}
+      testimonials={page.testimonials}
+    />
+
+    {
+      page.testimonials && page.testimonials.length > 0 && (
+        <LPTestimonials testimonials={page.testimonials} />
+      )
+    }
+
+    <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
+
+    <LPStickyFooter
+      whatsappLink={whatsappLink}
+      ctaText={page.secondaryCta?.text || 'Chat on WhatsApp'}
+      enabled={page.secondaryCta?.enabled || false}
+    />
+
+    <LPFloatingCall phoneNumber={page.whatsappNumber} />
+  </div>
+
+  <style>
+    /* Animation delays for staggered effects */
+    .animation-delay-100 {
+      animation-delay: 100ms;
+    }
+    .animation-delay-200 {
+      animation-delay: 200ms;
+    }
+
+    /* Reveal animation setup */
+    .reveal {
+      opacity: 0;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar for better UX */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a5298;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1a3260;
+    }
+  </style>
+</BaseLayout>
