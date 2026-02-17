@@ -22,7 +22,7 @@ Allow: /assets/*.css
 Allow: /assets/*.js
 
 # Sitemap location
-Sitemap: https://atozbusiness.ae/sitemap.xml
+Sitemap: https://atozbusiness.ae/sitemap-index.xml
 
 # Optional: Block AI crawlers (uncomment if you want to block AI training)
 # User-agent: GPTBot

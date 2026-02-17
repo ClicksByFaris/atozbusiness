@@ -17,14 +17,6 @@ export default defineConfig({
     changefreq: 'weekly',
     priority: 0.7,
     lastmod: new Date(),
-    customPages: [
-      'https://atozbusiness.ae/',
-      'https://atozbusiness.ae/about',
-      'https://atozbusiness.ae/contact',
-      'https://atozbusiness.ae/careers',
-      'https://atozbusiness.ae/privacy-policy',
-      'https://atozbusiness.ae/terms-of-service',
-    ],
   }), favicons()],
   output: 'server',
   adapter: vercel({
