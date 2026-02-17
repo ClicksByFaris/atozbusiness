@@ -91,6 +91,7 @@ const servicesByCategory = categories.map((category) => ({
                     slug={service.slug.current}
                     category={service.category}
                     image={service.featuredImage}
+                    priority={index === 0 && idx < 3}
                   />
                 </div>
               ))}
