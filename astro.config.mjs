@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 import favicons from 'astro-favicons';
+import partytown from '@astrojs/partytown';
 
 export default defineConfig({
   site: 'https://atozbusiness.ae',
@@ -17,7 +18,11 @@ export default defineConfig({
     changefreq: 'weekly',
     priority: 0.7,
     lastmod: new Date(),
-  }), favicons()],
+  }), favicons(), partytown({
+    config: {
+      forward: ['dataLayer.push'],
+    },
+  })],
   output: 'server',
   adapter: vercel({
     imagesConfig: {

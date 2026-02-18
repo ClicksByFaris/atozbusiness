@@ -72,9 +72,12 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteU
     <ClientRouter />
     <slot name="head" />
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17948691189"></script>
-    <script is:inline>
+    <!-- Google tag (gtag.js) - Loaded via Partytown Web Worker -->
+    <script
+      type="text/partytown"
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=AW-17948691189"></script>
+    <script type="text/partytown">
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -102,9 +105,9 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteU
     }
 
     <!-- Floating WhatsApp Button - Right Side Center (Hidden on Landing Pages) -->
-    {showNav && <FloatingWhatsApp client:load />}
+    {showNav && <FloatingWhatsApp client:idle />}
 
-    <SmoothScroll client:only="react" />
+    <SmoothScroll client:idle />
 
     <!-- AI Chatbot Widget -->
     <div
