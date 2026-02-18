@@ -42,6 +42,7 @@ const { author, showBio = true, showSocial = true } = Astro.props;
             node={author.photo}
             width={224}
             height={224}
+            alt={author.photo?.alt || author.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
