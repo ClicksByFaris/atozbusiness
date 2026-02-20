@@ -19,7 +19,7 @@ const { mainHeadline, subHeadline, heroImage } = Astro.props;
       {
         heroImage && (
           <div class="w-full max-w-3xl animate-fade-in-up animation-delay-300">
-            <div class="relative rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl border border-slate-200 bg-slate-50">
+            <div class="relative rounded-2xl aspect-video overflow-hidden shadow-xl sm:shadow-2xl border border-slate-200 bg-slate-50">
               <SanityImage
                 node={heroImage}
                 alt={heroImage.altText || ''}

@@ -11,6 +11,7 @@ import LPSocialProof from '../../components/lp/LPSocialProof.astro';
 import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
 import LPStickyFooter from '../../components/lp/LPStickyFooter.astro';
+import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
 import Script from '../../components/lp/Script.astro';
 
 export const prerender = true;
@@ -115,7 +116,7 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
   showNav={false}
 >
   <!-- Landing Page Container - Mobile-First Optimized -->
-  <div class="min-h-screen max-w-7xl mx-auto bg-white font-sans antialiased">
+  <div class="min-h-screen max-w-7xl mx-auto bg-white font-sans antialiased flex flex-col">
     <LPHeader title="A to Z Business" />
 
     <LPHero
@@ -141,6 +142,8 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     }
 
     <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
+
+    <LPDisclaimer />
 
     <LPStickyFooter
       phoneNumber={page.whatsappNumber}
