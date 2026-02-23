@@ -4,16 +4,18 @@ import { Mail, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { BUSINESS_INFO, LOCATIONS } from '../../lib/constants';
 import logo from '../../assets/logo.png';
 import { Image } from 'astro:assets';
+import { sanityClient } from '../../lib/sanity';
+import { popularServicesQuery } from '../../lib/queries';
 
 const currentYear = new Date().getFullYear();
 
+const featuredServices = await sanityClient.fetch(popularServicesQuery);
+
 const footerLinks = {
-  services: [
-    { name: 'Golden Visa', href: '/services/golden-visa-services' },
-    { name: 'Family Visa', href: '/services/family-visa-typing' },
-    { name: 'Company Formation', href: '/services/new-company-formation' },
-    { name: 'PRO Services', href: '/services/pro-services' },
-  ],
+  services: featuredServices.map((service: any): { name: string; href: string } => ({
+    name: service.title,
+    href: `/services/${service.slug.current}`,
+  })),
   company: [
     { name: 'About Us', href: '/about' },
     { name: 'Our Locations', href: '/locations' },
@@ -69,7 +71,7 @@ const footerLinks = {
           </h3>
           <ul class="space-y-4">
             {
-              footerLinks.services.map((link) => (
+              footerLinks.services.map((link: { name: string; href: string }) => (
                 <li>
                   <a
                     href={link.href}
