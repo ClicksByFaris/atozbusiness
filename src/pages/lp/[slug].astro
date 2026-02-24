@@ -12,7 +12,6 @@ import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
 import LPStickyFooter from '../../components/lp/LPStickyFooter.astro';
 import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
-import Script from '../../components/lp/Script.astro';
 
 export const prerender = true;
 
@@ -149,8 +148,6 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
       phoneNumber={page.whatsappNumber}
       enabled={page.secondaryCta?.enabled || true}
     />
-
-    <Script />
   </div>
 
   <style>
