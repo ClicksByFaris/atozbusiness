@@ -13,6 +13,7 @@ import Container from '../ui/Container.astro';
   <Container maxWidth="md" padding={false}>
     <a
       href={whatsappLink}
+      onclick={`return gtag_report_conversion('${whatsappLink}');`}
       target="_blank"
       rel="noopener noreferrer"
       class="group flex items-center justify-center gap-2.5 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-bold text-sm sm:text-base py-4 px-5 rounded-xl shadow-[0_8px_24px_rgba(37,211,102,0.35)] active:scale-95 transition-all duration-200 animate-fade-in-up animation-delay-200"
