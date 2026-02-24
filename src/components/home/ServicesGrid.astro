@@ -35,7 +35,7 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
     <!-- Services Grid -->
     <div class="services-grid mb-16">
       {
-        services.map((service, index) => (
+        services.slice(0, 3).map((service, index) => (
           <article
             class="service-card reveal"
             data-animation="animate-fade-in-up"
@@ -71,12 +71,6 @@ const services: Service[] = await sanityClient.fetch(popularServicesQuery);
                 >
                   {service.title}
                 </h3>
-
-                {/* Description */}
-                <p class="hidden md:block text-base text-neutral-600 leading-relaxed mb-6 md:line-clamp-3">
-                  {service.excerpt}
-                </p>
-
                 {/* Learn More Link */}
                 <a
                   href={`/services/${service.slug.current}`}
