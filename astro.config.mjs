@@ -9,6 +9,9 @@ import vercel from '@astrojs/vercel';
 import favicons from 'astro-favicons';
 
 export default defineConfig({
+  build: {
+    inlineStylesheets: 'always',
+  },
   site: 'https://atozbusiness.ae',
   integrations: [react(), tailwind(), sitemap({
     filter: (page) =>
