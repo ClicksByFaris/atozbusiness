@@ -20,8 +20,8 @@ export const BUSINESS_HOURS = {
 } as const;
 
 export const SOCIAL_MEDIA = {
-    facebook: 'https://facebook.com/atozbusiness',
-    instagram: 'https://instagram.com/atozbusiness',
+    facebook: 'https://facebook.com/atozbusiness.ae',
+    instagram: 'https://instagram.com/atozbusiness.ae',
     twitter: 'https://twitter.com/atozbusiness',
     linkedin: 'https://linkedin.com/atozbusiness',
 } as const;
@@ -35,6 +35,10 @@ export const LOCATIONS = {
         city: 'Abu Dhabi',
         shortDescription: 'Our main office in Khalidiya, conveniently located opposite Khalidiya Mall',
         quickAddress: 'Khalidiya, Abu Dhabi',
+        coordinates: {
+            latitude: 24.47366030441661,
+            longitude: 54.35221508650658,
+        },
     },
     branch: {
         name: 'Al Zahiyah Branch',
@@ -45,6 +49,10 @@ export const LOCATIONS = {
         phone: '056 663 6476',
         shortDescription: 'Our city branch serving Al Zahiyah and surrounding areas',
         quickAddress: 'Al Zahiyah, Abu Dhabi',
+        coordinates: {
+            latitude: 24.490320413455184,
+            longitude: 54.384228054235486,
+        },
     },
 } as const;
 

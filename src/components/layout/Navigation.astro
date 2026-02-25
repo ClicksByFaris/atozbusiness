@@ -1,9 +1,17 @@
 ---
+import { ChevronDown } from 'lucide-react';
+
+interface Props {
+  categories?: string[];
+  groupedServices?: Record<string, any[]>;
+}
+
+const { categories = [], groupedServices = {} } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Services', href: '/services' },
+  { name: 'Services', href: '/services', hasDropdown: true },
   { name: 'Blog', href: '/blog' },
   { name: 'Gallery', href: '/gallery' },
   { name: 'About', href: '/about' },
@@ -22,18 +30,62 @@ function isActive(href: string) {
 <nav class="hidden lg:flex items-center gap-8">
   {
     navigation.map((item) => (
-      <a
-        href={item.href}
-        class:list={[
-          'text-gray-700 hover:text-primary-500 font-medium transition-colors relative py-2',
-          isActive(item.href) && 'text-primary-500',
-        ]}
-      >
-        {item.name}
-        {isActive(item.href) && (
-          <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
+      <div class="relative group/nav">
+        {item.hasDropdown ? (
+          <button
+            class:list={[
+              'flex items-center gap-1 text-gray-700 hover:text-primary-500 font-medium transition-colors py-2',
+              isActive(item.href) && 'text-primary-500',
+            ]}
+          >
+            {item.name}
+            <ChevronDown className="w-4 h-4 transition-transform group-hover/nav:rotate-180" />
+            {isActive(item.href) && (
+              <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
+            )}
+          </button>
+          
+          <div class="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white rounded-xl shadow-xl opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 translate-y-2 group-hover/nav:translate-y-0 p-6 grid grid-cols-2 gap-8 border border-neutral-100 before:absolute before:-top-4 before:left-0 before:w-full before:h-4">
+            {categories.map((category) => (
+              <div>
+                <h3 class="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100 text-sm tracking-wider uppercase">{category}</h3>
+                <ul class="space-y-2">
+                  {groupedServices[category]?.map((service: any) => (
+                    <li>
+                      <a 
+                        href={`/services/${service.slug}`} 
+                        class="block group/link"
+                      >
+                        <div class="text-sm font-medium text-gray-700 group-hover/link:text-primary-500 transition-colors">
+                          {service.title}
+                        </div>
+                        {service.shortDescription && (
+                          <p class="text-xs text-gray-500 mt-1 line-clamp-1 group-hover/link:text-gray-600 transition-colors">
+                            {service.shortDescription}
+                          </p>
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <a
+            href={item.href}
+            class:list={[
+              'text-gray-700 hover:text-primary-500 font-medium transition-colors relative py-2 block',
+              isActive(item.href) && 'text-primary-500',
+            ]}
+          >
+            {item.name}
+            {isActive(item.href) && (
+              <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
+            )}
+          </a>
         )}
-      </a>
+      </div>
     ))
   }
   <a href="/contact" class="btn btn-primary">Get a Quote</a>

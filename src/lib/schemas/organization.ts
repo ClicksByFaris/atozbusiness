@@ -1,7 +1,7 @@
 // Schema.org Organization structured data
 // For About page and general organization information
 
-import { BUSINESS_INFO } from '../constants';
+import { BUSINESS_INFO, SOCIAL_MEDIA } from '../constants';
 import { SEO_DEFAULTS } from '../seo';
 import { ABOUT_DATA } from '../about-data';
 
@@ -30,11 +30,7 @@ export function generateOrganizationSchema() {
             addressRegion: 'Abu Dhabi',
             addressLocality: 'Abu Dhabi',
         },
-        sameAs: [
-            // Will add social media URLs when available
-            // 'https://facebook.com/atozbusiness',
-            // 'https://instagram.com/atozbusiness',
-        ],
+        sameAs: Object.values(SOCIAL_MEDIA),
         contactPoint: {
             '@type': 'ContactPoint',
             telephone: BUSINESS_INFO.phone,

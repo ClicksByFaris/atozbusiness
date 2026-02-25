@@ -117,3 +117,12 @@ export async function getHomePageData() {
         }
     }`);
 }
+
+export async function getNavigationServices() {
+    return await sanityClient.fetch(`*[_type == "service"] | order(order asc) {
+        title,
+        "slug": slug.current,
+        category,
+        shortDescription
+    }`);
+}

@@ -1,7 +1,7 @@
 // Schema.org LocalBusiness structured data
 // For homepage and location pages
 
-import { BUSINESS_INFO, LOCATIONS, BUSINESS_HOURS } from '../constants';
+import { BUSINESS_INFO, LOCATIONS, BUSINESS_HOURS, SOCIAL_MEDIA } from '../constants';
 import { SEO_DEFAULTS, SOCIAL_DEFAULTS } from '../seo';
 
 export interface LocalBusinessSchemaProps {
@@ -45,9 +45,8 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
         },
         geo: {
             '@type': 'GeoCoordinates',
-            // Will be added when we have actual coordinates
-            // latitude: 24.xxxx,
-            // longitude: 54.xxxx,
+            latitude: LOCATIONS.main.coordinates.latitude,
+            longitude: LOCATIONS.main.coordinates.longitude,
         },
         openingHoursSpecification: [
             {
@@ -70,9 +69,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
         },
         sameAs: [
             SOCIAL_DEFAULTS.ogLocale,
-            // Will add social media URLs when available
-            // 'https://facebook.com/atozbusiness',
-            // 'https://instagram.com/atozbusiness',
+            ...Object.values(SOCIAL_MEDIA),
         ],
         contactPoint: {
             '@type': 'ContactPoint',
@@ -98,6 +95,11 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
                         addressLocality: LOCATIONS.branch.area,
                         addressRegion: LOCATIONS.branch.city,
                         addressCountry: 'AE',
+                    },
+                    geo: {
+                        '@type': 'GeoCoordinates',
+                        latitude: LOCATIONS.branch.coordinates.latitude,
+                        longitude: LOCATIONS.branch.coordinates.longitude,
                     },
                 },
             ],

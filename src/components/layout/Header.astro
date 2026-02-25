@@ -5,6 +5,21 @@ import MobileMenu from './MobileMenu';
 import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
 import logo from '../../assets/logo.png';
 import { Image } from 'astro:assets';
+import { getNavigationServices } from '../../lib/sanity';
+
+const services = await getNavigationServices();
+
+// Group services by category
+const groupedServices = services.reduce((acc: Record<string, any[]>, service: any) => {
+  const cat = service.category || 'Other';
+  if (!acc[cat]) {
+    acc[cat] = [];
+  }
+  acc[cat].push(service);
+  return acc;
+}, {});
+
+const categories = Object.keys(groupedServices).sort();
 ---
 
 <header class="sticky top-0 z-50 transition-all duration-300 group" id="main-header">
@@ -70,10 +85,10 @@ import { Image } from 'astro:assets';
         </a>
 
         <!-- Desktop Navigation -->
-        <Navigation />
+        <Navigation categories={categories} groupedServices={groupedServices} />
 
         <!-- Mobile Menu Button -->
-        <MobileMenu client:load />
+        <MobileMenu categories={categories} groupedServices={groupedServices} client:load />
       </div>
     </Container>
   </div>

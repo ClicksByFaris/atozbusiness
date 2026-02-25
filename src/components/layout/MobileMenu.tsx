@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Services', href: '/services' },
+  { name: 'Services', href: '/services', hasDropdown: true },
   { name: 'Blog', href: '/blog' },
   { name: 'Gallery', href: '/gallery' },
   { name: 'About', href: '/about' },
@@ -11,8 +11,14 @@ const navigation = [
   { name: 'Contact', href: '/contact' },
 ];
 
-export default function MobileMenu() {
+interface MobileMenuProps {
+  categories?: string[];
+  groupedServices?: Record<string, any[]>;
+}
+
+export default function MobileMenu({ categories = [], groupedServices = {} }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [servicesExpanded, setServicesExpanded] = useState(false);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -20,6 +26,7 @@ export default function MobileMenu() {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+      setServicesExpanded(false); // Reset expanded state on close
     }
 
     return () => {
@@ -65,14 +72,55 @@ export default function MobileMenu() {
           >
             <nav className="p-6 space-y-4">
               {navigation.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-colors active:scale-[0.98]"
-                  onClick={closeMenu}
-                >
-                  {item.name}
-                </a>
+                <div key={item.name}>
+                  {item.hasDropdown ? (
+                    <div>
+                      <button
+                        onClick={() => setServicesExpanded(!servicesExpanded)}
+                        className="flex items-center justify-between w-full py-3 px-4 text-lg font-medium text-gray-700 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-colors active:scale-[0.98]"
+                      >
+                        {item.name}
+                        <ChevronDown
+                          className={`w-5 h-5 transition-transform duration-300 ${servicesExpanded ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+
+                      {/* Accordion content */}
+                      <div className={`overflow-hidden transition-all duration-300 ${servicesExpanded ? 'max-h-[1000px] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
+                        <div className="pl-6 space-y-6 pb-2">
+                          {categories.map((category) => (
+                            <div key={category}>
+                              <div className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wider">
+                                {category}
+                              </div>
+                              <ul className="space-y-1 block border-l-2 border-primary-100 ml-1 pl-3">
+                                {groupedServices[category]?.map((service: any) => (
+                                  <li key={service.slug}>
+                                    <a
+                                      href={`/services/${service.slug}`}
+                                      className="block py-2 text-sm text-gray-600 hover:text-primary-500 transition-colors"
+                                      onClick={closeMenu}
+                                    >
+                                      {service.title}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="block py-3 px-4 text-lg font-medium text-gray-700 hover:text-primary-500 hover:bg-primary-50 rounded-lg transition-colors active:scale-[0.98]"
+                      onClick={closeMenu}
+                    >
+                      {item.name}
+                    </a>
+                  )}
+                </div>
               ))}
               <div className="pt-4 border-t border-gray-200">
                 <a
