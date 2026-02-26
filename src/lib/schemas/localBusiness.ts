@@ -42,8 +42,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
                 name: service.name,
                 description: service.description,
                 ...(service.url && { url: service.url })
-            },
-            position: index + 1
+            }
         }))
     } : undefined;
 
@@ -170,8 +169,7 @@ export function generateLocationSchema(locationData: {
                 name: service.name,
                 description: service.description,
                 ...(service.url && { url: service.url })
-            },
-            position: index + 1
+            }
         }))
     } : undefined;
 

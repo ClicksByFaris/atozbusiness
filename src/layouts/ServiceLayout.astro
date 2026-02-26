@@ -43,7 +43,6 @@ const serviceSchema = generateServiceSchema({
   offers: {
     price: service.pricing?.startingFrom ? String(service.pricing.startingFrom) : undefined,
     priceCurrency: service.pricing?.currency || 'AED',
-    priceRange: '$$',
   },
   hasFAQ: !!faqSchema,
   hasHowTo: !!howToSchema,

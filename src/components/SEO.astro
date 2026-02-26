@@ -57,12 +57,23 @@ const breadcrumbSchema = breadcrumbs
   ? {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: breadcrumbs.map((item, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: item.name,
-        item: item.url,
-      })),
+      itemListElement: breadcrumbs.map((item, index) => {
+        // Ensure the URL is absolute for Schema.org validation
+        const isAbsolute = item.url.startsWith('http');
+        const siteUrl = Astro.site
+          ? Astro.site.toString().replace(/\/$/, '')
+          : 'https://atozbusiness.ae';
+        const absoluteUrl = isAbsolute
+          ? item.url
+          : `${siteUrl}${item.url.startsWith('/') ? item.url : `/${item.url}`}`;
+
+        return {
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: absoluteUrl, // Google requires absolute URLs for Schema IDs
+        };
+      }),
     }
   : null;
 

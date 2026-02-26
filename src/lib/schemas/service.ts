@@ -94,7 +94,6 @@ export function generateServiceSchema(props: ServiceSchemaProps) {
             '@type': 'Offer',
             priceCurrency: offers.priceCurrency || 'AED',
             ...(offers.price && { price: offers.price }),
-            ...(offers.priceRange && { priceRange: offers.priceRange }),
             availability: offers.availability || 'https://schema.org/InStock',
         };
     }
