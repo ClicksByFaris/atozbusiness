@@ -63,6 +63,12 @@ const schema = generateLocationSchema({
   latitude: location.coordinates?.lat,
   longitude: location.coordinates?.lng,
   image: location.image ? getImageUrl(location.image as any) : undefined,
+  hasMap: location.gbpUrl,
+  services: location.servicesAvailable?.map((service) => ({
+    name: service.title,
+    description: service.excerpt || `Professional ${service.title} in Abu Dhabi`,
+    url: `${Astro.site || 'https://atozbusiness.ae'}/services/${service.slug.current}`,
+  })),
 });
 
 const breadcrumbs = [

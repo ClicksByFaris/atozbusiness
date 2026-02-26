@@ -16,10 +16,29 @@ import { generateLocalBusinessSchema } from '../lib/schemas/localBusiness';
 import { generateFAQPageSchema } from '../lib/schemas/faqPage';
 import { FAQS } from '../lib/constants';
 
+import { sanityClient } from '../lib/sanity';
+import { locationsQuery, popularServicesQuery } from '../lib/queries';
+
 export const prerender = true;
 
+// Fetch Sanity Data
+const [locations, topServices] = await Promise.all([
+  sanityClient.fetch(locationsQuery),
+  sanityClient.fetch(popularServicesQuery),
+]);
+
+const mainLocation = locations?.find((loc: any) => loc.isPrimary) || locations?.[0];
+
 // Generate schema markup
-const localBusinessSchema = generateLocalBusinessSchema({ location: 'all' });
+const localBusinessSchema = generateLocalBusinessSchema({
+  location: 'all',
+  hasMap: mainLocation?.gbpUrl,
+  services: topServices?.map((s: any) => ({
+    name: s.title,
+    description: s.excerpt,
+    url: `${Astro.site || 'https://atozbusiness.ae'}/services/${s.slug.current}`,
+  })),
+});
 const faqSchema = generateFAQPageSchema(FAQS);
 ---
 

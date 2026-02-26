@@ -10,14 +10,17 @@ export interface ServiceSchemaProps {
     slug: string;
     image?: string;
     category?: string;
-    provider?: string;
     areaServed?: string;
+    audienceType?: string; // For GEO/AEO (e.g., 'Expats', 'Entrepreneurs')
+    serviceOutput?: string; // For GEO/AEO (e.g., 'Golden Visa', 'Trade License')
     offers?: {
         price?: string;
         priceCurrency?: string;
         priceRange?: string;
         availability?: string;
     };
+    hasFAQ?: boolean; // Triggers subjectOf linkage
+    hasHowTo?: boolean; // Triggers subjectOf linkage
 }
 
 export function generateServiceSchema(props: ServiceSchemaProps) {
@@ -27,44 +30,62 @@ export function generateServiceSchema(props: ServiceSchemaProps) {
         slug,
         image,
         category = 'Professional Service',
-        provider = BUSINESS_INFO.name,
         areaServed = 'Abu Dhabi, UAE',
+        audienceType = 'Individuals and Businesses',
+        serviceOutput,
         offers,
+        hasFAQ,
+        hasHowTo,
     } = props;
+
+    const schemaUrl = `${SEO_DEFAULTS.siteUrl}/services/${slug}`;
 
     const schema: any = {
         '@context': 'https://schema.org',
         '@type': 'Service',
-        '@id': `${SEO_DEFAULTS.siteUrl}/services/${slug}#service`,
+        '@id': `${schemaUrl}/#service`,
         name: name,
         description: description,
+        url: schemaUrl,
         ...(image && {
             image: {
                 '@type': 'ImageObject',
-                url: image
+                url: image,
+                '@id': `${schemaUrl}/#image`
             }
         }),
+        // Link to the main organization directly via ID to build a connected Knowledge Graph
         provider: {
-            '@type': 'LocalBusiness',
-            '@id': `${SEO_DEFAULTS.siteUrl}/#organization`,
-            name: provider,
-            telephone: BUSINESS_INFO.phone,
-            email: BUSINESS_INFO.email,
+            '@id': `${SEO_DEFAULTS.siteUrl}/#organization`
         },
         serviceType: category,
         areaServed: {
             '@type': 'City',
             name: areaServed,
         },
+        // AEO/GEO powerful property: Who is this for?
+        audience: {
+            '@type': 'Audience',
+            audienceType: audienceType,
+        },
+        // AEO/GEO powerful property: What is the physical/digital result?
+        ...(serviceOutput && {
+            serviceOutput: {
+                '@type': 'Thing',
+                name: serviceOutput,
+            }
+        }),
         availableChannel: {
             '@type': 'ServiceChannel',
-            serviceUrl: `${SEO_DEFAULTS.siteUrl}/services/${slug}`,
+            serviceUrl: schemaUrl,
             servicePhone: {
                 '@type': 'ContactPoint',
                 telephone: BUSINESS_INFO.phone,
                 contactType: 'customer service',
             },
         },
+        // Create an array for interconnected page entities (Knowledge Graph)
+        subjectOf: []
     };
 
     // Add offer if price information provided
@@ -76,6 +97,19 @@ export function generateServiceSchema(props: ServiceSchemaProps) {
             ...(offers.priceRange && { priceRange: offers.priceRange }),
             availability: offers.availability || 'https://schema.org/InStock',
         };
+    }
+
+    // Prepare Knowledge Graph interlinkings
+    if (hasFAQ) {
+        schema.subjectOf.push({ '@id': `${schemaUrl}/#faq` });
+    }
+    if (hasHowTo) {
+        schema.subjectOf.push({ '@id': `${schemaUrl}/#howto` });
+    }
+
+    // Clean up empty subjectOf array if nothing was added
+    if (schema.subjectOf.length === 0) {
+        delete schema.subjectOf;
     }
 
     return schema;
@@ -114,10 +148,12 @@ export function generateHowToSchema(props: {
     totalTime?: string;
 }) {
     const { name, description, slug, steps, totalTime } = props;
+    const schemaUrl = `${SEO_DEFAULTS.siteUrl}/services/${slug}`;
 
     return {
         '@context': 'https://schema.org',
         '@type': 'HowTo',
+        '@id': `${schemaUrl}/#howto`,
         name: name,
         description: description,
         ...(totalTime && { totalTime: totalTime }), // Format: PT1H (1 hour)
@@ -142,10 +178,12 @@ export interface FAQItem {
     answer: string;
 }
 
-export function generateFAQSchema(faqs: FAQItem[]) {
+export function generateFAQSchema(faqs: FAQItem[], slug?: string) {
+    const baseId = slug ? `${SEO_DEFAULTS.siteUrl}/services/${slug}/#faq` : `${SEO_DEFAULTS.siteUrl}/#faq`;
     return {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
+        '@id': baseId,
         mainEntity: faqs.map(faq => ({
             '@type': 'Question',
             name: faq.question,

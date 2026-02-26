@@ -5,6 +5,7 @@ import {
   generateServiceSchema,
   generateFAQSchema,
   generateServiceBreadcrumbs,
+  generateHowToSchema,
 } from '../lib/schemas/service';
 
 interface Props {
@@ -14,6 +15,22 @@ interface Props {
 const { service } = Astro.props;
 
 // Generate all schemas using centralized utilities
+const faqSchema = service.faq ? generateFAQSchema(service.faq, service.slug.current) : null;
+
+// Convert processSteps to HowTo schema if they exist
+const howToSchema =
+  service.processSteps && service.processSteps.length > 0
+    ? generateHowToSchema({
+        name: `How to apply for ${service.title}`,
+        description: service.excerpt,
+        slug: service.slug.current,
+        steps: service.processSteps.map((step: any, idx: number) => ({
+          name: step.step || step.title || `Step ${idx + 1}`,
+          text: step.description || `Complete step ${idx + 1} of the process.`,
+        })),
+      })
+    : null;
+
 const serviceSchema = generateServiceSchema({
   name: service.title,
   description: service.excerpt,
@@ -21,14 +38,16 @@ const serviceSchema = generateServiceSchema({
   image: service.featuredImage?.asset?.url,
   category: service.category,
   areaServed: 'Abu Dhabi, UAE',
+  audienceType: 'Expatriates, Investors, and Businesses', // AEO optimized targeting
+  serviceOutput: service.title, // The actual entity output (e.g. Golden Visa)
+  hasFAQ: !!faqSchema,
+  hasHowTo: !!howToSchema,
 });
-
-const faqSchema = service.faq ? generateFAQSchema(service.faq) : null;
 
 const breadcrumbSchema = generateServiceBreadcrumbs(service.title, service.slug.current);
 
-// Combine all schemas
-const schemas = [serviceSchema, faqSchema, breadcrumbSchema].filter(Boolean);
+// Combine all schemas into an interconnected knowledge graph array
+const schemas = [serviceSchema, faqSchema, howToSchema, breadcrumbSchema].filter(Boolean);
 ---
 
 <BaseLayout

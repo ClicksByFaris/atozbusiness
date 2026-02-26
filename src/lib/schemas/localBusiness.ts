@@ -4,11 +4,19 @@
 import { BUSINESS_INFO, LOCATIONS, BUSINESS_HOURS, SOCIAL_MEDIA } from '../constants';
 import { SEO_DEFAULTS, SOCIAL_DEFAULTS } from '../seo';
 
+export interface SchemaService {
+    name: string;
+    description: string;
+    url?: string;
+}
+
 export interface LocalBusinessSchemaProps {
     name?: string;
     description?: string;
     location?: 'main' | 'branch' | 'all';
     additionalTypes?: string[];
+    hasMap?: string; // Google Maps URL
+    services?: SchemaService[]; // For hasOfferCatalog
 }
 
 export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}) {
@@ -17,7 +25,25 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
         description = 'Professional typing, PRO services, visa processing and company formation in Abu Dhabi',
         location = 'main',
         additionalTypes = ['ProfessionalService', 'GovernmentOffice'],
+        hasMap,
+        services = [],
     } = props;
+
+    // Construct OfferCatalog if services are provided
+    const hasOfferCatalog = services.length > 0 ? {
+        '@type': 'OfferCatalog',
+        name: 'Government and Business Services',
+        itemListElement: services.map((service, index) => ({
+            '@type': 'Offer',
+            itemOffered: {
+                '@type': 'Service',
+                name: service.name,
+                description: service.description,
+                ...(service.url && { url: service.url })
+            },
+            position: index + 1
+        }))
+    } : undefined;
 
     // Main office data
     const mainOffice = {
@@ -28,6 +54,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
         url: SEO_DEFAULTS.siteUrl,
         telephone: BUSINESS_INFO.phone,
         email: BUSINESS_INFO.email,
+        ...(hasMap && { hasMap }),
         logo: {
             '@type': 'ImageObject',
             url: `${SEO_DEFAULTS.siteUrl}/logo.png`,
@@ -67,6 +94,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
             '@type': 'City',
             name: 'Abu Dhabi',
         },
+        ...(hasOfferCatalog && { hasOfferCatalog }),
         sameAs: [
             SOCIAL_DEFAULTS.ogLocale,
             ...Object.values(SOCIAL_MEDIA),
@@ -90,8 +118,10 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
                     ...mainOffice,
                     '@id': `${SEO_DEFAULTS.siteUrl}/#branch`,
                     name: `${name} - ${LOCATIONS.branch.name}`,
+                    ...(hasMap && { hasMap }), // Note: Ideally, pass array of maps if 'all' is used, but fallback to single map or constants
                     address: {
                         '@type': 'PostalAddress',
+                        streetAddress: LOCATIONS.branch.address,
                         addressLocality: LOCATIONS.branch.area,
                         addressRegion: LOCATIONS.branch.city,
                         addressCountry: 'AE',
@@ -113,7 +143,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
     };
 }
 
-// For location pages with specific data
+// For location pages with specific data (Sanity integrated)
 export function generateLocationSchema(locationData: {
     name: string;
     address: string;
@@ -123,12 +153,31 @@ export function generateLocationSchema(locationData: {
     longitude?: number;
     phone?: string;
     image?: string;
+    hasMap?: string;
+    services?: SchemaService[];
 }) {
+    // Construct OfferCatalog for individual locations as well
+    const hasOfferCatalog = locationData.services && locationData.services.length > 0 ? {
+        '@type': 'OfferCatalog',
+        name: 'Services Available at this Location',
+        itemListElement: locationData.services.map((service, index) => ({
+            '@type': 'Offer',
+            itemOffered: {
+                '@type': 'Service',
+                name: service.name,
+                description: service.description,
+                ...(service.url && { url: service.url })
+            },
+            position: index + 1
+        }))
+    } : undefined;
+
     return {
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
         name: `${BUSINESS_INFO.name} - ${locationData.name}`,
         ...(locationData.image && { image: locationData.image }),
+        ...(locationData.hasMap && { hasMap: locationData.hasMap }),
         address: {
             '@type': 'PostalAddress',
             streetAddress: locationData.address,
@@ -147,5 +196,7 @@ export function generateLocationSchema(locationData: {
         telephone: locationData.phone || BUSINESS_INFO.phone,
         email: BUSINESS_INFO.email,
         url: SEO_DEFAULTS.siteUrl,
+        ...(hasOfferCatalog && { hasOfferCatalog }),
     };
 }
+

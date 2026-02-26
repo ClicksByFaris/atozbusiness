@@ -1,7 +1,7 @@
 // Schema.org Organization structured data
 // For About page and general organization information
 
-import { BUSINESS_INFO, SOCIAL_MEDIA } from '../constants';
+import { BUSINESS_INFO, SOCIAL_MEDIA, LOCATIONS } from '../constants';
 import { SEO_DEFAULTS } from '../seo';
 import { ABOUT_DATA } from '../about-data';
 
@@ -26,6 +26,7 @@ export function generateOrganizationSchema() {
         foundingDate: ABOUT_DATA.companyInfo.foundingYear,
         address: {
             '@type': 'PostalAddress',
+            streetAddress: LOCATIONS.main.address,
             addressCountry: 'AE',
             addressRegion: 'Abu Dhabi',
             addressLocality: 'Abu Dhabi',
