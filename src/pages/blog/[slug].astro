@@ -17,6 +17,8 @@ import BlogPostHero from '../../components/blog/BlogPostHero.astro';
 import KeyTakeaways from '../../components/blog/KeyTakeaways.astro';
 import SEO from '../../components/SEO.astro';
 import { getAllPosts, getPostBySlug, getLatestPosts } from '../../lib/sanity';
+import { generateBlogPostingSchema } from '../../lib/schemas/article';
+import { generateFAQSchema } from '../../lib/schemas/service';
 import type { BlogPost } from '../../types';
 
 export const prerender = true;
@@ -38,28 +40,21 @@ if (!post) {
 
 const relatedPosts = latestPosts.filter((p) => p._id !== post._id).slice(0, 3);
 
-// Generate Article Schema
-const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: post.title,
-  image: post.featuredImage?.asset?.url,
-  datePublished: post.publishedAt,
-  dateModified: post.publishedAt, // Simplified
-  author: {
-    '@type': 'Person',
-    name: post.author.name,
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'AtoZ Business Services',
-    logo: {
-      '@type': 'ImageObject',
-      url: 'https://atozbusiness.ae/logo.svg', // Placeholder
-    },
-  },
+// Generate Article Schema using the connected Knowledge Graph generator
+const articleSchema = generateBlogPostingSchema({
+  title: post.title,
   description: post.excerpt,
-};
+  slug: post.slug.current,
+  publishDate: post.publishedAt,
+  modifiedDate: post._updatedAt || post.publishedAt,
+  image: post.featuredImage?.asset?.url,
+  keywords: post.tags,
+  author: {
+    name: post.author.name,
+    slug: post.author.slug?.current,
+    image: post.author.photo?.asset?.url,
+  },
+});
 
 // Generate FAQ Schema if exists
 const faqSchema =

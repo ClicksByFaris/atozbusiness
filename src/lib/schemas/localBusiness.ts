@@ -17,6 +17,7 @@ export interface LocalBusinessSchemaProps {
     additionalTypes?: string[];
     hasMap?: string; // Google Maps URL
     services?: SchemaService[]; // For hasOfferCatalog
+    priceRange?: string;
 }
 
 export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}) {
@@ -27,6 +28,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
         additionalTypes = ['ProfessionalService', 'GovernmentOffice'],
         hasMap,
         services = [],
+        priceRange = '$$',
     } = props;
 
     // Construct OfferCatalog if services are provided
@@ -89,7 +91,7 @@ export function generateLocalBusinessSchema(props: LocalBusinessSchemaProps = {}
                 closes: '00:00', // Closed
             },
         ],
-        priceRange: 'AED',
+        priceRange: priceRange,
         areaServed: {
             '@type': 'City',
             name: 'Abu Dhabi',
@@ -155,6 +157,7 @@ export function generateLocationSchema(locationData: {
     image?: string;
     hasMap?: string;
     services?: SchemaService[];
+    priceRange?: string;
 }) {
     // Construct OfferCatalog for individual locations as well
     const hasOfferCatalog = locationData.services && locationData.services.length > 0 ? {
@@ -196,6 +199,7 @@ export function generateLocationSchema(locationData: {
         telephone: locationData.phone || BUSINESS_INFO.phone,
         email: BUSINESS_INFO.email,
         url: SEO_DEFAULTS.siteUrl,
+        priceRange: locationData.priceRange || '$$',
         ...(hasOfferCatalog && { hasOfferCatalog }),
     };
 }

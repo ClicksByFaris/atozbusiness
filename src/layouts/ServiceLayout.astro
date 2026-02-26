@@ -40,6 +40,11 @@ const serviceSchema = generateServiceSchema({
   areaServed: 'Abu Dhabi, UAE',
   audienceType: 'Expatriates, Investors, and Businesses', // AEO optimized targeting
   serviceOutput: service.title, // The actual entity output (e.g. Golden Visa)
+  offers: {
+    price: service.pricing?.startingFrom ? String(service.pricing.startingFrom) : undefined,
+    priceCurrency: service.pricing?.currency || 'AED',
+    priceRange: '$$',
+  },
   hasFAQ: !!faqSchema,
   hasHowTo: !!howToSchema,
 });

@@ -11,10 +11,8 @@ import { generateOrganizationSchema } from '../lib/schemas/organization';
 
 export const prerender = true;
 
-const organizationSchema = generateOrganizationSchema();
-
 import { sanityClient } from '../lib/sanity';
-import { aboutPageQuery } from '../lib/queries';
+import { aboutPageQuery, locationsQuery } from '../lib/queries';
 
 interface TeamMember {
   name: string;
@@ -30,12 +28,27 @@ interface TeamMember {
   };
 }
 
-const aboutPageData = await sanityClient.fetch(aboutPageQuery);
+const [aboutPageData, locations] = await Promise.all([
+  sanityClient.fetch(aboutPageQuery),
+  sanityClient.fetch(locationsQuery),
+]);
+
 const teamMembers = aboutPageData?.teamMembers || [];
 
 // Use Sanity data if available, otherwise fall back to static data
 const displayMembers = teamMembers.length > 0 ? teamMembers : ABOUT_DATA.team.members;
 const showTeamSection = teamMembers.length > 0 || ABOUT_DATA.team.showTeam;
+
+const primaryLocation = locations?.find((loc: any) => loc.isPrimary) || locations?.[0];
+
+const organizationSchema = generateOrganizationSchema({
+  teamMembers: displayMembers.map((member: any) => ({
+    name: member.name,
+    position: member.position || member.role || 'Team Member',
+    image: member.image?.asset?.url,
+  })),
+  hasMap: primaryLocation?.gbpUrl,
+});
 
 const pageTitle = 'About Us | A to Z Business Services';
 const pageDescription =
