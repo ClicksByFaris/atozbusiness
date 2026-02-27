@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import Hero from '../components/home/Hero.astro';
 import ServicesGrid from '../components/home/ServicesGrid.astro';
-import PromoBanner from '../components/home/PromoBanner.astro';
+
 import WhyChooseUs from '../components/home/WhyChooseUs.astro';
 import HowItWorks from '../components/home/HowItWorks.astro';
 import Stats from '../components/home/Stats.astro';
@@ -18,15 +18,14 @@ import { generateFAQPageSchema } from '../lib/schemas/faqPage';
 import { FAQS } from '../lib/constants';
 
 import { sanityClient } from '../lib/sanity';
-import { locationsQuery, popularServicesQuery, latestLandingPagesQuery } from '../lib/queries';
+import { locationsQuery, popularServicesQuery } from '../lib/queries';
 
 export const prerender = true;
 
 // Fetch Sanity Data
-const [locations, topServices, latestLandingPages] = await Promise.all([
+const [locations, topServices] = await Promise.all([
   sanityClient.fetch(locationsQuery),
   sanityClient.fetch(popularServicesQuery),
-  sanityClient.fetch(latestLandingPagesQuery),
 ]);
 
 const mainLocation = locations?.find((loc: any) => loc.isPrimary) || locations?.[0];
@@ -53,13 +52,6 @@ const faqSchema = generateFAQPageSchema(FAQS);
 
   <!-- Services Grid -->
   <ServicesGrid />
-
-  <!-- Promo Banner -->
-  {
-    latestLandingPages && latestLandingPages.length > 0 && (
-      <PromoBanner landingPages={latestLandingPages} />
-    )
-  }
 
   <!-- Why Choose Us -->
   <WhyChooseUs />

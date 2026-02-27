@@ -1,23 +1,6 @@
 // GROQ queries for Sanity CMS
 
-export const latestLandingPagesQuery = `*[_type == "landingPage" && published == true && active == true] | order(_createdAt desc)[0...3] {
-  title,
-  slug,
-  mainHeadline,
-  subHeadline,
-  heroImage {
-    asset->{
-      _id,
-      url,
-      metadata {
-        lqip,
-        dimensions
-      }
-    },
-    altText
-  },
-  primaryCtaText
-}`;
+
 
 // About
 export const aboutPageQuery = `*[_type == "about"][0] {
