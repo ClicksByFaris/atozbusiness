@@ -1,5 +1,4 @@
 ---
-import Container from '../ui/Container.astro';
 import Icon from '../icons/Icon';
 import PortableText from '../portable-text/PortableText.astro';
 
@@ -11,37 +10,33 @@ interface Props {
 const { features, fullDescription } = Astro.props;
 ---
 
-<section class="py-16 bg-neutral-50 relative">
-  <Container>
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-      <div class="prose prose-lg text-neutral-600">
-        <h2 class="text-3xl font-bold text-neutral-900 mb-6 font-heading">About This Service</h2>
-        <div class="leading-relaxed">
-          <PortableText value={fullDescription} />
-        </div>
-      </div>
-
-      <div
-        class="bg-white rounded-3xl p-8 shadow-xl shadow-neutral-200/50 border border-neutral-100"
-      >
-        <h3 class="text-xl font-bold text-neutral-900 mb-6 flex items-center gap-2">
-          <Icon name="CheckCircle2" className="w-6 h-6 text-secondary-500" client:idle />
-          What's Included
-        </h3>
-
-        <ul class="space-y-4">
-          {
-            features.map((feature) => (
-              <li class="flex items-start gap-3 text-neutral-700 bg-neutral-50 p-4 rounded-xl border border-neutral-100/50 transition-all hover:border-secondary-200 hover:bg-secondary-50/30">
-                <span class="mt-1 w-5 h-5 rounded-full bg-secondary-100 text-secondary-600 flex items-center justify-center flex-shrink-0">
-                  <Icon name="Check" className="w-3.5 h-3.5" client:idle />
-                </span>
-                <span class="font-medium">{feature}</span>
-              </li>
-            ))
-          }
-        </ul>
+<div class="bg-white rounded-2xl md:rounded-3xl p-8 shadow-soft border border-neutral-100/50">
+  <div class="flex flex-col gap-8 items-start">
+    <div class="prose prose-lg text-neutral-600">
+      <h2 class="text-3xl font-bold text-neutral-900 mb-6 font-heading">About This Service</h2>
+      <div class="leading-relaxed">
+        <PortableText value={fullDescription} />
       </div>
     </div>
-  </Container>
-</section>
+
+    <div class="bg-white rounded-3xl p-8 shadow-xl shadow-neutral-200/50 border border-neutral-100">
+      <h3 class="text-xl font-bold text-neutral-900 mb-6 flex items-center gap-2">
+        <Icon name="CheckCircle2" className="w-6 h-6 text-secondary-500" client:idle />
+        What's Included
+      </h3>
+
+      <ul class="space-y-4">
+        {
+          features.map((feature) => (
+            <li class="flex items-start gap-3 text-neutral-700 bg-neutral-50 p-4 rounded-xl border border-neutral-100/50 transition-all hover:border-secondary-200 hover:bg-secondary-50/30">
+              <span class="mt-1 w-5 h-5 rounded-full bg-secondary-100 text-secondary-600 flex items-center justify-center flex-shrink-0">
+                <Icon name="Check" className="w-3.5 h-3.5" client:idle />
+              </span>
+              <span class="font-medium">{feature}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</div>

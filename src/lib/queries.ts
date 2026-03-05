@@ -87,7 +87,27 @@ export const serviceBySlugQuery = `*[_type == "service" && slug.current == $slug
   "isPopular": featured,
   metaTitle,
   metaDescription,
-  keywords
+  keywords,
+  relatedBlogs[]->{
+    _id,
+    title,
+    slug,
+    publishedAt,
+    category->{
+      title
+    },
+    excerpt,
+    featuredImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          lqip,
+          dimensions
+        }
+      }
+    }
+  }
 }`;
 
 export const popularServicesQuery = `*[_type == "service" && featured == true] | order(title asc) [0...6] {

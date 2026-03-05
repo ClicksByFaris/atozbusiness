@@ -1,0 +1,66 @@
+---
+import Heading from '../ui/Heading.astro';
+import Icon from '../icons/Icon';
+import type { Service } from '../../types';
+
+interface Props {
+  services: Service[];
+  title?: string;
+}
+
+const { services, title = "Related Services" } = Astro.props;
+const validServices = Array.isArray(services) ? services.slice(0, 5) : [];
+---
+
+{validServices.length > 0 && (
+<div class="related-services-sidebar bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-soft border border-neutral-100/50 hover:shadow-lg transition-shadow duration-300 mb-8">
+  <!-- Header -->
+  <div class="flex items-center gap-3 mb-6 md:mb-8">
+    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center text-primary-600">
+      <Icon name="Briefcase" className="w-5 h-5 md:w-6 md:h-6" client:idle />
+    </div>
+    <Heading as="h3" size="xl" class="text-neutral-900 border-l-4 border-primary-500 pl-4">
+      {title}
+    </Heading>
+  </div>
+
+  <!-- Services List -->
+  <div class="space-y-3 md:space-y-4">
+    {validServices.map((service) => (
+      <a href={`/services/${service.slug.current}`} class="group block">
+        <div class="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl transition-all duration-300 bg-neutral-50 border border-neutral-100 hover:border-primary-200 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 hover:shadow-md">
+          <!-- Icon -->
+          <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-white shadow-sm flex items-center justify-center text-primary-500 group-hover:bg-gradient-to-br group-hover:from-primary-500 group-hover:to-secondary-500 group-hover:text-white transition-all duration-300 group-hover:shadow-md">
+            <Icon name={(service.icon as any) || 'FileText'} className="w-5 h-5 md:w-6 md:h-6" client:idle />
+          </div>
+          
+          <!-- Content -->
+          <div class="flex-1 min-w-0">
+            <p class="font-bold text-sm md:text-base text-neutral-900 group-hover:text-primary-700 transition-colors truncate">
+              {service.title}
+            </p>
+          </div>
+          
+          <!-- Arrow -->
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-neutral-100 group-hover:bg-primary-100 flex items-center justify-center text-neutral-400 group-hover:text-primary-600 transition-all duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- View All Link -->
+  <a 
+    href="/services"
+    class="mt-6 flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-dashed border-neutral-200 text-neutral-600 hover:text-primary-600 hover:border-primary-300 hover:bg-primary-50/50 transition-all duration-300 text-sm font-semibold group"
+  >
+    <span>All Services</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14m-7-7 7 7-7 7"/>
+    </svg>
+  </a>
+</div>
+)}

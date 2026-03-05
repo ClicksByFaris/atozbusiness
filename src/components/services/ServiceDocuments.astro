@@ -1,5 +1,4 @@
 ---
-import Container from '../ui/Container.astro';
 import Icon from '../icons/Icon';
 
 interface Props {
@@ -13,56 +12,48 @@ interface Props {
 const { documents } = Astro.props;
 ---
 
-<section class="py-16 bg-neutral-50 border-t border-neutral-200/50">
-  <Container>
-    <div class="max-w-4xl mx-auto">
-      <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-neutral-100">
-        <div class="text-center mb-10">
-          <div
-            class="w-16 h-16 bg-secondary-50 text-secondary-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
-          >
-            <Icon name="FileText" className="w-8 h-8" client:idle />
-          </div>
-          <h2 class="text-3xl font-bold text-neutral-900 mb-4">Required Documents</h2>
-          <p class="text-neutral-600">
-            Please prepare the following documents to initiate the process.
-          </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 gap-4">
-          {
-            documents.map((doc) => (
-              <div
-                class={`p-5 rounded-2xl border transition-all flex items-start gap-4 ${doc.required ? 'bg-neutral-50 border-neutral-200/60' : 'bg-white border-dashed border-neutral-200'}`}
-              >
-                <div
-                  class={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${doc.required ? 'bg-secondary-500' : 'bg-neutral-300'}`}
-                />
-                <div>
-                  <h4 class="font-bold text-neutral-900 text-sm md:text-base">
-                    {doc.name}
-                    {doc.required && (
-                      <span class="text-xs font-normal text-secondary-600 bg-secondary-50 px-2 py-0.5 rounded-full ml-2">
-                        Required
-                      </span>
-                    )}
-                  </h4>
-                  {doc.description && (
-                    <p class="text-neutral-500 text-xs md:text-sm mt-1">{doc.description}</p>
-                  )}
-                </div>
-              </div>
-            ))
-          }
-        </div>
-
-        <div class="mt-8 pt-8 border-t border-neutral-100 text-center">
-          <p class="text-neutral-500 text-sm flex items-center justify-center gap-2">
-            <Icon name="Info" className="w-4 h-4" client:idle />
-            Need help with document attestation or translation? We can handle that too.
-          </p>
-        </div>
-      </div>
+<div class="bg-white rounded-2xl md:rounded-3xl p-8 shadow-soft border border-neutral-100/50">
+  <div class="text-center mb-10">
+    <div
+      class="w-16 h-16 bg-secondary-50 text-secondary-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
+    >
+      <Icon name="FileText" className="w-8 h-8" client:idle />
     </div>
-  </Container>
-</section>
+    <h2 class="text-3xl font-bold text-neutral-900 mb-4">Required Documents</h2>
+    <p class="text-neutral-600">Please prepare the following documents to initiate the process.</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-4">
+    {
+      documents.map((doc) => (
+        <div
+          class={`p-5 rounded-2xl border transition-all flex items-start gap-4 ${doc.required ? 'bg-neutral-50 border-neutral-200/60' : 'bg-white border-dashed border-neutral-200'}`}
+        >
+          <div
+            class={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${doc.required ? 'bg-secondary-500' : 'bg-neutral-300'}`}
+          />
+          <div>
+            <h4 class="font-bold text-neutral-900 text-sm md:text-base">
+              {doc.name}
+              {doc.required && (
+                <span class="text-xs font-normal text-secondary-600 bg-secondary-50 px-2 py-0.5 rounded-full ml-2">
+                  Required
+                </span>
+              )}
+            </h4>
+            {doc.description && (
+              <p class="text-neutral-500 text-xs md:text-sm mt-1">{doc.description}</p>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="mt-8 pt-8 border-t border-neutral-100 text-center">
+    <p class="text-neutral-500 text-sm flex items-center justify-center gap-2">
+      <Icon name="Info" className="w-4 h-4" client:idle />
+      Need help with document attestation or translation? We can handle that too.
+    </p>
+  </div>
+</div>

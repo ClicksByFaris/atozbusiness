@@ -57,7 +57,9 @@ const { posts } = Astro.props;
               />
             </div>
             <div class="p-4 md:p-5 flex flex-col flex-1">
-              <span class="text-xs text-primary-600 font-semibold mb-2">{post.category.title}</span>
+              <span class="text-xs text-primary-600 font-semibold mb-2">
+                {post.category?.title || 'Article'}
+              </span>
               <h3 class="text-base md:text-lg font-display font-bold text-neutral-900 group-hover:text-primary-600 transition-colors leading-snug mb-2 line-clamp-2">
                 {post.title}
               </h3>

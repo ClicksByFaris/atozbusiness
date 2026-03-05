@@ -6,7 +6,9 @@ import ServiceFeatures from '../../components/services/ServiceFeatures.astro';
 import ServiceProcess from '../../components/services/ServiceProcess.astro';
 import ServiceDocuments from '../../components/services/ServiceDocuments.astro';
 import ServiceFAQ from '../../components/services/ServiceFAQ.astro';
-import RelatedServices from '../../components/services/RelatedServices.astro';
+import RelatedServicesSidebar from '../../components/services/RelatedServicesSidebar.astro';
+import RelatedBlogsSidebar from '../../components/services/RelatedBlogsSidebar.astro';
+import SidebarSticky from '../../components/blog/SidebarSticky.astro';
 import CTASection from '../../components/home/CTASection.astro';
 import Breadcrumbs from '../../components/shared/Breadcrumbs.astro';
 import Container from '../../components/ui/Container.astro';
@@ -75,21 +77,31 @@ const processMap =
     image={service.featuredImage}
   />
 
-  <Container class="pt-4 pb-4">
-    <Breadcrumbs items={breadcrumbs} />
+  <Container class="pt-4 pb-12">
+    <div class="mb-4">
+      <Breadcrumbs items={breadcrumbs} />
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
+      <!-- Main Content -->
+      <div class="lg:col-span-8 space-y-12">
+        <ServiceFeatures features={service.features || []} fullDescription={service.description} />
+        {processMap.length > 0 && <ServiceProcess process={processMap} />}
+        {documents.length > 0 && <ServiceDocuments documents={documents} />}
+        {service.faq && service.faq.length > 0 && <ServiceFAQ faqs={service.faq} />}
+      </div>
+
+      <!-- Sidebar -->
+      <SidebarSticky topOffset="6rem">
+        <RelatedServicesSidebar services={service.relatedServices || []} />
+        {
+          service.relatedBlogs && service.relatedBlogs.length > 0 && (
+            <RelatedBlogsSidebar posts={service.relatedBlogs} />
+          )
+        }
+      </SidebarSticky>
+    </div>
   </Container>
-
-  <ServiceFeatures features={service.features || []} fullDescription={service.description} />
-
-  <!-- <ServiceBanner image={service.featuredImage} height="medium" /> -->
-
-  {processMap.length > 0 && <ServiceProcess process={processMap} />}
-
-  {documents.length > 0 && <ServiceDocuments documents={documents} />}
-
-  {service.faq && service.faq.length > 0 && <ServiceFAQ faqs={service.faq} />}
-
-  <RelatedServices services={service.relatedServices} />
 
   <CTASection />
 </ServiceLayout>

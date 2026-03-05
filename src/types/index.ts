@@ -25,6 +25,7 @@ export interface Service {
   };
   features?: string[];
   relatedServices?: Service[];
+  relatedBlogs?: BlogPost[];
   faq?: FAQItem[];
   isPopular?: boolean;
   metaTitle?: string;
