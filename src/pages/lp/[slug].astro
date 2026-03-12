@@ -182,6 +182,7 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 80px; /* Accounts for the sticky header height */
     }
 
     /* Custom scrollbar for better UX */
