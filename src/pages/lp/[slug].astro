@@ -7,6 +7,8 @@ import LPHeader from '../../components/lp/LPHeader.astro';
 import LPHero from '../../components/lp/LPHero.astro';
 import LPPrimaryCTA from '../../components/lp/LPPrimaryCTA.astro';
 import LPBenefits from '../../components/lp/LPBenefits.astro';
+import LPHowItWorks from '../../components/lp/LPHowItWorks.astro';
+import LPRequiredDocs from '../../components/lp/LPRequiredDocs.astro';
 import LPSocialProof from '../../components/lp/LPSocialProof.astro';
 import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
@@ -38,6 +40,7 @@ interface LandingPageData {
     emoji: string;
     text: string;
   }>;
+  requiredDocuments?: string[];
 
   googleRating: number;
   reviewCount?: number;
@@ -73,6 +76,7 @@ export async function getStaticPaths() {
       whatsappNumber,
       secondaryCta,
       benefits,
+      requiredDocuments,
 
       googleRating,
       reviewCount,
@@ -127,6 +131,14 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     <LPPrimaryCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
     <LPBenefits benefits={page.benefits} />
+
+    <LPHowItWorks whatsappLink={whatsappLink} />
+
+    {
+      page.requiredDocuments && page.requiredDocuments.length > 0 && (
+        <LPRequiredDocs documents={page.requiredDocuments} whatsappLink={whatsappLink} />
+      )
+    }
 
     <LPSocialProof
       googleRating={page.googleRating}
