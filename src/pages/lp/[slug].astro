@@ -16,7 +16,7 @@ import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
 
 export const prerender = true;
 
-// Define the data type
+// Define the data types
 interface LandingPageData {
   title: string;
   slug: { current: string };
@@ -130,8 +130,6 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     <LPPrimaryCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
     <LPBenefits benefits={page.benefits} />
-
-
 
     <LPSocialProof
       googleRating={page.googleRating}
