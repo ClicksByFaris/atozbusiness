@@ -1,0 +1,68 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import * as LucideIcons from 'lucide-react';
+
+interface CoreService {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  headline?: string;
+  services?: CoreService[];
+}
+
+const { headline = "Our Core Services", services = [] } = Astro.props;
+
+// Helper to get Lucide icon or fallback to emoji/text
+const getIcon = (iconName: string) => {
+  if (!iconName) return null;
+  // @ts-ignore
+  const Icon = LucideIcons[iconName];
+  return Icon || null;
+};
+---
+
+{services && services.length > 0 && (
+<Section id="services" background="light" class="!py-10 sm:!py-16">
+  <Container>
+    <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-14 reveal">
+      <h2 class="text-2xl sm:text-4xl font-display font-bold text-neutral-900 mb-4 uppercase tracking-tight">
+        {headline}
+      </h2>
+      <div class="w-16 h-1 bg-primary-600 mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      {services.map((service, index) => {
+        const IconComponent = getIcon(service.icon || "");
+        
+        return (
+          <div 
+            class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-md transition-all duration-300 reveal group"
+            style={`animation-delay: ${index * 100}ms;`}
+          >
+            <div class="mb-5 flex items-center justify-center w-14 h-14 rounded-xl bg-primary-50 text-primary-600 group-hover:scale-110 transition-transform duration-300">
+              {IconComponent ? (
+                <IconComponent className="w-7 h-7" />
+              ) : (
+                <span class="text-2xl">{service.icon || "✨"}</span>
+              )}
+            </div>
+            
+            <h3 class="text-xl font-bold text-neutral-900 mb-3 leading-tight uppercase group-hover:text-primary-700 transition-colors">
+              {service.title}
+            </h3>
+            
+            <p class="text-neutral-600 leading-relaxed text-sm sm:text-base">
+              {service.description}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  </Container>
+</Section>
+)}

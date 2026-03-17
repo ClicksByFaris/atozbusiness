@@ -7,6 +7,7 @@ import LPHeader from '../../components/lp/LPHeader.astro';
 import LPHero from '../../components/lp/LPHero.astro';
 import LPPrimaryCTA from '../../components/lp/LPPrimaryCTA.astro';
 import LPBenefits from '../../components/lp/LPBenefits.astro';
+import LPCoreServices from '../../components/lp/LPCoreServices.astro';
 
 import LPSocialProof from '../../components/lp/LPSocialProof.astro';
 import LPTestimonials from '../../components/lp/LPTestimonials.astro';
@@ -40,6 +41,12 @@ interface LandingPageData {
     text: string;
   }>;
   requiredDocuments?: string[];
+  coreServicesHeadline?: string;
+  coreServices?: Array<{
+    icon?: string;
+    title: string;
+    description: string;
+  }>;
 
   socialProof?: {
     googleRating: number;
@@ -78,6 +85,8 @@ export async function getStaticPaths() {
       secondaryCta,
       benefits,
       requiredDocuments,
+      coreServicesHeadline,
+      coreServices,
 
       socialProof,
       metaTitle,
@@ -125,6 +134,8 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
     <LPPrimaryCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
     <LPBenefits benefits={page.benefits} />
+
+    <LPCoreServices headline={page.coreServicesHeadline} services={page.coreServices} />
 
     <LPSocialProof />
 
