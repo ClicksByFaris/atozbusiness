@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from '../../lib/sanity';
 import SanityImage from '../ui/SanityImage.astro';
 import Section from '../ui/Section.astro';
 import Container from '../ui/Container.astro';
@@ -6,16 +7,40 @@ import Container from '../ui/Container.astro';
 interface Testimonial {
   customerName: string;
   rating: number;
+  testimonial?: string;
   customerPhoto?: any;
 }
 
 interface Props {
-  googleRating: number;
+  googleRating?: number;
   reviewCount?: number;
   testimonials?: Testimonial[];
 }
 
-const { googleRating, reviewCount, testimonials } = Astro.props;
+let { googleRating, reviewCount, testimonials } = Astro.props;
+
+// If data is missing (e.g. removed from page schema), fetch the global social proof document
+if (!testimonials || testimonials.length === 0) {
+  const globalData = await sanityClient.fetch(`*[_type == "socialProof"][0] {
+    googleRating,
+    reviewCount,
+    testimonials[] {
+      customerName,
+      customerPhoto,
+      rating,
+      testimonial
+    }
+  }`);
+  
+  if (globalData) {
+    googleRating = googleRating ?? globalData.googleRating ?? 5;
+    reviewCount = reviewCount ?? globalData.reviewCount;
+    testimonials = testimonials ?? globalData.testimonials;
+  }
+}
+
+// Ensure fallbacks for display
+googleRating = googleRating || 5;
 ---
 
 <!-- Social Proof Section - Simple Avatar Group -->

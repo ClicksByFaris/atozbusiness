@@ -1,4 +1,5 @@
 ---
+import { sanityClient } from '../../lib/sanity';
 import { ExternalLink } from 'lucide-react';
 import SanityImage from '../ui/SanityImage.astro';
 import Section from '../ui/Section.astro';
@@ -12,10 +13,27 @@ interface Testimonial {
 }
 
 interface Props {
-  testimonials: Testimonial[];
+  testimonials?: Testimonial[];
 }
 
-const { testimonials } = Astro.props;
+let { testimonials } = Astro.props;
+
+// If data is missing, fetch the global social proof document
+if (!testimonials || testimonials.length === 0) {
+  const globalData = await sanityClient.fetch(`*[_type == "socialProof"][0] {
+    testimonials[] {
+      customerName,
+      customerPhoto,
+      rating,
+      testimonial
+    }
+  }`);
+  
+  if (globalData?.testimonials) {
+    testimonials = globalData.testimonials;
+  }
+}
+
 const displayedTestimonials = testimonials?.slice(0, 3) || [];
 ---
 

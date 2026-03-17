@@ -41,14 +41,16 @@ interface LandingPageData {
   }>;
   requiredDocuments?: string[];
 
-  googleRating: number;
-  reviewCount?: number;
-  testimonials?: Array<{
-    customerName: string;
-    customerPhoto?: any;
-    rating: number;
-    testimonial: string;
-  }>;
+  socialProof?: {
+    googleRating: number;
+    reviewCount?: number;
+    testimonials?: Array<{
+      customerName: string;
+      customerPhoto?: any;
+      rating: number;
+      testimonial: string;
+    }>;
+  };
   metaTitle: string;
   metaDescription: string;
   ogImage?: {
@@ -77,14 +79,7 @@ export async function getStaticPaths() {
       benefits,
       requiredDocuments,
 
-      googleRating,
-      reviewCount,
-      testimonials[] {
-        customerName,
-        customerPhoto,
-        rating,
-        testimonial
-      },
+      socialProof,
       metaTitle,
       metaDescription,
       ogImage {
@@ -131,17 +126,9 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
 
     <LPBenefits benefits={page.benefits} />
 
-    <LPSocialProof
-      googleRating={page.googleRating}
-      reviewCount={page.reviewCount}
-      testimonials={page.testimonials}
-    />
+    <LPSocialProof />
 
-    {
-      page.testimonials && page.testimonials.length > 0 && (
-        <LPTestimonials testimonials={page.testimonials} />
-      )
-    }
+    <LPTestimonials />
 
     <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
