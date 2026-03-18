@@ -19,6 +19,7 @@ import SEO from '../../components/SEO.astro';
 import { getAllPosts, getPostBySlug, getLatestPosts } from '../../lib/sanity';
 import { generateBlogPostingSchema } from '../../lib/schemas/article';
 import { generateFAQSchema } from '../../lib/schemas/service';
+import { buildBlogOgUrl } from '../../lib/og-url';
 import type { BlogPost } from '../../types';
 
 export const prerender = true;
@@ -80,7 +81,17 @@ const title = `${post.metaTitle || post.title} | AtoZ Blog`;
 const description = post.metaDescription || post.excerpt;
 ---
 
-<BaseLayout title={title} description={description} ogImage={post.featuredImage?.asset?.url}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={buildBlogOgUrl({
+    title: post.metaTitle || post.title,
+    category: post.tags?.[0] || 'Blog',
+    excerpt: post.metaDescription || post.excerpt,
+    authorName: post.author?.name,
+    authorPhoto: post.author?.photo?.asset?.url,
+  })}
+>
   <SEO
     slot="head"
     author={post.author.name}
