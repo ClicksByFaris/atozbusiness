@@ -8,13 +8,14 @@ export default function FloatingWhatsApp() {
     const link = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(defaultMessage)}`;
 
     return (
-        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center">
+        <div className="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center md:right-0 max-md:bottom-6 max-md:top-auto max-md:translate-y-0">
             {/* Expanded message box */}
             <div
                 className={`
                     bg-white rounded-l-2xl shadow-2xl overflow-hidden
                     transition-all duration-300 ease-in-out
-                    ${isExpanded ? 'w-80 opacity-100 mr-2' : 'w-0 opacity-0'}
+                    max-md:rounded-2xl max-md:absolute max-md:bottom-20 max-md:right-4
+                    ${isExpanded ? 'w-80 opacity-100 mr-2 max-md:w-[calc(100vw-2rem)] max-md:max-w-sm max-md:mr-0' : 'w-0 opacity-0'}
                 `}
             >
                 <div className="bg-[#25D366] p-4 flex items-center justify-between">
@@ -71,6 +72,7 @@ export default function FloatingWhatsApp() {
                     transition-all duration-300 ease-in-out
                     flex items-center justify-center
                     group relative
+                    max-md:rounded-full
                     ${isExpanded ? 'w-16 h-16' : 'w-14 h-14 hover:w-16 hover:h-16'}
                 `}
                 aria-label="WhatsApp Chat"
@@ -82,7 +84,7 @@ export default function FloatingWhatsApp() {
 
                 {/* Pulse animation when not expanded */}
                 {!isExpanded && (
-                    <span className="absolute inset-0 rounded-l-full bg-[#25D366] animate-ping opacity-20"></span>
+                    <span className="absolute inset-0 rounded-l-full max-md:rounded-full bg-[#25D366] animate-ping opacity-20"></span>
                 )}
 
                 {/* Notification badge */}

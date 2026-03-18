@@ -19,7 +19,7 @@ const jwtClient = new google.auth.JWT({
 async function indexUrl(url) {
   try {
     await jwtClient.authorize();
-    
+
     console.log(`📡 Sending ${url} for indexing...`);
     const response = await google.indexing('v3').urlNotifications.publish({
       auth: jwtClient,
@@ -38,8 +38,29 @@ async function indexUrl(url) {
 
 // 5. TEST URLS AS REQUESTED:
 const testUrls = [
+  'https://atozbusiness.ae/contact/',
+  'https://atozbusiness.ae/gallery/',
+  'https://atozbusiness.ae/locations/',
+  'https://atozbusiness.ae/locations/atoz-typing-al-zahiyah/',
+  'https://atozbusiness.ae/locations/khalidiya-typing-center/',
+  'https://atozbusiness.ae/lp/family-visa-typing-abu-dhabi/',
+  'https://atozbusiness.ae/lp/freelancer-visa-abu-dhabi/',
+  'https://atozbusiness.ae/privacy-policy/',
+  'https://atozbusiness.ae/services/',
+  'https://atozbusiness.ae/services/cicpa-cnia-security-pass-services-abu-dhabi/',
+  'https://atozbusiness.ae/services/civil-defense-approvals-abu-dhabi/',
+  'https://atozbusiness.ae/services/corporate-pro-services-document-clearing-abu-dhabi/',
+  'https://atozbusiness.ae/services/domestic-worker-visa-abu-dhabi/',
+  'https://atozbusiness.ae/services/emirates-id-typing-abu-dhabi/',
+  'https://atozbusiness.ae/services/employment-visa-new-and-renewal-abu-dhabi/',
+  'https://atozbusiness.ae/services/family-visa-abu-dhabi/',
+  'https://atozbusiness.ae/services/golden-visa-abu-dhabi-services/',
+  'https://atozbusiness.ae/services/legal-translation-abu-dhabi/',
+  'https://atozbusiness.ae/services/tourist-visa-abu-dhabi/',
+  'https://atozbusiness.ae/services/traffic-services-abu-dhabi/',
+  'https://atozbusiness.ae/services/vat-consultancy-abu-dhabi/',
   'https://atozbusiness.ae/services/visit-visa-abu-dhabi-services/',
-  'https://atozbusiness.ae/services/vat-consultancy-abu-dhabi/'
+  'https://atozbusiness.ae/terms-of-service/'
 ];
 
 // Run indexing for each URL
