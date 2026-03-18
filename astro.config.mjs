@@ -24,4 +24,7 @@ export default defineConfig({
       sizes: [320, 640, 1280],
     },
   }),
+  redirects: {
+    '/services/family-visa-services-abudhabi': '/services/family-visa-abu-dhabi',
+  }
 });

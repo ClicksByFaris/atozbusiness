@@ -28,5 +28,8 @@ studio/node_modules/
 studio/schemas/location.ts
 /studio
 studio
-.vercel 
+# Secrets & Credentials
+service-account.json
+.vscode/
+.vercel
 
