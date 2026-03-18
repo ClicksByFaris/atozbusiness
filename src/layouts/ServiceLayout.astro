@@ -7,7 +7,6 @@ import {
   generateServiceBreadcrumbs,
   generateHowToSchema,
 } from '../lib/schemas/service';
-import { buildServiceOgUrl } from '../lib/og-url';
 
 interface Props {
   service: Service;
@@ -58,11 +57,7 @@ const schemas = [serviceSchema, faqSchema, howToSchema, breadcrumbSchema].filter
 <BaseLayout
   title={`${service.title} in Abu Dhabi | A to Z Business`}
   description={service.excerpt}
-  ogImage={buildServiceOgUrl({
-    title: service.title,
-    category: service.category || 'Service',
-    excerpt: service.excerpt,
-  })}
+  ogImage={service.featuredImage?.asset?.url || '/og-image.jpg'}
 >
   {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
