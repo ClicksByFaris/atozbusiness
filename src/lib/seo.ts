@@ -41,7 +41,7 @@ export const TARGET_KEYWORDS = {
         'typing services khalidiya',
         'PRO services khalidiya',
         'visa typing near me',
-        'typing center al zahiyah',
+        'typing center near me ',
     ],
 } as const;
 
