@@ -80,7 +80,7 @@ const title = `${post.metaTitle || post.title} | AtoZ Blog`;
 const description = post.metaDescription || post.excerpt;
 ---
 
-<BaseLayout title={title} description={description} ogImage={post.featuredImage?.asset?.url}>
+<BaseLayout title={title} description={description} ogImage={`/og/blog/${post.slug.current}.png`}>
   <SEO
     slot="head"
     author={post.author.name}

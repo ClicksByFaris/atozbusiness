@@ -57,7 +57,7 @@ const schemas = [serviceSchema, faqSchema, howToSchema, breadcrumbSchema].filter
 <BaseLayout
   title={`${service.title} in Abu Dhabi | A to Z Business`}
   description={service.excerpt}
-  ogImage={service.featuredImage?.asset?.url || '/og-image.jpg'}
+  ogImage={`/og/service/${service.slug.current}.png`}
 >
   {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 
