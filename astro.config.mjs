@@ -9,7 +9,7 @@ import vercel from '@astrojs/vercel';
 import favicons from 'astro-favicons';
 
 export default defineConfig({
-  site: 'https://www.atozbusiness.ae',
+  site: 'https://atozbusiness.ae',
   trailingSlash: 'ignore',
   integrations: [react(), tailwind(), sitemap({
     filter: (page) =>
