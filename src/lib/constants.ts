@@ -2,7 +2,7 @@
 // This file contains all business information used across the website
 
 export const BUSINESS_INFO = {
-    name: 'A to Z Business',
+    name: 'A to Z Business - Expert Business Setup & PRO Services in Abu Dhabi',
     tagline: 'Professional Typing, Residency & Business Setup Services – The A to Z Solution.',
     phone: '+971-50-3489891',
     whatsapp: '+971-50-3489891',
