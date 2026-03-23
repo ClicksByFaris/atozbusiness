@@ -1,0 +1,133 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import { MapPin, Clock, Smartphone, Phone } from 'lucide-react';
+import { LOCATIONS, BUSINESS_HOURS, BUSINESS_INFO } from '../../lib/constants';
+
+interface Props {
+  phoneNumber?: string;
+  whatsappLink?: string;
+}
+
+const {
+  phoneNumber = BUSINESS_INFO.phone,
+  whatsappLink = `https://wa.me/${BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '')}`,
+} = Astro.props;
+---
+
+<Section id="visit-us" background="light" class="!py-16 sm:!py-24 bg-[#FAFAFA]">
+  <Container>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- Left Column: Content -->
+      <div class="flex flex-col reveal">
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-slate-900 mb-3 tracking-tight">
+          Visit Our Office
+        </h2>
+        <p class="text-slate-600 mb-10 text-lg sm:text-lg">
+          Located in the heart of Abu Dhabi business district for your convenience.
+        </p>
+
+        <div class="flex flex-col space-y-8 mb-10">
+          <!-- Item 1: Address -->
+          <div class="flex items-start gap-4">
+            <div
+              class="flex-shrink-0 w-14 h-14 rounded-xl bg-primary-900 sm:bg-slate-900 flex items-center justify-center border border-slate-800 shadow-sm"
+            >
+              <MapPin className="w-6 h-6 text-[#FCD34D]" />
+            </div>
+            <div class="pt-1">
+              <h3 class="text-base font-bold text-slate-900 mb-1">Main Office Address</h3>
+              <p class="text-slate-600 text-sm leading-relaxed max-w-[280px]">
+                {LOCATIONS.main.address}, {LOCATIONS.main.city}, UAE
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 2: Working Hours -->
+          <div class="flex items-start gap-4">
+            <div
+              class="flex-shrink-0 w-14 h-14 rounded-xl bg-primary-900 sm:bg-slate-900 flex items-center justify-center border border-slate-800 shadow-sm"
+            >
+              <Clock className="w-6 h-6 text-[#FCD34D]" />
+            </div>
+            <div class="pt-1">
+              <h3 class="text-base font-bold text-slate-900 mb-1">Working Hours</h3>
+              <p class="text-slate-600 text-sm mb-1">
+                {BUSINESS_HOURS.detailed[0].days}: {BUSINESS_HOURS.detailed[0].hours}
+              </p>
+              <p class="text-red-600 text-[13px] uppercase font-semibold">
+                {BUSINESS_HOURS.detailed[1].days}: {BUSINESS_HOURS.detailed[1].hours}
+              </p>
+            </div>
+          </div>
+
+          <!-- Item 3: Contact Numbers -->
+          <div class="flex items-start gap-4">
+            <div
+              class="flex-shrink-0 w-14 h-14 rounded-xl bg-primary-900 sm:bg-slate-900 flex items-center justify-center border border-slate-800 shadow-sm"
+            >
+              <Smartphone className="w-6 h-6 text-[#FCD34D]" />
+            </div>
+            <div class="pt-1">
+              <h3 class="text-base font-bold text-slate-900 mb-1">Contact Numbers</h3>
+              <p class="text-slate-600 text-sm mb-1">{phoneNumber} (Call)</p>
+              <p class="text-slate-600 text-sm">{BUSINESS_INFO.whatsapp} (WhatsApp)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yellow CTA Box -->
+        <div class="bg-[#FCD34D] rounded-2xl p-6 sm:p-7 shadow-sm border border-yellow-300">
+          <h4 class="text-slate-900 font-bold mb-4">Immediate Assistance Required?</h4>
+          <a
+            href={`tel:${phoneNumber.replace(/[^0-9+]/g, '')}`}
+            class="flex items-center justify-center gap-2.5 w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-md active:scale-[0.98]"
+          >
+            <Phone className="w-4 h-4 text-white" />
+            Call Expert Now
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Column: Map in Device Frame -->
+      <div class="relative reveal animation-delay-200">
+        <!-- Tablet Frame Mockup (Matches Design) -->
+        <div class="bg-[#EBEBEB] p-6 sm:p-10 rounded-[2rem] shadow-xl relative border border-white">
+          <!-- Top edge camera dot to simulate tablet -->
+          <div
+            class="absolute top-[22px] right-6 w-2 h-2 bg-[#D1D5DB] rounded-full shadow-inner hidden sm:block"
+          >
+          </div>
+
+          <!-- Screen Area: Now a clickable link to Google Maps -->
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${LOCATIONS.main.coordinates.latitude},${LOCATIONS.main.coordinates.longitude}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="block bg-white w-full rounded-xl overflow-hidden aspect-[4/3] relative z-10 shadow-inner ring-1 ring-black/5 hover:opacity-90 transition-opacity"
+          >
+            <!-- Static Map Image for Fast Loading -->
+            <img
+              src="/images/map-demo.webp"
+              alt="Office Location Map"
+              loading="lazy"
+              decoding="async"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+
+            <!-- Custom Dark Pin Overlay matching image exactly -->
+            <div
+              class="absolute inset-0 flex items-center justify-center pointer-events-none pb-8 pr-12"
+            >
+              <div
+                class="bg-slate-900 p-3 rounded-lg shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] z-20"
+              >
+                <MapPin className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>

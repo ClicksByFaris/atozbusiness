@@ -5,7 +5,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { SEO_DEFAULTS } from '../lib/seo';
 import SmoothScroll from '../components/ui/SmoothScroll';
-import FloatingWhatsApp from '../components/shared/FloatingWhatsApp';
+import FloatingActions from '../components/shared/FloatingActions.astro';
 
 interface Props {
   title: string;
@@ -136,9 +136,9 @@ const publicGtmId = import.meta.env.PUBLIC_GTM_ID;
       )
     }
 
-    <!-- Floating WhatsApp Button - Right Side Center (Hidden on Landing Pages) -->
-    {showNav && <FloatingWhatsApp client:idle />}
-
+    <!-- Universal Floating Action Buttons (WhatsApp, Call, Locations) -->
+    <FloatingActions pageTitle={Astro.url.pathname === '/' ? 'A to Z Business Services' : title} />
+    
     <SmoothScroll client:idle />
 
     <script is:inline>

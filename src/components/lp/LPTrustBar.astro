@@ -1,0 +1,36 @@
+---
+import { LOCATIONS, STATISTICS } from '../../lib/constants';
+import { MapPin, Users, Award, Star } from 'lucide-react';
+---
+
+<div class="bg-slate-900 text-slate-100 text-xs sm:text-sm py-2 px-4 border-b border-slate-800">
+  <div
+    class="container mx-auto max-w-7xl flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-2 sm:gap-4 font-medium"
+  >
+    <!-- Location - First priority on mobile -->
+    <div
+      class="flex items-center justify-center w-full sm:w-auto bg-slate-800/50 sm:bg-transparent rounded px-2 py-1 sm:p-0"
+    >
+      <MapPin className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+      <span>{LOCATIONS.main.quickAddress}</span>
+    </div>
+
+    <!-- Trust Signals -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 w-full sm:w-auto text-slate-300"
+    >
+      <div class="flex items-center">
+        <Users className="w-3.5 h-3.5 mr-1.5 text-blue-400" />
+        <span>{STATISTICS.clientsServed} Clients</span>
+      </div>
+      <div class="flex items-center">
+        <Award className="w-3.5 h-3.5 mr-1.5 text-blue-400" />
+        <span>{STATISTICS.yearsInBusiness} Years Exp.</span>
+      </div>
+      <div class="flex items-center">
+        <Star className="w-3.5 h-3.5 mr-1.5 text-blue-400" />
+        <span>{STATISTICS.successRate} Success</span>
+      </div>
+    </div>
+  </div>
+</div>

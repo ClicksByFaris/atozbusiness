@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { sanityClient, urlFor } from '../../lib/sanity';
+import { BUSINESS_INFO } from '../../lib/constants';
 
 // Import all LP components
+import LPTrustBar from '../../components/lp/LPTrustBar.astro';
 import LPHeader from '../../components/lp/LPHeader.astro';
 import LPHero from '../../components/lp/LPHero.astro';
 import LPPrimaryCTA from '../../components/lp/LPPrimaryCTA.astro';
@@ -12,7 +14,7 @@ import LPCoreServices from '../../components/lp/LPCoreServices.astro';
 import LPSocialProof from '../../components/lp/LPSocialProof.astro';
 import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
-import LPStickyFooter from '../../components/lp/LPStickyFooter.astro';
+import LPContact from '../../components/lp/LPContact.astro';
 import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
 
 export const prerender = true;
@@ -31,13 +33,11 @@ interface LandingPageData {
     altText: string;
   };
   primaryCtaText: string;
-  whatsappNumber: string;
   secondaryCta?: {
     text: string;
     enabled: boolean;
   };
   benefits: Array<{
-    emoji: string;
     text: string;
   }>;
   requiredDocuments?: string[];
@@ -50,8 +50,8 @@ interface LandingPageData {
 
   socialProof?: {
     googleRating: number;
-    reviewCount?: number;
-    testimonials?: Array<{
+    reviewCount: number;
+    testimonials: Array<{
       customerName: string;
       customerPhoto?: any;
       rating: number;
@@ -81,14 +81,21 @@ export async function getStaticPaths() {
         altText
       },
       primaryCtaText,
-      whatsappNumber,
       secondaryCta,
       benefits,
       requiredDocuments,
       coreServicesHeadline,
       coreServices,
-
-      socialProof,
+      socialProof-> {
+        googleRating,
+        reviewCount,
+        testimonials[] {
+          customerName,
+          customerPhoto,
+          rating,
+          testimonial
+        }
+      },
       metaTitle,
       metaDescription,
       ogImage {
@@ -107,7 +114,7 @@ export async function getStaticPaths() {
 const { page } = Astro.props as { page: LandingPageData };
 
 // Create WhatsApp link
-const whatsappNumber = page.whatsappNumber.replace(/[^0-9]/g, '');
+const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '');
 const whatsappMessage = encodeURIComponent(`Hi, I'm interested in ${page.title}`);
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
@@ -123,6 +130,7 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
   noindex={true}
 >
   <!-- Landing Page Container - Mobile-First Optimizeded the test  -->
+  <LPTrustBar />
   <LPHeader title="A to Z Business" />
   <div class="min-h-screen max-w-7xl mx-auto bg-white font-sans antialiased flex flex-col">
     <LPHero
@@ -137,18 +145,17 @@ const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(
 
     <LPCoreServices headline={page.coreServicesHeadline} services={page.coreServices} />
 
-    <LPSocialProof />
-
-    <LPTestimonials />
+    <LPSocialProof socialProof={page.socialProof} />
+    
+    <LPTestimonials 
+      testimonials={page.socialProof?.testimonials}
+    />
+    
+    <LPContact phoneNumber={BUSINESS_INFO.phone} whatsappLink={whatsappLink} />
 
     <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />
 
     <LPDisclaimer />
-
-    <LPStickyFooter
-      phoneNumber={page.whatsappNumber}
-      enabled={page.secondaryCta?.enabled || true}
-    />
   </div>
 
   <style>
