@@ -32,7 +32,7 @@ if (!testimonials || testimonials.length === 0) {
     testimonials = socialProofData?.testimonials || [];
 }
 
-const displayedTestimonials = testimonials.slice(0, 3);
+const displayedTestimonials = testimonials.slice(0, 10);
 
 // Helper for initials
 const getInitials = (name: string) => {
@@ -44,54 +44,71 @@ const bgColors = ['bg-blue-100', 'bg-amber-100', 'bg-slate-100'];
 const textColors = ['text-blue-600', 'text-amber-600', 'text-slate-600'];
 ---
 
-<Section class="!py-16 bg-[#F8F9FA]" background="light">
+<Section class="!py-16 bg-[#F8F9FA] overflow-hidden" background="light">
   <Container>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {displayedTestimonials.map((testimonial, index) => (
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-neutral-100 flex flex-col h-full reveal" style={`animation-delay: ${index * 150}ms;`}>
-          
-          <!-- Top Row: Avatar and Name -->
-          <div class="flex items-center gap-4 mb-6">
-            <div class={`w-14 h-14 rounded-xl ${bgColors[index % 3]} flex items-center justify-center flex-shrink-0 overflow-hidden`}>
-              {testimonial.customerPhoto ? (
-                <SanityImage
-                  node={testimonial.customerPhoto}
-                  width={100}
-                  height={100}
-                  alt={testimonial.customerName}
-                  class="w-full h-full object-cover"
-                />
-              ) : (
-                <span class={`font-bold text-lg ${textColors[index % 3]}`}>
-                  {getInitials(testimonial.customerName)}
-                </span>
-              )}
-            </div>
-            
-            <div class="flex-1 min-w-0">
-               <h4 class="font-bold text-slate-900 text-lg mb-1 truncate">
-                 {testimonial.customerName}
-               </h4>
-               <div class="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star 
-                      className={`w-3.5 h-3.5 fill-current ${i < testimonial.rating ? 'text-amber-500' : 'text-neutral-200'}`} 
+    <div class="relative group">
+      <!-- Testimonials Scroll Container -->
+      <div 
+        id="testimonial-track"
+        class="flex flex-row gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-8 scroll-smooth"
+      >
+        {displayedTestimonials.map((testimonial, index) => (
+          <div 
+            class="flex-shrink-0 w-[85%] sm:w-[50%] md:w-[31%] snap-center"
+          >
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-neutral-100 flex flex-col h-full reveal" style={`animation-delay: ${index * 150}ms;`}>
+              
+              <!-- Top Row: Avatar and Name -->
+              <div class="flex items-center gap-4 mb-6">
+                <div class={`w-14 h-14 rounded-xl ${bgColors[index % 3]} flex items-center justify-center flex-shrink-0 overflow-hidden`}>
+                  {testimonial.customerPhoto ? (
+                    <SanityImage
+                      node={testimonial.customerPhoto}
+                      width={100}
+                      height={100}
+                      alt={testimonial.customerName}
+                      class="w-full h-full object-cover"
                     />
-                  ))}
-               </div>
+                  ) : (
+                    <span class={`font-bold text-lg ${textColors[index % 3]}`}>
+                      {getInitials(testimonial.customerName)}
+                    </span>
+                  )}
+                </div>
+                
+                <div class="flex-1 min-w-0">
+                   <h4 class="font-bold text-slate-900 text-lg mb-1 truncate">
+                     {testimonial.customerName}
+                   </h4>
+                   <div class="flex gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star 
+                          className={`w-3.5 h-3.5 fill-current ${i < testimonial.rating ? 'text-amber-500' : 'text-neutral-200'}`} 
+                        />
+                      ))}
+                   </div>
+                </div>
+              </div>
+
+              <!-- Bottom: Quote -->
+              <p class="text-slate-600 italic leading-relaxed text-[15px]">
+                "{testimonial.testimonial}"
+              </p>
             </div>
           </div>
+        ))}
+      </div>
 
-          <!-- Bottom: Quote -->
-          <p class="text-slate-600 italic leading-relaxed text-[15px]">
-            "{testimonial.testimonial}"
-          </p>
-        </div>
-      ))}
+      <!-- Navigation Indicators (Dots) -->
+      <div class="flex justify-center gap-2 mt-4 md:hidden">
+         {displayedTestimonials.slice(0, 5).map((_, i) => (
+           <div class={`w-1.5 h-1.5 rounded-full bg-slate-200 ${i === 0 ? '!bg-blue-600' : ''}`}></div>
+         ))}
+      </div>
     </div>
 
-    {testimonials.length > 3 && (
-      <div class="mt-10 text-center reveal">
+    {testimonials.length > 0 && (
+      <div class="mt-8 text-center reveal">
         <a
           href="https://share.google/66ShmVhCLq5EyetEm"
           target="_blank"
@@ -105,3 +122,56 @@ const textColors = ['text-blue-600', 'text-amber-600', 'text-slate-600'];
     )}
   </Container>
 </Section>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  function initTestimonialSlider() {
+    const track = document.getElementById('testimonial-track');
+    if (!track) return;
+
+    let isAutoScrolling = true;
+    let scrollInterval: ReturnType<typeof setInterval> | undefined;
+
+    const startAutoScroll = () => {
+      scrollInterval = setInterval(() => {
+        if (!isAutoScrolling) return;
+        
+        const scrollAmount = track.clientWidth * 0.8;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        
+        if (track.scrollLeft >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 4000); // Scroll every 4 seconds
+    };
+
+    // Pause on interaction
+    track.addEventListener('mouseenter', () => isAutoScrolling = false);
+    track.addEventListener('mouseleave', () => isAutoScrolling = true);
+    track.addEventListener('touchstart', () => isAutoScrolling = false);
+    
+    // Resume auto scroll after a period of No activity
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    track.addEventListener('touchend', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => isAutoScrolling = true, 5000);
+    });
+
+    startAutoScroll();
+  }
+
+  // Handle Astro page transitions
+  initTestimonialSlider();
+  document.addEventListener('astro:after-swap', initTestimonialSlider);
+</script>
