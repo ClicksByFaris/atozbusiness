@@ -50,14 +50,16 @@ const serviceSchema = generateServiceSchema({
 
 const breadcrumbSchema = generateServiceBreadcrumbs(service.title, service.slug.current);
 
-// Combine all schemas into an interconnected knowledge graph array
 const schemas = [serviceSchema, faqSchema, howToSchema, breadcrumbSchema].filter(Boolean);
+
+// Use Sanity featured image or fallback to the newly added default OG image
+const ogImageUrl = service.featuredImage?.asset?.url || '/images/og/og%20image.webp';
 ---
 
 <BaseLayout
   title={`${service.title} in Abu Dhabi | A to Z Business`}
   description={service.excerpt}
-  ogImage={`/og/service/${service.slug.current}.png`}
+  ogImage={ogImageUrl}
 >
   {schemas.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
 

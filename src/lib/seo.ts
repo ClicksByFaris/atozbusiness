@@ -9,7 +9,7 @@ export const SEO_DEFAULTS = {
     defaultTitle: 'A to Z Business | Typing & PRO Services Abu Dhabi',
     defaultDescription:
         'Professional typing, PRO services, visa processing, and company formation in Abu Dhabi. Expert assistance for all your government documentation needs.',
-    defaultImage: '/og-image.jpg',
+    defaultImage: '/images/og/og%20image.webp',
     twitterHandle: '@atozbusiness',
     locale: 'en_AE',
     alternateLocales: ['ar_AE'], // Will add Arabic later
