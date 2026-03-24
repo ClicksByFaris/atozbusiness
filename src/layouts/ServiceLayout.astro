@@ -52,8 +52,8 @@ const breadcrumbSchema = generateServiceBreadcrumbs(service.title, service.slug.
 
 const schemas = [serviceSchema, faqSchema, howToSchema, breadcrumbSchema].filter(Boolean);
 
-// Use Sanity featured image or fallback to the newly added default OG image
-const ogImageUrl = service.featuredImage?.asset?.url || '/images/og/og%20image.webp';
+// Force dynamic OG generator for services
+const ogImageUrl = `/og/service/${service.slug.current}.png`;
 ---
 
 <BaseLayout

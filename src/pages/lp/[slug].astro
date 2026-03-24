@@ -84,10 +84,8 @@ const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '');
 const whatsappMessage = encodeURIComponent(`Hi, I'm interested in ${page.title}`);
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-// Get image URLs: Manual Sanity Image > Dynamic Endpoint
-const ogImageUrl = page.ogImage 
-  ? urlFor(page.ogImage.asset).width(1200).height(630).url() 
-  : `/og/lp/${page.slug.current}.png`;
+// Force dynamic OG generator for landing pages
+const ogImageUrl = `/og/lp/${page.slug.current}.png`;
 ---
 
 <BaseLayout

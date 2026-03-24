@@ -88,7 +88,7 @@ const ICONS: [string, string][] = [
 
 function svcIcon(title: string): string {
   const lc = title.toLowerCase();
-  for (const [k, ic] of ICONS) if (lc.includes(ic)) return ic;
+  for (const [k, ic] of ICONS) if (lc.includes(k)) return ic;
   return '✓';
 }
 

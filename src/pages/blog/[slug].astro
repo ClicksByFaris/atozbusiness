@@ -79,8 +79,8 @@ if (faqSchema) schemas.push(faqSchema);
 const title = `${post.metaTitle || post.title} | AtoZ Blog`;
 const description = post.metaDescription || post.excerpt;
 
-// Use Sanity featured image or fallback to the default OG image
-const ogImageUrl = post.featuredImage?.asset?.url || '/images/og/og%20image.webp';
+// Force dynamic OG generator for blog posts
+const ogImageUrl = `/og/blog/${post.slug.current}.png`;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImageUrl}>
