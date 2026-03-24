@@ -17,9 +17,11 @@ import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
 import LPContact from '../../components/lp/LPContact.astro';
 import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
 
+import { allLandingPagesQuery } from '../../lib/queries';
+
 export const prerender = true;
 
-// Define the data typesss
+// Define the data types
 interface LandingPageData {
   title: string;
   slug: { current: string };
@@ -67,43 +69,7 @@ interface LandingPageData {
 }
 
 export async function getStaticPaths() {
-  const landingPages = await sanityClient.fetch<LandingPageData[]>(
-    `*[_type == "landingPage" && published == true && active == true] {
-      title,
-      slug,
-
-      published,
-      active,
-      mainHeadline,
-      subHeadline,
-      heroImage {
-        asset,
-        altText
-      },
-      primaryCtaText,
-      secondaryCta,
-      benefits,
-      requiredDocuments,
-      coreServicesHeadline,
-      coreServices,
-      socialProof-> {
-        googleRating,
-        reviewCount,
-        testimonials[] {
-          customerName,
-          customerPhoto,
-          rating,
-          testimonial
-        }
-      },
-      metaTitle,
-      metaDescription,
-      ogImage {
-        asset,
-        altText
-      }
-    }`
-  );
+  const landingPages = await sanityClient.fetch<LandingPageData[]>(allLandingPagesQuery);
 
   return landingPages.map((page) => ({
     params: { slug: page.slug.current },
@@ -118,8 +84,10 @@ const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '');
 const whatsappMessage = encodeURIComponent(`Hi, I'm interested in ${page.title}`);
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-// Get image URLs
-const ogImageUrl = page.ogImage ? urlFor(page.ogImage.asset).width(1200).height(630).url() : '';
+// Get image URLs: Manual Sanity Image > Dynamic Endpoint
+const ogImageUrl = page.ogImage 
+  ? urlFor(page.ogImage.asset).width(1200).height(630).url() 
+  : `/og/lp/${page.slug.current}.png`;
 ---
 
 <BaseLayout

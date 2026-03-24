@@ -342,3 +342,70 @@ export const categoriesQuery = `*[_type == "category"] | order(title asc) {
   slug,
   description
 }`;
+
+// Landing Pages
+export const allLandingPagesQuery = `*[_type == "landingPage" && published == true && active == true] {
+  title,
+  slug,
+  mainHeadline,
+  subHeadline,
+  heroImage {
+    asset,
+    altText
+  },
+  primaryCtaText,
+  secondaryCta,
+  benefits,
+  requiredDocuments,
+  coreServicesHeadline,
+  coreServices,
+  socialProof-> {
+    googleRating,
+    reviewCount,
+    testimonials[] {
+      customerName,
+      customerPhoto,
+      rating,
+      testimonial
+    }
+  },
+  metaTitle,
+  metaDescription,
+  ogImage {
+    asset,
+    altText
+  }
+}`;
+
+export const landingPageBySlugQuery = `*[_type == "landingPage" && slug.current == $slug][0] {
+  title,
+  slug,
+  mainHeadline,
+  subHeadline,
+  heroImage {
+    asset,
+    altText
+  },
+  primaryCtaText,
+  secondaryCta,
+  benefits,
+  requiredDocuments,
+  coreServicesHeadline,
+  coreServices,
+  socialProof-> {
+    googleRating,
+    reviewCount,
+    testimonials[] {
+      customerName,
+      customerPhoto,
+      rating,
+      testimonial
+    }
+  },
+  metaTitle,
+  metaDescription,
+  ogImage {
+    asset,
+    altText
+  }
+}`;
