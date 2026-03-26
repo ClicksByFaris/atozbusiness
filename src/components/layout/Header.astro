@@ -19,7 +19,13 @@ const groupedServices = services.reduce((acc: Record<string, any[]>, service: an
   return acc;
 }, {});
 
-const categories = Object.keys(groupedServices).sort();
+// Sort categories by the minimum order value of services in each category
+// This ensures categories with lower-order services appear first
+const categories = Object.keys(groupedServices).sort((a, b) => {
+  const minOrderA = Math.min(...groupedServices[a].map((s: any) => s.order ?? 999));
+  const minOrderB = Math.min(...groupedServices[b].map((s: any) => s.order ?? 999));
+  return minOrderA - minOrderB;
+});
 ---
 
 <header class="sticky top-0 z-50 transition-all duration-300 group" id="main-header">

@@ -29,6 +29,7 @@ const { class: className = '', topOffset = '6rem' } = Astro.props;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: rgba(42, 82, 152, 0.2) transparent;
+      overscroll-behavior: contain;
     }
 
     .sidebar-sticky-inner::-webkit-scrollbar {
@@ -49,3 +50,40 @@ const { class: className = '', topOffset = '6rem' } = Astro.props;
     }
   }
 </style>
+
+<script>
+  // Prevent page scroll when scrolling within sidebar on desktop
+  function initSidebarScrollLock() {
+    const sidebar = document.querySelector('.sidebar-sticky-inner');
+    if (!sidebar) return;
+
+    // Only apply on desktop (lg breakpoint and above)
+    if (window.innerWidth < 1024) return;
+
+    sidebar.addEventListener('wheel', (e) => {
+      const element = e.currentTarget as HTMLElement;
+      const scrollTop = element.scrollTop;
+      const scrollHeight = element.scrollHeight;
+      const height = element.clientHeight;
+      const deltaY = (e as WheelEvent).deltaY;
+      const isAtTop = scrollTop === 0;
+      const isAtBottom = scrollTop + height >= scrollHeight;
+
+      // Prevent page scroll only when sidebar has scrollable content
+      if (scrollHeight > height) {
+        // If scrolling up at top, or scrolling down at bottom, allow page scroll
+        if ((isAtTop && deltaY < 0) || (isAtBottom && deltaY > 0)) {
+          return;
+        }
+        // Otherwise prevent page scroll
+        e.stopPropagation();
+      }
+    }, { passive: true });
+  }
+
+  // Initialize on load
+  initSidebarScrollLock();
+
+  // Re-initialize on page transitions (for Astro view transitions)
+  document.addEventListener('astro:page-load', initSidebarScrollLock);
+</script>

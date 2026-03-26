@@ -1,7 +1,6 @@
 ---
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
 import ServiceHero from '../../components/services/ServiceHero.astro';
-import ServiceBanner from '../../components/services/ServiceBanner.astro';
 import ServiceFeatures from '../../components/services/ServiceFeatures.astro';
 import ServiceProcess from '../../components/services/ServiceProcess.astro';
 import ServiceDocuments from '../../components/services/ServiceDocuments.astro';
@@ -70,11 +69,7 @@ const processMap =
 ---
 
 <ServiceLayout service={service}>
-  <ServiceHero
-    name={service.title}
-    description={service.excerpt}
-    image={service.featuredImage}
-  />
+  <ServiceHero name={service.title} description={service.excerpt} image={service.featuredImage} />
 
   <Container class="pt-4 pb-12">
     <div class="mb-4">

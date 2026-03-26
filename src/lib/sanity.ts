@@ -123,6 +123,7 @@ export async function getNavigationServices() {
         title,
         "slug": slug.current,
         category,
-        shortDescription
+        shortDescription,
+        order
     }`);
 }
