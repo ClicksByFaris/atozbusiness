@@ -1,5 +1,5 @@
 // Site-wide constants for AtoZ Business Services
-// This file contains all business information used across the website
+// This file contains all business information used across the webs
 
 export const BUSINESS_INFO = {
     name: 'A to Z Business - Expert Business Setup & PRO Services in Abu Dhabi',
