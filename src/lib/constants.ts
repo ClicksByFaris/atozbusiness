@@ -4,8 +4,8 @@
 export const BUSINESS_INFO = {
     name: 'A to Z Business - Expert Business Setup & PRO Services in Abu Dhabi',
     tagline: 'Professional Typing, Residency & Business Setup Services – The A to Z Solution.',
-    phone: '+971-50-3489891',
-    whatsapp: '+971-50-3489891',
+    phone: '056 533 1632',
+    whatsapp: '+971 56 533 1632',
     email: 'contact@atozbusiness.ae',
     website: 'https://atozbusiness.ae',
 } as const;
@@ -125,7 +125,7 @@ export const HOW_IT_WORKS = [
     {
         step: 1,
         title: 'Contact Us',
-        description: 'Call +971-50-3489891, WhatsApp, or visit our office in Khalidiya',
+        description: 'Call 056 533 1632, WhatsApp, or visit our office in Khalidiya',
         icon: 'Phone',
     },
     {

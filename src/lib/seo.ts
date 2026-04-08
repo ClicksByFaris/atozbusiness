@@ -62,7 +62,7 @@ export const PAGE_SEO = {
     home: {
         title: 'A to Z Business | Typing & PRO Services Abu Dhabi',
         description:
-            'Professional typing, PRO services, visa processing & company formation in Abu Dhabi. 13+ hours daily service in Khalidiya & Al Zahiyah. Call +971-50-3489891',
+            'Professional typing, PRO services, visa processing & company formation in Abu Dhabi. 13+ hours daily service in Khalidiya & Al Zahiyah. Call 056 533 1632',
         keywords: [
             ...TARGET_KEYWORDS.primary,
             'typing center',
@@ -86,7 +86,7 @@ export const PAGE_SEO = {
     contact: {
         title: 'Contact Us | A to Z Business',
         description:
-            'Contact A to Z Business for typing & PRO services. Call +971-50-3489891, WhatsApp us, or visit our Khalidiya office opposite Khalidiya Mall.',
+            'Contact A to Z Business for typing & PRO services. Call 056 533 1632, WhatsApp us, or visit our Khalidiya office opposite Khalidiya Mall.',
         keywords: ['contact', 'phone', 'whatsapp', 'email', 'address', 'abu dhabi'],
     },
 } as const;

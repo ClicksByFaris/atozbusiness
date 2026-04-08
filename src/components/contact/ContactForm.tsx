@@ -124,7 +124,7 @@ export default function ContactForm() {
 
             // For now, we'll redirect to WhatsApp with the message
             const whatsappMessage = `Hello! I'm interested in ${formData.service}.\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nPreferred Location: ${formData.location}\n\nMessage: ${formData.message}`;
-            const whatsappUrl = `https://wa.me/971503489891?text=${encodeURIComponent(whatsappMessage)}`;
+            const whatsappUrl = `https://wa.me/971565331632?text=${encodeURIComponent(whatsappMessage)}`;
 
             window.open(whatsappUrl, '_blank');
 
