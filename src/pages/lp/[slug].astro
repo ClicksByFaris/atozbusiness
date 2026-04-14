@@ -16,6 +16,7 @@ import LPTestimonials from '../../components/lp/LPTestimonials.astro';
 import LPFinalCTA from '../../components/lp/LPFinalCTA.astro';
 import LPContact from '../../components/lp/LPContact.astro';
 import LPDisclaimer from '../../components/lp/LPDisclaimer.astro';
+import LPFloatingButtons from '../../components/lp/LPFloatingButtons.astro';
 
 import { allLandingPagesQuery } from '../../lib/queries';
 
@@ -93,6 +94,7 @@ const ogImageUrl = `/og/lp/${page.slug.current}.png`;
   description={page.metaDescription}
   ogImage={ogImageUrl}
   showNav={false}
+  showFloating={false}
   noindex={true}
 >
   <!-- Landing Page Container - Mobile-First Optimizeded the test  -->
@@ -123,6 +125,13 @@ const ogImageUrl = `/og/lp/${page.slug.current}.png`;
 
     <LPDisclaimer />
   </div>
+
+  <!-- LP-specific floating buttons: WhatsApp LEFT, Call RIGHT -->
+  <LPFloatingButtons
+    whatsappLink={whatsappLink}
+    phoneNumber={BUSINESS_INFO.phone}
+    pageTitle={page.title}
+  />
 
   <style>
     /* Animation delays for staggered effects */
