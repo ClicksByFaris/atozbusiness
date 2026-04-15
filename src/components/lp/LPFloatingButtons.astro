@@ -206,17 +206,29 @@ const telLink = `tel:${phoneNumber.replace(/[^0-9+]/g, '')}`;
   /* ── Mobile ──────────────────────────────────────────── */
   @media (max-width: 480px) {
     .lp-btn {
-      bottom: 16px;
-      padding: 8px 14px 8px 8px;
-      gap: 8px;
+      bottom: 100px;
+      padding: 10px;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .lp-btn .lp-text {
+      display: none;
+    }
+
+    .lp-pulse {
+      border-radius: 50%;
     }
 
     .lp-btn--whatsapp {
-      left: 12px;
+      left: 16px;
     }
 
     .lp-btn--call {
-      right: 12px;
+      right: 16px;
     }
 
     .lp-icon-wrap {
@@ -225,16 +237,13 @@ const telLink = `tel:${phoneNumber.replace(/[^0-9+]/g, '')}`;
     }
 
     .lp-icon-wrap svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
 
-    .lp-text__top {
-      font-size: 0.62rem;
-    }
-
-    .lp-text__bottom {
-      font-size: 0.8rem;
+    .lp-badge {
+      top: -2px;
+      right: -2px;
     }
   }
 </style>
