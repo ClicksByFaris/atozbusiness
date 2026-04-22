@@ -36,6 +36,7 @@ interface LandingPageData {
     altText: string;
   };
   primaryCtaText: string;
+  whatsappMessage?: string;
   secondaryCta?: {
     text: string;
     enabled: boolean;
@@ -82,8 +83,9 @@ const { page } = Astro.props as { page: LandingPageData };
 
 // Create WhatsApp link
 const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '');
-const whatsappMessage = encodeURIComponent(`Hi, I'm interested in ${page.title}`);
-const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+const message = page.whatsappMessage || `Hi, I'm interested in ${page.title}`;
+const encodedMessage = encodeURIComponent(message);
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
 // Force dynamic OG generator for landing pages
 const ogImageUrl = `/og/lp/${page.slug.current}.png`;
@@ -97,7 +99,7 @@ const ogImageUrl = `/og/lp/${page.slug.current}.png`;
   showFloating={false}
   noindex={true}
 >
-  <!-- Landing Page Container - Mobile-First Optimizeded the test  -->
+  <!-- Landing Page Container - Mobile-First Optimizeded the test (EDIT FOR BUILD)  -->
   <LPTrustBar />
   <LPHeader title="A to Z Business" />
   <div class="min-h-screen max-w-7xl mx-auto bg-white font-sans antialiased flex flex-col">
@@ -114,11 +116,9 @@ const ogImageUrl = `/og/lp/${page.slug.current}.png`;
     <LPCoreServices headline={page.coreServicesHeadline} services={page.coreServices} />
 
     <LPSocialProof socialProof={page.socialProof} />
-    
-    <LPTestimonials 
-      testimonials={page.socialProof?.testimonials}
-    />
-    
+
+    <LPTestimonials testimonials={page.socialProof?.testimonials} />
+
     <LPContact phoneNumber={BUSINESS_INFO.phone} whatsappLink={whatsappLink} />
 
     <LPFinalCTA whatsappLink={whatsappLink} ctaText={page.primaryCtaText} />

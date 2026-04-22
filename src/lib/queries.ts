@@ -354,6 +354,7 @@ export const allLandingPagesQuery = `*[_type == "landingPage" && published == tr
     altText
   },
   primaryCtaText,
+  whatsappMessage,
   secondaryCta,
   benefits,
   requiredDocuments,
@@ -387,6 +388,7 @@ export const landingPageBySlugQuery = `*[_type == "landingPage" && slug.current 
     altText
   },
   primaryCtaText,
+  whatsappMessage,
   secondaryCta,
   benefits,
   requiredDocuments,
