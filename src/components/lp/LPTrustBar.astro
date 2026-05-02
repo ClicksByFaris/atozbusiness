@@ -11,8 +11,10 @@ import { MapPin, Users, Award, Star } from 'lucide-react';
     <div
       class="flex items-center justify-center w-full sm:w-auto bg-slate-800/50 sm:bg-transparent rounded px-2 py-1 sm:p-0"
     >
-      <MapPin className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+      <MapPin className="w-3.5 h-3.5 mr-1.5 text-amber-400 flex-shrink-0" />
       <span>{LOCATIONS.main.quickAddress}</span>
+      <span class="mx-1.5 text-slate-600">·</span>
+      <span>{LOCATIONS.branch.quickAddress}</span>
     </div>
 
     <!-- Trust Signals -->

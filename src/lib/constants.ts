@@ -10,6 +10,11 @@ export const BUSINESS_INFO = {
     website: 'https://atozbusiness.ae',
 } as const;
 
+// ── Official business license & registration details ──────────────────────────
+export const BUSINESS_LICENSE = {
+    registeredName: 'A TO Z TYPING - SOLE PROPRIETORSHIP L.L.C.',
+} as const;
+
 export const BUSINESS_HOURS = {
     weekdays: 'Monday - Saturday: 8:00 AM - 9:00 PM',
     weekend: 'Sunday: Closed',
@@ -35,6 +40,7 @@ export const LOCATIONS = {
         city: 'Abu Dhabi',
         shortDescription: 'Our main office in Khalidiya, conveniently located opposite Khalidiya Mall',
         quickAddress: 'Khalidiya, Abu Dhabi',
+        mapsLink: 'https://share.google/VvPcFWZSXuuE9FKGo',
         coordinates: {
             latitude: 24.47366030441661,
             longitude: 54.35221508650658,
@@ -49,6 +55,7 @@ export const LOCATIONS = {
         phone: '056 663 6476',
         shortDescription: 'Our city branch serving Al Zahiyah and surrounding areas',
         quickAddress: 'Al Zahiyah, Abu Dhabi',
+        mapsLink: 'https://share.google/cO7solFD5WHNK58OD',
         coordinates: {
             latitude: 24.490320413455184,
             longitude: 54.384228054235486,
