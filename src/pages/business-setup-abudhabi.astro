@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { BUSINESS_INFO, BUSINESS_LICENSE, LOCATIONS } from '../lib/constants';
+import { BUSINESS_INFO, BUSINESS_LICENSE, LOCATIONS, SOCIAL_MEDIA } from '../lib/constants';
 import LPHeader from '../components/lp/LPHeader.astro';
 import LPTrustBar from '../components/lp/LPTrustBar.astro';
 
@@ -189,6 +189,107 @@ const page = {
 const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, '');
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(page.whatsappMessage)}`;
 const phoneHref = `tel:${BUSINESS_INFO.phone.replace(/\s/g, '')}`;
+
+// ─── JSON-LD Structured Data ──────────────────────────────────────────────────
+const _siteUrl = 'https://atozbusiness.ae';
+const _pageUrl = `${_siteUrl}/business-setup-abudhabi`;
+
+const schemaLocalBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${_siteUrl}/#business`,
+  name: 'A to Z Business Setup',
+  legalName: BUSINESS_LICENSE.registeredName,
+  description: page.metaDescription,
+  url: _siteUrl,
+  telephone: '+971565331632',
+  email: BUSINESS_INFO.email,
+  priceRange: '$$',
+  currenciesAccepted: 'AED',
+  paymentAccepted: 'Cash, Credit Card, Bank Transfer',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: LOCATIONS.main.address,
+    addressLocality: 'Abu Dhabi',
+    addressRegion: 'Abu Dhabi',
+    addressCountry: 'AE',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: LOCATIONS.main.coordinates.latitude,
+    longitude: LOCATIONS.main.coordinates.longitude,
+  },
+  hasMap: LOCATIONS.main.mapsLink,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '08:00',
+      closes: '21:00',
+    },
+  ],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '127',
+    bestRating: '5',
+    worstRating: '1',
+  },
+  sameAs: [
+    SOCIAL_MEDIA.facebook,
+    SOCIAL_MEDIA.instagram,
+    SOCIAL_MEDIA.linkedin,
+    SOCIAL_MEDIA.twitter,
+  ],
+};
+
+const schemaFAQ = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const schemaService = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Business Setup Abu Dhabi',
+  alternateName: [
+    'Company Formation Abu Dhabi',
+    'Trade License Abu Dhabi',
+    'Business Registration UAE',
+  ],
+  description:
+    'End-to-end business setup in Abu Dhabi: Mainland, Free Zone & Offshore company formation, trade license, MOA drafting, PRO services, and bank account assistance.',
+  provider: { '@id': `${_siteUrl}/#business` },
+  areaServed: {
+    '@type': 'City',
+    name: 'Abu Dhabi',
+    sameAs: 'https://www.wikidata.org/wiki/Q35178',
+  },
+  serviceType: 'Business Formation Consultancy',
+  url: _pageUrl,
+  offers: {
+    '@type': 'Offer',
+    name: 'Free 30-Minute Business Setup Consultation',
+    price: '0',
+    priceCurrency: 'AED',
+    description:
+      'Free 30-minute consultation to compare Mainland vs Free Zone options for your Abu Dhabi business.',
+  },
+};
+
+const schemaBreadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: _siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Business Setup Abu Dhabi', item: _pageUrl },
+  ],
+};
 ---
 
 <BaseLayout
@@ -197,6 +298,28 @@ const phoneHref = `tel:${BUSINESS_INFO.phone.replace(/\s/g, '')}`;
   showFloating={false}
   showNav={false}
 >
+  <!-- ── HEAD: SEO schemas + geo + robots ─────────────────────────────────── -->
+  <Fragment slot="head">
+    <!-- Explicit indexing directive with rich-snippet allowances -->
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <!-- Geo targeting — Abu Dhabi, UAE -->
+    <meta name="geo.region" content="AE-AZ" />
+    <meta name="geo.placename" content="Abu Dhabi" />
+    <meta name="geo.position" content="24.473660;54.352215" />
+    <meta name="ICBM" content="24.473660, 54.352215" />
+    <!-- JSON-LD: LocalBusiness (address, hours, rating, map) -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaLocalBusiness)} />
+    <!-- JSON-LD: FAQPage → FAQ rich results in Google SERP -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaFAQ)} />
+    <!-- JSON-LD: Service → what we offer + free consultation offer -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaService)} />
+    <!-- JSON-LD: BreadcrumbList → navigation path in search snippet -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaBreadcrumb)} />
+  </Fragment>
+
   <LPTrustBar />
   <LPHeader title="A to Z Business" />
 
@@ -466,32 +589,33 @@ const phoneHref = `tel:${BUSINESS_INFO.phone.replace(/\s/g, '')}`;
             <strong>A to Z Business Setup</strong> is an independent, privately owned business consultancy
             registered and licensed in Abu Dhabi, UAE. We are <strong>not</strong> a government body,
             government agency, or official authority. We are not affiliated with, endorsed by, or acting
-            on behalf of the Abu Dhabi Department of Economic Development (ADDED), the Department of
-            Economic Development Dubai (DED), the Abu Dhabi Global Market (ADGM), any UAE Free Zone
-            Authority, or any other government or regulatory entity.
+            on behalf of the Abu Dhabi Department of Economic Development (ADDED), the Department of Economic
+            Development Dubai (DED), the Abu Dhabi Global Market (ADGM), any UAE Free Zone Authority,
+            or any other government or regulatory entity.
           </p>
           <p>
             All services offered — including trade license applications, company formation support,
-            document preparation, PRO services, and authority submission assistance — are provided as
-            a private professional consultancy. Final approvals, licensing decisions, and processing
-            timelines are solely at the discretion of the relevant UAE government authority.
+            document preparation, PRO services, and authority submission assistance — are provided
+            as a private professional consultancy. Final approvals, licensing decisions, and
+            processing timelines are solely at the discretion of the relevant UAE government
+            authority.
           </p>
           <p>
-            <strong>Statistics & Claims:</strong> Figures such as "15,000+ Clients Served", "127+
-            Verified Reviews", "⭐ 4.9 Google Rating", and "10+ Years in Abu Dhabi" are based on
-            internal records and publicly available review data at the time of publication and are
-            subject to change. Past performance does not guarantee future results.
+            <strong>Statistics & Claims:</strong> Figures such as "15,000+ Clients Served", "127+ Verified
+            Reviews", "⭐ 4.9 Google Rating", and "10+ Years in Abu Dhabi" are based on internal records
+            and publicly available review data at the time of publication and are subject to change. Past
+            performance does not guarantee future results.
           </p>
           <p>
-            <strong>Response Times:</strong> Claims such as "reply within 1 minute" refer to our
-            target business-hours response standard and are not a contractual guarantee. Response
-            times may vary depending on query volume and operating hours.
+            <strong>Response Times:</strong> Claims such as "reply within 1 minute" refer to our target
+            business-hours response standard and are not a contractual guarantee. Response times may vary
+            depending on query volume and operating hours.
           </p>
           <p>
-            <strong>Pricing:</strong> All quoted fees are for our professional consultancy services
-            only. Government fees, authority charges, notarisation costs, and third-party expenses
-            are separate and payable directly to the relevant authority or service provider. Full
-            cost breakdowns are provided during consultation prior to any engagement.
+            <strong>Pricing:</strong> All quoted fees are for our professional consultancy services only.
+            Government fees, authority charges, notarisation costs, and third-party expenses are separate
+            and payable directly to the relevant authority or service provider. Full cost breakdowns are
+            provided during consultation prior to any engagement.
           </p>
           <p>
             By submitting an enquiry or contacting us, you acknowledge that you are engaging a
