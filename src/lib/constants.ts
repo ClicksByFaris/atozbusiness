@@ -35,7 +35,7 @@ export const LOCATIONS = {
     main: {
         name: 'Khalidiya Branch',
         type: 'Branch',
-        address: 'Mohammed Alhur Al Suwaidi St, opposite Khalidiya Mall',
+        address: 'Mohammed Alhur Al Suwaidi St',
         area: 'Khalidiya',
         city: 'Abu Dhabi',
         shortDescription: 'Our main office in Khalidiya, conveniently located opposite Khalidiya Mall',
@@ -49,7 +49,7 @@ export const LOCATIONS = {
     branch: {
         name: 'Al Zahiyah Branch',
         type: 'Branch',
-        address: 'Al Zahiyah - E16 02',
+        address: 'Al Zahiyah - E16 02, Near Navi Gate',
         area: 'Al Zahiyah',
         city: 'Abu Dhabi',
         phone: '056 663 6476',
