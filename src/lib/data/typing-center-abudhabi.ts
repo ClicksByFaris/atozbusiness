@@ -1,7 +1,7 @@
 export const page = {
     // ─── SEO — Google Ads Quality Score optimised ────────────────────────────────
     // Target keywords: "typing center abu dhabi", "document typing uae",
-    // "visa typing abu dhabi", "document processing services"
+    // "visa typing abu", "document processing services"
     metaTitle:
         'Typing Center Abu Dhabi | Document Processing – AtoZ Typing',
     metaDescription:
