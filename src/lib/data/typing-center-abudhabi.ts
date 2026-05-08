@@ -13,11 +13,11 @@ export const page = {
     subHeadline:
         'Your trusted typing center for all official document processing. We handle employment records, identity forms, business licensing, and digital portal submissions — including visas, ID applications, trade licences, and tenancy contracts. Certified bilingual typists. Professional, error-free service.',
     bullets: [
-        '✅ Expert Digital Portal Assistance & Form Filling',
-        '✅ Visas, ID Applications & Trade Licence Typing',
-        '✅ Same-Day Service — Walk In or WhatsApp',
-        '✅ Arabic & English — Certified Bilingual Typists',
-        '✅ Highly Accurate Formatting to Prevent Delays',
+        'Expert Digital Portal Assistance & Form Filling',
+        'Visas, ID Applications & Trade Licence Typing',
+        'Same-Day Service — Walk In or WhatsApp',
+        'Arabic & English — Certified Bilingual Typists',
+        'Highly Accurate Formatting to Prevent Delays',
     ],
     ctaText: 'Get Your Document Typed Today →',
     whatsappMessage:
