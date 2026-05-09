@@ -1,74 +1,78 @@
 export const page = {
     // ─── SEO — Google Ads Quality Score optimised ────────────────────────────────
-    // Target keywords: "typing center abu dhabi", "document typing uae",
-    // "visa typing abu", "document processing services"
+    // Target keywords:
+    //   "typing center near me" | "typing centre near me"
+    //   "typing center abu dhabi" | "typing center abudhabi"
+    //   "typing office abu dhabi" | "best typing center abu dhabi"
+    //   "emirates id typing center near me" | "abu dhabi typing centre"
+    //   "typing center abu dhabi open now" | "nearest typing center near me"
     metaTitle:
-        'Typing Center Abu Dhabi | Document Processing – AtoZ Typing',
+        'Typing Center Abu Dhabi | Open Now – AtoZ Business Setup',
     metaDescription:
-        'Professional typing center in Abu Dhabi. We assist with visa forms, ID applications, trade licences, and tenancy contracts. Walk in or WhatsApp now.',
+        'Looking for a typing center near you in Abu Dhabi? AtoZ is open now for visa forms, Emirates ID, trade licences & all document typing. Walk in or WhatsApp today.',
 
     // ─── Hero ────────────────────────────────────────────────────────────────────
-    badge: '🏛️ UAE Premier Typing Center',
-    headline: 'Abu Dhabi Typing Center',
+    badge: '📍 Typing Center Abu Dhabi — Open Now',
+    headline: 'Abu Dhabi Typing Center Near You',
     subHeadline:
-        'Your trusted typing center for all official document processing. We handle employment records, identity forms, business licensing, and digital portal submissions — including visas, ID applications, trade licences, and tenancy contracts. Certified bilingual typists. Professional, error-free service.',
+        'Fast, accurate, and professional document typing in Abu Dhabi. Whether you need Emirates ID assistance, visa form typing, tenancy contracts, or business licence applications — we are open now and ready to help. Walk in or send your documents via WhatsApp for same-day service.',
     bullets: [
-        'Expert Digital Portal Assistance & Form Filling',
-        'Visas, ID Applications & Trade Licence Typing',
-        'Same-Day Service — Walk In or WhatsApp',
-        'Arabic & English — Certified Bilingual Typists',
-        'Highly Accurate Formatting to Prevent Delays',
+        'Emirates ID Typing — Same-Day Service',
+        'Visa & Residency Form Typing — All Types',
+        'Trade Licence & Business Document Typing',
+        'Tenancy Contracts, NOCs & Legal Letters',
+        'Open Now — Walk In or WhatsApp Anytime',
     ],
-    ctaText: 'Get Your Document Typed Today →',
+    ctaText: 'WhatsApp Us Now — Get Typed Today →',
     whatsappMessage:
-        'Hi, I need document typing assistance in Abu Dhabi. Please help.',
+        'Hi! I need document typing assistance in Abu Dhabi. Please let me know the details.',
 
     // ─── Offer / Value Prop ──────────────────────────────────────────────────────
-    offerHeadline: 'Abu Dhabi\'s Premier Document Processing & Typing Center',
+    offerHeadline: 'The Best Typing Center in Abu Dhabi — Fast, Affordable & Open Now',
     offerText:
-        'Struggling with complex official forms? Our certified typing professionals expertly handle all formal document submissions and digital portal entries. We support you through employment documentation, identity card applications, local municipal services, and business licensing. Whether you need a visa typed, an ID renewed, a tenancy contract drafted, or a trade licence application structured, we ensure it is done correctly the first time. Walk in to our Abu Dhabi office or share your documents on WhatsApp for fast, same-day turnaround. Transparent pricing and expert support.',
+        'Searching for a typing center near you in Abu Dhabi? You have found the right place. AtoZ Typing Center provides fast, error-free document typing for residents, businesses, and professionals across Abu Dhabi. We handle Emirates ID applications, visa and residency form typing, trade licence documents, tenancy agreements, employment contracts, and much more. Our experienced bilingual typists (Arabic & English) ensure every form is completed correctly — avoiding rejections and costly delays. Visit our Abu Dhabi typing office today or send your documents via WhatsApp for a quick, remote service. No appointment needed. Transparent pricing. No hidden fees.',
 
     // ─── Service Highlights ───────────────────────────────────────────────────────
     highlights: [
         {
-            icon: '🛂',
-            title: 'Visa Application Services',
-            desc: 'Tourist, residence, employment, family & student visa forms drafted accurately for all nationalities following official formatting requirements. Meticulous attention to detail.',
-        },
-        {
             icon: '🪪',
-            title: 'Identity Documentation',
-            desc: 'New ID applications, renewals, and official record amendments filed correctly through the designated digital identity portals. Fast, reliable, same-day service.',
+            title: 'Emirates ID Typing Near Me',
+            desc: 'Emirates ID new applications, renewals, and updates typed quickly and accurately. We are your nearest typing center for Emirates ID assistance in Abu Dhabi — open now.',
         },
         {
-            icon: '🏛️',
-            title: 'Local Digital Portal Assistance',
-            desc: 'All municipal and local service applications prepared by our digital-savvy team. Navigate complex local platforms effortlessly with our expert form completion.',
-        },
-        {
-            icon: '⚖️',
-            title: 'Employment & Labour Forms',
-            desc: 'Employment contracts, official work permits, and mandatory workforce documentation handled accurately for both businesses and private individuals.',
+            icon: '🛂',
+            title: 'Visa & Residency Form Typing',
+            desc: 'Tourist, employment, family, and residency visa forms typed for all nationalities. Precise data entry, correct formatting, and fast turnaround every time.',
         },
         {
             icon: '🏢',
-            title: 'Commercial & Trade Licences',
-            desc: 'New business licence applications, renewals, operational activity additions, and amendments prepared for local economic departments and all regional free zones.',
+            title: 'Trade Licence & Business Typing',
+            desc: 'New trade licence applications, renewals, activity additions, and business amendments typed professionally for mainland and free zone companies across Abu Dhabi.',
         },
         {
             icon: '📄',
-            title: 'Tenancy Contracts & Agreements',
-            desc: 'Tenancy contracts, property registration forms, NOCs, affidavits, and official letters typed in Arabic and English to official legal standards.',
+            title: 'Tenancy Contracts & Legal Letters',
+            desc: 'Tenancy agreements, NOCs, affidavits, official letters, and property registration forms typed in Arabic and English to the required format.',
+        },
+        {
+            icon: '⚖️',
+            title: 'Employment & Labour Documents',
+            desc: 'Employment contracts, offer letters, job descriptions, salary certificates, and labour-related forms typed accurately for both employees and HR departments.',
         },
         {
             icon: '🛡️',
-            title: 'Medical & Health Documentation',
-            desc: 'Health insurance applications, municipal medical fitness requests, and health screening forms handled quickly and correctly for residents and staff.',
+            title: 'Medical & Insurance Form Typing',
+            desc: 'Health insurance applications, medical fitness forms, and insurance-related documentation typed quickly and correctly by our experienced team.',
         },
         {
             icon: '📱',
-            title: 'WhatsApp Document Service',
-            desc: 'Can\'t visit in person? Send your documents via WhatsApp. We type, verify, and return your completed forms — fast, secure, and hassle-free.',
+            title: 'WhatsApp Remote Typing Service',
+            desc: 'Cannot visit us in person? Send your documents via WhatsApp. We type, verify, and return your completed forms digitally — fast, secure, and convenient.',
+        },
+        {
+            icon: '⌨️',
+            title: 'All Document Types — One Location',
+            desc: 'From simple letters to complex multi-page applications, our Abu Dhabi typing center handles it all. Certified bilingual typists. Same-day service. Open now.',
         },
     ],
 
@@ -87,56 +91,56 @@ export const page = {
             role: 'Business Owner, Abu Dhabi',
             stars: 5,
             quote:
-                'My business licence renewal forms were completed the same morning. The team knew exactly what was required on the official portal — saved me hours of frustration. Highly professional.',
+                'Best typing center in Abu Dhabi — hands down. My trade licence renewal was completed the same morning, correctly and without any errors. I always come here for business documents.',
         },
         {
             name: 'Maria T.',
             role: 'Expat Resident, Abu Dhabi',
             stars: 5,
             quote:
-                'ID application processing was initiated within an hour through the correct portal. The bilingual staff explained every step clearly. Flawless execution and absolutely brilliant service.',
+                'I searched for a typing center near me and found AtoZ. Emirates ID renewal was typed within the hour — bilingual staff, friendly service, zero mistakes. Absolutely brilliant.',
         },
         {
             name: 'Samir H.',
             role: 'HR Manager, Construction Company',
             stars: 5,
             quote:
-                'We send all our employee documentation and labour contracts here. They know every field, every requirement. Fast, accurate, and always on time. A reliable partner for our HR department.',
+                'We send all our employee contracts and labour documents here. They know every field and every requirement. Fast, accurate, always on time. Our go-to typing office in Abu Dhabi.',
         },
         {
             name: 'Aisha Al Mansoori',
             role: 'Landlord, Abu Dhabi',
             stars: 5,
             quote:
-                'Tenancy contract and property registration typed professionally in Arabic and English. Ready within the hour. No issues upon submission — first draft accepted.',
+                'Tenancy contract and property registration typed in both Arabic and English — ready within an hour, first draft accepted. Professional and very affordable typing service.',
         },
         {
             name: 'David R.',
             role: 'New Resident, UK National',
             stars: 5,
             quote:
-                'First time in the country and completely lost with all the official forms. The team guided me through my municipal applications and ID forms — patient, professional, and very kind.',
+                'First time in Abu Dhabi — needed a typing center near me urgently. AtoZ sorted my visa forms and Emirates ID application. Patient, professional, and genuinely helpful team.',
         },
         {
             name: 'Fatima Al Nuaimi',
             role: 'Founder, Retail Business',
             stars: 5,
             quote:
-                'My local digital service application was typed and uploaded without a single error. No delay whatsoever. These people genuinely understand how every official portal works.',
+                'The nearest typing center to my office and by far the most reliable. Documents typed and ready without a single error. No delays, no confusion. Highly recommended.',
         },
         {
             name: 'Jason B.',
             role: 'Freelancer, Abu Dhabi',
             stars: 5,
             quote:
-                'Sent my documents via WhatsApp, everything was typed and confirmed within 45 minutes. Perfect for busy professionals. I will never use anyone else for my documentation.',
+                'Sent everything via WhatsApp — all typed and confirmed within 45 minutes. Perfect for busy people who cannot visit in person. Best typing center in Abu Dhabi, no question.',
         },
         {
             name: 'Noura K.',
             role: 'Operations Coordinator',
             stars: 5,
             quote:
-                'No hidden charges — the price quoted was the final price. Transparent, professional, and absolutely on time. My go-to typing center for all company paperwork.',
+                'Transparent pricing — the quote they give is the final price, no surprises. Professional, fast, and always open when I need them. My trusted typing center in Abu Dhabi.',
         },
     ],
 
@@ -145,66 +149,66 @@ export const page = {
         {
             n: '01',
             icon: '📋',
-            title: 'Tell Us Your Document',
-            desc: 'Walk in, call, or WhatsApp us. Tell us which document you need typed — visa applications, identity records, digital portal forms, trade licences, or any other official document — and we will confirm requirements instantly.',
+            title: 'Tell Us What You Need',
+            desc: 'Walk in, call, or WhatsApp us. Tell us which document needs typing — visa forms, Emirates ID, trade licence, tenancy contract, or any other — and we confirm requirements instantly.',
         },
         {
             n: '02',
             icon: '📁',
-            title: 'Submit Your Papers',
-            desc: 'Hand over your original documents in person, or send clear photos and scans via WhatsApp. Our team checks for completeness before starting to avoid any portal submission errors.',
+            title: 'Submit Your Documents',
+            desc: 'Hand over originals in person, or send clear photos and scans via WhatsApp. Our team checks everything for completeness before starting to prevent errors.',
         },
         {
             n: '03',
             icon: '⌨️',
-            title: 'Certified Typing & Verification',
-            desc: 'Our experienced typists complete your forms accurately on the correct platform or official template. Every document is double-checked before handover.',
+            title: 'Fast & Accurate Typing',
+            desc: 'Our experienced bilingual typists complete your forms accurately on the correct template or platform. Every document is double-checked before handover.',
         },
         {
             n: '04',
             icon: '✅',
-            title: 'Collect & Submit',
-            desc: 'Receive your correctly formatted document in person or digitally. We advise you on the exact next steps for completing your submission — nothing is left unclear.',
+            title: 'Collect & Go',
+            desc: 'Receive your completed, correctly formatted document in person or digitally via WhatsApp. We also guide you on the exact next steps — nothing left unclear.',
         },
     ],
 
     // ─── FAQ — Google Ads & SEO keyword-rich ─────────────────────────────────────
     faqs: [
         {
-            q: 'What types of official forms and documents can you process?',
-            a: 'We type all major official documents including: visa application forms (tourist, residence, employment, family), identity card applications and renewals, trade licence forms for mainland and free zones, local municipal service applications, employment contracts and labour records, tenancy agreements, property registrations, health insurance forms, NOCs, affidavits, and formal letters in both Arabic and English.',
+            q: 'Where is the nearest typing center to me in Abu Dhabi?',
+            a: 'AtoZ Typing Center is conveniently located in Abu Dhabi and serves clients from across the city. Whether you are searching for a typing center near me, typing centre near me, or the nearest typing center in Abu Dhabi — we are here, open now, and ready to assist. WhatsApp us your location for directions.',
         },
         {
-            q: 'How long does official document typing usually take?',
-            a: 'Most standard documents are completed the same day — often within one to two hours of submission. ID forms, local portal applications, and simple visa drafts are usually done in under an hour. Complex or multi-page documents may take longer. WhatsApp us for a quick time estimate before you visit.',
+            q: 'Is the typing center open now?',
+            a: 'Yes! Our Abu Dhabi typing center is open now during regular business hours. We also accept WhatsApp document requests throughout the day for fast remote typing without needing to visit in person.',
         },
         {
-            q: 'Can you assist with local digital service portal applications?',
-            a: 'Yes. Our team is highly experienced with navigating digital municipal portals, including applications for economic licences, housing services, health requests, and civil affairs. We ensure every form is filled correctly to prevent system rejections or delays.',
+            q: 'Do you type Emirates ID applications and renewals?',
+            a: 'Yes. AtoZ is your trusted Emirates ID typing center near you in Abu Dhabi. We handle Emirates ID new applications, renewals, and personal detail updates — typed accurately and submitted for processing the same day.',
         },
         {
-            q: 'Can you help with identity card applications and renewals?',
-            a: 'Yes. We process identity card new applications, renewals, and personal detail amendments. Our typists ensure all fields are meticulously accurate to avoid appointment cancellations or system processing issues.',
+            q: 'What types of documents does your typing center handle?',
+            a: 'We type all major document types including: visa application forms (tourist, employment, family, residency), Emirates ID applications and renewals, trade licence forms (mainland & free zone), tenancy contracts, employment contracts, NOCs, affidavits, official letters, health insurance forms, and more — in both Arabic and English.',
         },
         {
-            q: 'Do you type documents in both Arabic and English?',
+            q: 'How long does document typing take?',
+            a: 'Most standard documents are completed the same day — often within one to two hours. Emirates ID forms and simple visa drafts are usually done in under an hour. Walk in or WhatsApp us for a quick time estimate before you visit.',
+        },
+        {
+            q: 'Can I get my documents typed via WhatsApp without visiting?',
+            a: 'Absolutely. Send clear photos or scans of your documents via WhatsApp. We type them, verify accuracy, and return the completed version digitally — or have it ready for collection at our Abu Dhabi typing office.',
+        },
+        {
+            q: 'Do you type documents in Arabic and English?',
             a: 'Yes. Our certified bilingual typing team handles both Arabic and English documents. We also provide basic translation assistance for standard forms and official letters.',
         },
         {
-            q: 'Can I send my documents via WhatsApp for typing without visiting?',
-            a: 'Yes. Send clear photos or scans of your documents via WhatsApp. We type them remotely, verify accuracy, and return the completed document digitally — or have it ready for collection at our Abu Dhabi typing center.',
-        },
-        {
-            q: 'Which digital systems and document types do you handle?',
-            a: 'We are experienced in formatting documents for a wide range of official platforms. This includes employment and labour documentation, immigration and residency applications, economic department and business licensing portals, health and medical fitness requests, and various municipal or free zone digital services.',
-        },
-        {
-            q: 'What are your typing fees? Are there hidden charges?',
-            a: 'Our fees are based on document type and complexity. We always provide a clear quote upfront — no hidden charges, no surprises. The price you are quoted is the price you pay. Contact us on WhatsApp or visit our center for a free quote before committing.',
+            q: 'What are the typing fees? Are there hidden charges?',
+            a: 'Our fees are based on document type and complexity. We always provide a clear quote upfront — no hidden charges, no surprises. The price quoted is the price you pay. Contact us on WhatsApp or visit our typing center in Abu Dhabi for a free estimate.',
         },
     ],
 
     // ─── Legal / Google Ads Compliance ───────────────────────────────────────────
     disclaimer:
-        'A to Z Business Setup is an independent, private business consultancy and typing center. We are not a government agency and are not affiliated with any official state authority or regulatory body. All official fees, processing timelines, and final application decisions are at the sole discretion of the respective governing authorities. Our service is strictly limited to professional administrative assistance, document preparation, and form typing.',
+        'AtoZ Business Setup is an independent, private typing center and document services provider. We are not a government body and are not affiliated with any official authority or regulatory agency. All processing timelines, application decisions, and official fees are at the sole discretion of the relevant authorities. Our service is limited to professional document typing, form preparation, and administrative assistance.',
 };
