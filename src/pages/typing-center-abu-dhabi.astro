@@ -80,29 +80,29 @@ const schemaFAQ = {
 const schemaService = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Business Setup Abu Dhabi',
+  name: 'Document Typing Services Abu Dhabi',
   alternateName: [
-    'Company Formation Abu Dhabi',
-    'Trade License Abu Dhabi',
-    'Business Registration UAE',
+    'Typing Center Abu Dhabi',
+    'Document Processing Abu Dhabi',
+    'Form Typing Services UAE',
   ],
   description:
-    'End-to-end business setup in Abu Dhabi: Mainland, Free Zone & Offshore company formation, trade license, MOA drafting, PRO services, and bank account assistance.',
+    'Professional document typing services in Abu Dhabi: immigration forms, identity forms, corporate document photocopying, and tenancy contract typing.',
   provider: { '@id': `${_siteUrl}/#business` },
   areaServed: {
     '@type': 'City',
     name: 'Abu Dhabi',
     sameAs: 'https://www.wikidata.org/wiki/Q35178',
   },
-  serviceType: 'Business Formation Consultancy',
+  serviceType: 'Typing and Document Services',
   url: _pageUrl,
   offers: {
     '@type': 'Offer',
-    name: 'Free 30-Minute Business Setup Consultation',
+    name: 'Free Document Typing Consultation',
     price: '0',
     priceCurrency: 'AED',
     description:
-      'Free 30-minute consultation to compare Mainland vs Free Zone options for your Abu Dhabi business.',
+      'Free consultation for your document typing needs in Abu Dhabi.',
   },
 };
 
@@ -111,7 +111,7 @@ const schemaBreadcrumb = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Home', item: _siteUrl },
-    { '@type': 'ListItem', position: 2, name: 'Business Setup Abu Dhabi', item: _pageUrl },
+    { '@type': 'ListItem', position: 2, name: 'Typing Center Abu Dhabi', item: _pageUrl },
   ],
 };
 ---
@@ -145,7 +145,7 @@ const schemaBreadcrumb = {
   </Fragment>
 
   <LPTrustBar />
-  <LPHeader title="A to Z Business" />
+  <LPHeader title="A to Z Typing Center" />
 
   <main style="padding-bottom: 0;">
     <!-- ① HERO -->
@@ -180,9 +180,9 @@ const schemaBreadcrumb = {
     <!-- ③ HIGHLIGHTS -->
     <section class="section-light">
       <div class="container">
-        <h2>All-Inclusive Setup Packages</h2>
+        <h2>Professional Typing Services</h2>
         <p class="sub-label">
-          Everything handled end-to-end by our bilingual Abu Dhabi team. No hidden fees — promise.
+          Fast and accurate document preparation by our bilingual Abu Dhabi team. No hidden fees — promise.
         </p>
         <div class="grid-3">
           {
@@ -247,7 +247,7 @@ const schemaBreadcrumb = {
     <!-- ⑥ PROCESS -->
     <section class="section-white">
       <div class="container">
-        <h2>PRO + More Services Included — 4 Simple Steps to Launch</h2>
+        <h2>Simple & Fast Document Processing — 4 Steps</h2>
         <div class="steps-grid">
           {
             page.steps.map((s) => (
@@ -301,7 +301,7 @@ const schemaBreadcrumb = {
         </div>
         <form class="lead-form" action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="59338c35-f3ad-474d-99b6-c11817de7a6c" />
-          <input type="hidden" name="subject" value="New Lead: Business Setup Abu Dhabi" />
+          <input type="hidden" name="subject" value="New Lead: Typing Center Abu Dhabi" />
           <div class="form-row">
             <label for="f-name">Full Name *</label>
             <input type="text" id="f-name" name="name" required placeholder="Enter your name" />
@@ -318,13 +318,13 @@ const schemaBreadcrumb = {
             <label for="f-service">Service of Interest *</label>
             <select id="f-service" name="service" required>
               <option value="">Select an option</option>
-              <option>Mainland Setup</option>
-              <option>Business Support / PRO</option>
-              <option>Trade Name Renewal</option>
-              <option>Not sure — Need consultation</option>
+              <option>Personal Identity Form Typing</option>
+              <option>Immigration Application Typing</option>
+              <option>Corporate Document Photocopying</option>
+              <option>Other Document Typing</option>
             </select>
           </div>
-          <button type="submit" class="btn-submit">Book My Free Consultation →</button>
+          <button type="submit" class="btn-submit">Get Your Free Quote →</button>
           <p class="disclaimer">
             🔒 Your information is 100% confidential. We respect your privacy.
           </p>
@@ -337,8 +337,8 @@ const schemaBreadcrumb = {
   <footer class="foot">
     <div class="container foot-inner">
       <div>
-        <p class="foot-brand">A to Z Business Setup</p>
-        <p>Abu Dhabi's trusted business formation specialists.</p>
+        <p class="foot-brand">A to Z Typing Center</p>
+        <p>Abu Dhabi's trusted document typing and services specialists.</p>
       </div>
       <div class="foot-links">
         <a href="/privacy-policy">Privacy Policy</a>
