@@ -1,6 +1,7 @@
 export const page = {
     // ─── SEO — Google Ads Quality Score optimised ────────────────────────────────
     // Target keywords: this for checkking 
+    // again new checkking for build 
     //   "typing center near me" | "typing centre near me"
     //   "typing center abu dhabi" | "typing center abudhabi"
     //   "typing office abu dhabi" | "best typing center abu dhabi"
