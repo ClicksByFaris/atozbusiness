@@ -6,7 +6,7 @@
 
 You can install the integration using your preferred package manager.
 
-### Automatic Installation (Recommended)
+### Automatic Installation (Recommended) for testing
 The Astro CLI can automatically handle the installation and basic configuration for you using `pnpm`:
 
 ```bash
