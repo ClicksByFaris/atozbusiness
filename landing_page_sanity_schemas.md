@@ -12,7 +12,7 @@ This document provides the exact list of fields available in your **Sanity Studi
 
 ---
 
-## 2. Hero Section (Header)
+## 2. Hero Section (Headers)
 | Field Name | Type | Key Utility |
 | :--- | :--- | :--- |
 | **Main Headline** | `string` | The <h1> big bold promise at the top (Max 80 chars) |
