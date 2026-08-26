@@ -59,13 +59,7 @@ const breadcrumbs = [
 // Map string array to object
 const documents = service.documentsRequired?.map((doc) => ({ name: doc, required: true })) || [];
 
-// Map process steps
-const processMap =
-  service.processSteps?.map((step: any, idx: number) => ({
-    step: idx + 1,
-    title: step.step || `Step ${idx + 1}`,
-    description: step.description,
-  })) || [];
+
 ---
 
 <ServiceLayout service={service}>
@@ -80,8 +74,6 @@ const processMap =
       <!-- Main Content -->
       <div class="lg:col-span-8 space-y-12">
         <ServiceFeatures features={service.features || []} fullDescription={service.description} />
-        {processMap.length > 0 && <ServiceProcess process={processMap} />}
-        {documents.length > 0 && <ServiceDocuments documents={documents} />}
         {service.faq && service.faq.length > 0 && <ServiceFAQ faqs={service.faq} />}
       </div>
 
