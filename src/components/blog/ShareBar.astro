@@ -1,16 +1,32 @@
 ---
+import { BUSINESS_INFO, LOCATIONS } from '../../lib/constants';
+
 interface Props {
   title: string;
   url?: string;
   description?: string;
+  phoneNumber?: string;
+  whatsappNumber?: string;
+  mapLink?: string;
 }
 
-const { title, url = Astro.url.href, description = '' } = Astro.props;
+const {
+  title,
+  url = Astro.url.href,
+  description = '',
+  phoneNumber = BUSINESS_INFO.phone,
+  whatsappNumber = BUSINESS_INFO.whatsapp,
+  mapLink = LOCATIONS.main.mapsLink,
+} = Astro.props;
 
 // Encode for sharing URLs
 const encodedTitle = encodeURIComponent(title);
 const encodedUrl = encodeURIComponent(url);
-const encodedDescription = encodeURIComponent(description);
+
+const cleanPhone = phoneNumber.replace(/[^0-9+]/g, '');
+const cleanWhatsApp = whatsappNumber.replace(/[^0-9]/g, '');
+const telLink = `tel:${cleanPhone}`;
+const waLink = `https://wa.me/${cleanWhatsApp}?text=${encodeURIComponent(`Hi, I would like to inquire about: ${title} - ${url}`)}`;
 ---
 
 <!-- Floating Share Bar - Desktop (Left Side) -->
@@ -145,63 +161,86 @@ const encodedDescription = encodeURIComponent(description);
   </div>
 </div>
 
-<!-- Mobile Share Bar (Bottom Fixed) -->
-<div
-  class="share-bar-mobile lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-neutral-200/50 shadow-2xl transform translate-y-full transition-transform duration-300"
-  data-share-bar-mobile
->
-  <div class="flex items-center justify-around py-3 px-4 max-w-md mx-auto">
-    <!-- LinkedIn -->
+<!-- Mobile Speed-Dial Quick Contact FAB (Fan-out upward) -->
+<div class="mobile-contact-fab lg:hidden fixed bottom-6 left-6 z-50" data-mobile-contact-fab>
+  <!-- Backdrop for click-away dismiss -->
+  <div class="fab-backdrop fixed inset-0 bg-black/20 backdrop-blur-[2px] opacity-0 pointer-events-none transition-opacity duration-300 z-0"></div>
+
+  <!-- Speed Dial Action Menu Items -->
+  <div class="fab-menu flex flex-col gap-3.5 mb-3.5 pointer-events-none relative z-10">
+    <!-- Action 1: Map / Location (Top) -->
     <a
-      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+      href={mapLink}
       target="_blank"
       rel="noopener noreferrer"
-      class="w-12 h-12 rounded-xl bg-neutral-100 active:bg-[#0A66C2] text-neutral-600 active:text-white flex items-center justify-center transition-colors"
-      aria-label="Share on LinkedIn"
+      class="fab-action-item flex items-center gap-3 group"
+      aria-label="View Location Map"
+      data-action="map"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path
-          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-        ></path>
-      </svg>
+      <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-rose-600 to-red-500 text-white shadow-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      </div>
+      <span class="fab-label px-3 py-1 bg-white/95 backdrop-blur-md text-slate-800 text-xs font-semibold rounded-full shadow-md border border-slate-100 whitespace-nowrap">
+        Location Map
+      </span>
     </a>
 
-    <!-- Twitter/X -->
+    <!-- Action 2: Phone Call (Middle) -->
     <a
-      href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="w-12 h-12 rounded-xl bg-neutral-100 active:bg-black text-neutral-600 active:text-white flex items-center justify-center transition-colors"
-      aria-label="Share on X"
+      href={telLink}
+      class="fab-action-item flex items-center gap-3 group"
+      aria-label="Call Now"
+      data-action="call"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
-        <path
-          d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-        ></path>
-      </svg>
+      <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-blue-700 to-blue-500 text-white shadow-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path>
+        </svg>
+      </div>
+      <span class="fab-label px-3 py-1 bg-white/95 backdrop-blur-md text-slate-800 text-xs font-semibold rounded-full shadow-md border border-slate-100 whitespace-nowrap">
+        Call Now
+      </span>
     </a>
 
-    <!-- WhatsApp -->
+    <!-- Action 3: WhatsApp Chat (Bottom action above trigger) -->
     <a
-      href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+      href={waLink}
       target="_blank"
       rel="noopener noreferrer"
-      class="w-12 h-12 rounded-xl bg-neutral-100 active:bg-[#25D366] text-neutral-600 active:text-white flex items-center justify-center transition-colors"
-      aria-label="Share on WhatsApp"
+      class="fab-action-item flex items-center gap-3 group"
+      aria-label="Chat on WhatsApp"
+      data-action="whatsapp"
     >
+      <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-emerald-600 to-[#25D366] text-white shadow-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+        </svg>
+      </div>
+      <span class="fab-label px-3 py-1 bg-white/95 backdrop-blur-md text-slate-800 text-xs font-semibold rounded-full shadow-md border border-slate-100 whitespace-nowrap">
+        WhatsApp
+      </span>
+    </a>
+  </div>
+
+  <!-- Main Trigger Button (Only this is initially visible) -->
+  <button
+    type="button"
+    class="fab-trigger-btn relative z-10 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none"
+    aria-label="Quick Contact Options"
+    aria-expanded="false"
+    data-fab-trigger
+  >
+    <!-- Pulse ring -->
+    <span class="fab-pulse absolute inset-0 rounded-full bg-[#25D366] opacity-40"></span>
+
+    <!-- WhatsApp Icon (Shown when closed) -->
+    <span class="fab-icon-default transition-all duration-300 flex items-center justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5"
+        class="w-7 h-7"
         viewBox="0 0 24 24"
         fill="currentColor"
       >
@@ -209,41 +248,20 @@ const encodedDescription = encodeURIComponent(description);
           d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
         ></path>
       </svg>
-    </a>
+    </span>
 
-    <!-- Copy Link -->
-    <button
-      type="button"
-      class="copy-link-btn-mobile w-12 h-12 rounded-xl bg-neutral-100 active:bg-primary-500 text-neutral-600 active:text-white flex items-center justify-center transition-colors relative"
-      aria-label="Copy link"
-      data-url={url}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5 copy-icon"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    <!-- Close 'X' Icon (Shown when open) -->
+    <span class="fab-icon-close absolute inset-0 flex items-center justify-center opacity-0 rotate-[-90deg] scale-75 transition-all duration-300">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5 check-icon hidden"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </button>
-  </div>
+    </span>
+  </button>
 </div>
 
 <style>
+  /* ── Desktop Share Bar ─────────────────────────────── */
   .share-bar-desktop {
     opacity: 0;
     transform: translateY(-50%) translateX(-20px);
@@ -255,31 +273,96 @@ const encodedDescription = encodeURIComponent(description);
     transform: translateY(-50%) translateX(0);
   }
 
-  .share-bar-mobile.visible {
-    transform: translateY(0);
+  /* ── Mobile FAB Speed-Dial ─────────────────────────── */
+  .mobile-contact-fab {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .fab-pulse {
+    animation: fab-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fab-ping {
+    0% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    75%, 100% {
+      transform: scale(1.35);
+      opacity: 0;
+    }
+  }
+
+  /* Items state when closed */
+  .fab-action-item {
+    opacity: 0;
+    transform: translateY(20px) scale(0.85);
+    transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    text-decoration: none;
+  }
+
+  .fab-action-item:nth-child(1) { transition-delay: 0.05s; }
+  .fab-action-item:nth-child(2) { transition-delay: 0.1s; }
+  .fab-action-item:nth-child(3) { transition-delay: 0.15s; }
+
+  /* Open State */
+  .mobile-contact-fab.is-open .fab-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-contact-fab.is-open .fab-menu {
+    pointer-events: auto;
+  }
+
+  .mobile-contact-fab.is-open .fab-action-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .mobile-contact-fab.is-open .fab-action-item:nth-child(3) { transition-delay: 0.05s; }
+  .mobile-contact-fab.is-open .fab-action-item:nth-child(2) { transition-delay: 0.1s; }
+  .mobile-contact-fab.is-open .fab-action-item:nth-child(1) { transition-delay: 0.15s; }
+
+  .mobile-contact-fab.is-open .fab-pulse {
+    animation: none;
+    opacity: 0;
+  }
+
+  .mobile-contact-fab.is-open .fab-trigger-btn {
+    background-color: #1e293b; /* Dark charcoal on open */
+  }
+
+  .mobile-contact-fab.is-open .fab-icon-default {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.75);
+  }
+
+  .mobile-contact-fab.is-open .fab-icon-close {
+    opacity: 1;
+    transform: rotate(0) scale(1);
   }
 
   @media print {
     .share-bar-desktop,
-    .share-bar-mobile {
+    .mobile-contact-fab {
       display: none !important;
     }
   }
 </style>
 
 <script>
-  // Show/hide share bar based on scroll position
   document.addEventListener('DOMContentLoaded', () => {
+    // Desktop share bar scroll observer
     const shareBarDesktop = document.querySelector('[data-share-bar]');
-    const shareBarMobile = document.querySelector('[data-share-bar-mobile]');
-    let lastScrollY = 0;
-    let ticking = false;
+    const showThreshold = 400;
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const showThreshold = 400; // Show after scrolling 400px
-
-      // Desktop
       if (shareBarDesktop) {
         if (scrollY > showThreshold) {
           shareBarDesktop.classList.add('visible');
@@ -287,42 +370,65 @@ const encodedDescription = encodeURIComponent(description);
           shareBarDesktop.classList.remove('visible');
         }
       }
-
-      // Mobile - show when scrolling up, hide when scrolling down
-      if (shareBarMobile) {
-        if (scrollY > showThreshold) {
-          if (scrollY < lastScrollY) {
-            shareBarMobile.classList.add('visible');
-          } else {
-            shareBarMobile.classList.remove('visible');
-          }
-        } else {
-          shareBarMobile.classList.remove('visible');
-        }
-      }
-
-      lastScrollY = scrollY;
-      ticking = false;
     };
 
     window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(handleScroll);
-        ticking = true;
+      window.requestAnimationFrame(handleScroll);
+    });
+
+    // Mobile Speed-Dial FAB Toggle
+    const fabContainer = document.querySelector('[data-mobile-contact-fab]');
+    const fabTrigger = document.querySelector('[data-fab-trigger]');
+    const fabBackdrop = fabContainer?.querySelector('.fab-backdrop');
+
+    const toggleFab = (forceState?: boolean) => {
+      if (!fabContainer || !fabTrigger) return;
+      const isOpen = forceState !== undefined ? forceState : !fabContainer.classList.contains('is-open');
+      
+      if (isOpen) {
+        fabContainer.classList.add('is-open');
+        fabTrigger.setAttribute('aria-expanded', 'true');
+      } else {
+        fabContainer.classList.remove('is-open');
+        fabTrigger.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    if (fabTrigger) {
+      fabTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFab();
+      });
+    }
+
+    if (fabBackdrop) {
+      fabBackdrop.addEventListener('click', () => {
+        toggleFab(false);
+      });
+    }
+
+    // Close on action click
+    const actionItems = fabContainer?.querySelectorAll('.fab-action-item');
+    actionItems?.forEach((item) => {
+      item.addEventListener('click', () => {
+        toggleFab(false);
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && fabContainer?.classList.contains('is-open')) {
+        toggleFab(false);
       }
     });
 
-    // Copy link functionality
-    const copyButtons = document.querySelectorAll('.copy-link-btn, .copy-link-btn-mobile');
-
+    // Copy link functionality for Desktop
+    const copyButtons = document.querySelectorAll('.copy-link-btn');
     copyButtons.forEach((btn) => {
       btn.addEventListener('click', async () => {
         const url = btn.getAttribute('data-url') || window.location.href;
-
         try {
           await navigator.clipboard.writeText(url);
-
-          // Show success feedback
           const copyIcon = btn.querySelector('.copy-icon');
           const checkIcon = btn.querySelector('.check-icon');
 
