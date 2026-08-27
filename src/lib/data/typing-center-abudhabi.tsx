@@ -2,17 +2,17 @@ export const page = {
   // SEO
   metaTitle: 'Typing Center Abu Dhabi | Fast Document Typing Services – AtoZ Business Setup',
   metaDescription:
-    'Professional typing center in Abu Dhabi. Immigration forms, identity cards, tenancy contracts, corporate documents. Fast, accurate & bilingual. Free consultation.',
+    'Professional typing center in Abu Dhabi. Corporate documents, tenancy contracts, and general administrative applications. Fast, accurate & bilingual typing services.',
 
   // Hero
   badge: '⚡ Same-Day Document Typing Available',
   headline: 'Typing Center Abu Dhabi — Fast & Accurate',
   subHeadline:
-    'From immigration forms to corporate documents — our bilingual typing team handles it all. Trusted by 15,000+ clients in Abu Dhabi.',
+    'From complex corporate paperwork to daily administrative forms — our bilingual typing team handles it all. Trusted by 15,000+ clients in Abu Dhabi.',
   bullets: [
-    'Immigration & Identity Form Typing',
+    'Administrative Application Typing',
     'Corporate Document Photocopying',
-    'Tenancy Contract Typing',
+    'Commercial & Tenancy Contracts',
     'Bilingual Team (EN/AR)',
   ],
   ctaText: 'Get Your Documents Typed →',
@@ -21,14 +21,14 @@ export const page = {
   // Offer section
   offerHeadline: 'Your Trusted Abu Dhabi Typing Center',
   offerText:
-    'Stop wasting time on complex government forms. Our experienced bilingual team types your documents accurately and on time — every time. From personal identity forms to corporate paperwork, we handle everything at our Abu Dhabi typing center. WhatsApp us for a quick quote.',
+    'Stop wasting time on complex official forms. Our experienced bilingual team types your documents accurately and on time — every time. From personal administrative applications to corporate paperwork, we handle everything at our Abu Dhabi typing center. WhatsApp us for a quick quote.',
 
   // Service highlights
   highlights: [
     {
       icon: '🪪',
-      title: 'Identity & Immigration Forms',
-      desc: 'Emirates ID, residence visa, entry permit, and all immigration application typing — done accurately and fast.',
+      title: 'Personal & Administrative Forms',
+      desc: 'Accurate typing for standard personal applications, local processing forms, and general administrative paperwork — done fast.',
     },
     {
       icon: '🏢',
@@ -37,13 +37,13 @@ export const page = {
     },
     {
       icon: '📄',
-      title: 'Tenancy Contract Typing',
-      desc: 'Ejari-ready tenancy contracts typed precisely to Abu Dhabi real estate authority requirements.',
+      title: 'Tenancy & Lease Contracts',
+      desc: 'Standardized tenancy contracts typed precisely to Abu Dhabi real estate authority formatting requirements.',
     },
     {
       icon: '📋',
-      title: 'Government Form Assistance',
-      desc: 'We fill and type all government forms correctly — eliminating rejections due to errors.',
+      title: 'Official Application Assistance',
+      desc: 'We fill and type all official applications correctly — eliminating rejections due to typos or formatting errors.',
     },
     {
       icon: '🌐',
@@ -72,7 +72,7 @@ export const page = {
       role: 'Abu Dhabi Resident',
       stars: 5,
       quote:
-        'Got my Emirates ID renewal form typed perfectly. The team was fast, professional, and bilingual. No errors, no rejections.',
+        'Got my personal administrative forms typed perfectly. The team was fast, professional, and bilingual. No errors, no rejections.',
     },
     {
       name: 'Sarah T.',
@@ -86,21 +86,21 @@ export const page = {
       role: 'Expat Professional',
       stars: 5,
       quote:
-        'Had urgent visa application forms to type. WhatsApp them in the morning, documents were ready by afternoon. Amazing service.',
+        'Had urgent processing forms to type. WhatsApp them in the morning, documents were ready by afternoon. Amazing service.',
     },
     {
       name: 'Fatima Al Hashmi',
       role: 'Property Owner, Abu Dhabi',
       stars: 5,
       quote:
-        'Tenancy contract typed and Ejari-ready within an hour. The team knew exactly what the authority requires. Highly recommended.',
+        'Tenancy contract typed and formatted within an hour. The team knew exactly what the local requirements are. Highly recommended.',
     },
     {
       name: 'James O.',
       role: 'Operations Director',
       stars: 5,
       quote:
-        'Professional, bilingual, and affordable. They handle all our company\'s government form typing. Never had a rejection.',
+        'Professional, bilingual, and affordable. They handle all our company\'s official typing. Never had a rejection.',
     },
     {
       name: 'Aisha Al Mansoori',
@@ -143,7 +143,7 @@ export const page = {
   faqs: [
     {
       q: 'What types of documents can you type at your Abu Dhabi typing center?',
-      a: 'We type all government and corporate documents — immigration and visa application forms, Emirates ID forms, tenancy contracts (Ejari-ready), corporate agreements, MOAs, identity forms, and more.',
+      a: 'We type a wide range of corporate and administrative documents — standard application forms, tenancy contracts, corporate agreements, MOAs, and local compliance paperwork.',
     },
     {
       q: 'How fast is your document typing service?',
@@ -151,7 +151,7 @@ export const page = {
     },
     {
       q: 'Do you type documents in both Arabic and English?',
-      a: 'Yes. Our bilingual team types documents accurately in both Arabic and English — ideal for official UAE government submissions.',
+      a: 'Yes. Our bilingual team types documents accurately in both Arabic and English — ideal for all official and corporate submissions.',
     },
     {
       q: 'How much does document typing cost in Abu Dhabi?',
