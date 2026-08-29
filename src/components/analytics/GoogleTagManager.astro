@@ -1,0 +1,62 @@
+---
+/**
+ * GoogleTagManager.astro
+ *
+ * Loads GTM via Partytown — runs entirely in a Web Worker,
+ * so the main thread (and Core Web Vitals) stay unaffected.
+ *
+ * Requirements:
+ *  - @astrojs/partytown installed & configured in astro.config.mjs
+ *  - forward: ['dataLayer.push'] set in partytown config
+ *  - PUBLIC_GTM_ID set in .env (must start with "GTM-")
+ */
+
+const rawId = import.meta.env.PUBLIC_GTM_ID;
+
+// Strict validation: must be a non-empty string starting with GTM-
+const gtmId: string | null =
+  typeof rawId === 'string' && rawId.trim().startsWith('GTM-') && rawId.trim().length > 4
+    ? rawId.trim()
+    : null;
+
+// Known placeholder — not a real container ID
+const isPlaceholder = rawId === 'GTM-XXXXXXX' || rawId === undefined || rawId === '';
+
+if (import.meta.env.DEV) {
+  if (gtmId === null || isPlaceholder) {
+    console.log('\x1b[33m%s\x1b[0m', '⚠  [GoogleTagManager] Invalid or missing PUBLIC_GTM_ID — GTM will not load.');
+    console.log('\x1b[33m%s\x1b[0m', '   → Set a real GTM container ID in your .env file:');
+    console.log('\x1b[33m%s\x1b[0m', '     PUBLIC_GTM_ID=GTM-XXXXXXX');
+  } else {
+    console.log('\x1b[32m%s\x1b[0m', `✔  [GoogleTagManager] GTM loaded with ID: ${gtmId}`);
+  }
+}
+---
+
+{gtmId !== null ? (
+  <>
+    {/* Initialise dataLayer and fire the gtm.start event — runs in Web Worker */}
+    <script is:inline type="text/partytown" define:vars={{ gtmId }}>
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    </script>
+
+    {/* Load the GTM container script — intercepted by Partytown, off main thread */}
+    <script
+      is:inline
+      type="text/partytown"
+      async
+      src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
+    />
+
+    {/* Fallback for browsers with JavaScript disabled */}
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      />
+    </noscript>
+  </>
+) : null}

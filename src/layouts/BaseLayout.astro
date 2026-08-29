@@ -6,6 +6,7 @@ import { ClientRouter } from 'astro:transitions';
 import { SEO_DEFAULTS } from '../lib/seo';
 import SmoothScroll from '../components/ui/SmoothScroll';
 import FloatingActions from '../components/shared/FloatingActions.astro';
+import GoogleTagManager from '../components/analytics/GoogleTagManager.astro';
 
 interface Props {
   title: string;
@@ -32,8 +33,6 @@ const fullTitle =
 // Generate full OG image URL
 const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteUrl}${ogImage}`;
 
-// GTM Config handling
-const publicGtmId = import.meta.env.PUBLIC_GTM_ID;
 ---
 
 <!doctype html>
@@ -76,52 +75,9 @@ const publicGtmId = import.meta.env.PUBLIC_GTM_ID;
 
     <ClientRouter />
     <slot name="head" />
-
-    <!-- Delayed Google Tag Manager -->
-    {
-      publicGtmId && (
-        <script is:inline define:vars={{ gtmId: publicGtmId }}>
-          (function () {
-            var gtmLoaded = false;
-            function loadGTM() {
-              if (gtmLoaded) return;
-              gtmLoaded = true;
-              (function (w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-                var f = d.getElementsByTagName(s)[0],
-                  j = d.createElement(s),
-                  dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-              })(window, document, 'script', 'dataLayer', gtmId);
-            }
-            var events = ['scroll', 'mousemove', 'touchstart', 'keydown'];
-            events.forEach(function (e) {
-              window.addEventListener(e, loadGTM, { once: true, passive: true });
-            });
-          })();
-        </script>
-      )
-    }
-    <!-- End Delayed Google Tag Manager -->
+    <GoogleTagManager />
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    {
-      publicGtmId && (
-        <noscript>
-          <iframe
-            src={`https://www.googletagmanager.com/ns.html?id=${publicGtmId}`}
-            height="0"
-            width="0"
-            style="display:none;visibility:hidden"
-          />
-        </noscript>
-      )
-    }
-    <!-- End Google Tag Manager (noscript) -->
     {showNav && <Header />}
     <main>
       <slot />
