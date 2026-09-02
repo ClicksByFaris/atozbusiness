@@ -7,6 +7,7 @@ import { SEO_DEFAULTS } from '../lib/seo';
 import SmoothScroll from '../components/ui/SmoothScroll';
 import FloatingActions from '../components/shared/FloatingActions.astro';
 import GoogleTagManager from '../components/analytics/GoogleTagManager.astro';
+import TrackingAstro from '../components/analytics/TrackingAstro.astro';
 
 interface Props {
   title: string;
@@ -76,6 +77,7 @@ const fullOgImage = ogImage.startsWith('http') ? ogImage : `${SEO_DEFAULTS.siteU
     <ClientRouter />
     <slot name="head" />
     <GoogleTagManager />
+    <TrackingAstro />
   </head>
   <body>
     {showNav && <Header />}
