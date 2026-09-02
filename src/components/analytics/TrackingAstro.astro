@@ -1,0 +1,46 @@
+<script is:inline>
+  // 1. Ensure dataLayer exists on the main thread (GTM also does this, but belt-and-suspenders)
+  window.dataLayer = window.dataLayer || [];
+
+  // 2. Click conversion tracking — delegated to document so it survives SPA navigations
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-track="conversion"]');
+    if (!target) return;
+
+    const {
+      eventName = 'contact_click',
+      eventMethod,
+      eventCategory,
+      eventLabel,
+      conversionValue,  // comes in as a string from data-* attributes
+      currency = 'AED',
+    } = target.dataset;
+
+    // Parse conversion value to a number — Google Ads rejects string values silently
+    const parsedValue = conversionValue ? parseFloat(conversionValue) : undefined;
+
+    window.dataLayer.push({
+      event: eventName,
+      event_method:      eventMethod      || 'unspecified',
+      event_category:    eventCategory    || undefined,
+      event_label:       eventLabel       || undefined,
+      conversion_value:  parsedValue,               // number (e.g. 80) not string ("80")
+      currency:          parsedValue ? currency : undefined,
+      click_url:         target.href      || null,
+      page_path:         window.location.pathname,
+    });
+  });
+
+  // 3. Virtual page view for Astro ClientRouter SPA navigations ONLY.
+  //    astro:after-swap fires only on subsequent navigations — never on the
+  //    initial load — so GTM's own pageview fires once on load, and this
+  //    fires once per SPA navigation. No double-counting.
+  document.addEventListener('astro:after-swap', () => {
+    window.dataLayer.push({
+      event: 'virtual_page_view',
+      page_path:  window.location.pathname,
+      page_title: document.title,
+    });
+  });
+</script>
+

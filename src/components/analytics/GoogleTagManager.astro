@@ -2,12 +2,10 @@
 /**
  * GoogleTagManager.astro
  *
- * Loads GTM via Partytown — runs entirely in a Web Worker,
- * so the main thread (and Core Web Vitals) stay unaffected.
+ * Loads GTM via the standard Google async snippet — runs on the main thread
+ * but is fully non-blocking (async + deferred execution).
  *
  * Requirements:
- *  - @astrojs/partytown installed & configured in astro.config.mjs
- *  - forward: ['dataLayer.push'] set in partytown config
  *  - PUBLIC_GTM_ID set in .env (must start with "GTM-")
  */
 
@@ -35,19 +33,18 @@ if (import.meta.env.DEV) {
 
 {gtmId !== null ? (
   <>
-    {/* Initialise dataLayer and fire the gtm.start event — runs in Web Worker */}
-    <script is:inline type="text/partytown" define:vars={{ gtmId }}>
+    {/* Standard GTM snippet — async, non-blocking, runs on main thread */}
+    <script is:inline define:vars={{ gtmId }}>
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      (function (w, d, s, l, i) {
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s);
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + '&l=' + l;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', gtmId);
     </script>
-
-    {/* Load the GTM container script — intercepted by Partytown, off main thread */}
-    <script
-      is:inline
-      type="text/partytown"
-      async
-      src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
-    />
 
     {/* Fallback for browsers with JavaScript disabled */}
     <noscript>
