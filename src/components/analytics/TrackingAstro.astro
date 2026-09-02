@@ -10,15 +10,24 @@
     const {
       eventName = 'contact_click',
       eventMethod,
-      ...customData
+      eventCategory,
+      eventLabel,
+      conversionValue,  // comes in as a string from data-* attributes
+      currency = 'AED',
     } = target.dataset;
+
+    // Parse conversion value to a number — Google Ads rejects string values silently
+    const parsedValue = conversionValue ? parseFloat(conversionValue) : undefined;
 
     window.dataLayer.push({
       event: eventName,
-      event_method: eventMethod || 'unspecified',
-      click_url: target.href || null,
-      page_path: window.location.pathname,
-      ...customData,
+      event_method:      eventMethod      || 'unspecified',
+      event_category:    eventCategory    || undefined,
+      event_label:       eventLabel       || undefined,
+      conversion_value:  parsedValue,               // number (e.g. 80) not string ("80")
+      currency:          parsedValue ? currency : undefined,
+      click_url:         target.href      || null,
+      page_path:         window.location.pathname,
     });
   });
 
@@ -29,8 +38,9 @@
   document.addEventListener('astro:after-swap', () => {
     window.dataLayer.push({
       event: 'virtual_page_view',
-      page_path: window.location.pathname,
+      page_path:  window.location.pathname,
       page_title: document.title,
     });
   });
 </script>
+

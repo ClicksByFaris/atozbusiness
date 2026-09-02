@@ -159,10 +159,30 @@ const schemaBreadcrumb = {
             {page.bullets.map((b) => <li>✅ {b}</li>)}
           </ul>
           <div class="cta-group">
-            <a href={phoneHref} class="btn-primary">📞 Call Now — Free Consultation</a>
-            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn-wa"
-              >💬 WhatsApp Us</a
-            >
+            <a
+              href={phoneHref}
+              class="btn-primary"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="phone"
+              data-event-category="hero_cta"
+              data-event-label="Call Now - Hero"
+              data-conversion-value="80"
+              data-currency="AED"
+            >📞 Call Now — Free Consultation</a>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-wa"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="whatsapp"
+              data-event-category="hero_cta"
+              data-event-label="WhatsApp - Hero"
+              data-conversion-value="50"
+              data-currency="AED"
+            >💬 WhatsApp Us</a>
           </div>
           <p class="micro">⚡ We reply within 1 minute · 🔒 100% confidential</p>
         </div>
@@ -424,9 +444,41 @@ const schemaBreadcrumb = {
 
   <!-- Mobile sticky bar — hidden on desktop -->
   <div class="mob-bar">
-    <a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="mob-wa">💬 WhatsApp</a>
-    <a href={phoneHref} class="mob-call">📞 Call Now</a>
-    <a href="#contact" class="mob-quote">Get Quote</a>
+    <a
+      href={whatsappLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mob-wa"
+      data-track="conversion"
+      data-event-name="contact_click"
+      data-event-method="whatsapp"
+      data-event-category="sticky_bar"
+      data-event-label="WhatsApp - Sticky"
+      data-conversion-value="50"
+      data-currency="AED"
+    >💬 WhatsApp</a>
+    <a
+      href={phoneHref}
+      class="mob-call"
+      data-track="conversion"
+      data-event-name="contact_click"
+      data-event-method="phone"
+      data-event-category="sticky_bar"
+      data-event-label="Call Now - Sticky"
+      data-conversion-value="80"
+      data-currency="AED"
+    >📞 Call Now</a>
+    <a
+      href="#contact"
+      class="mob-quote"
+      data-track="conversion"
+      data-event-name="contact_click"
+      data-event-method="form"
+      data-event-category="sticky_bar"
+      data-event-label="Get Quote - Sticky"
+      data-conversion-value="150"
+      data-currency="AED"
+    >Get Quote</a>
   </div>
 
   <!-- LPFloatingButtons removed — sticky bar is the single CTA source on mobile -->
