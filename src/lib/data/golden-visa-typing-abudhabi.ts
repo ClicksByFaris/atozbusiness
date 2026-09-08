@@ -183,13 +183,5 @@ export const page = {
       q: 'How long does document preparation take at your typing center?',
       a: 'Standard typing and document clearing typically take between 1 to 3 business days, depending on whether attestation or translation services are required. Priority typing services are available for urgent requests.',
     },
-    {
-      q: 'Are you affiliated with the UAE government or immigration authorities?',
-      a: 'No. AtoZ Business is an independent, privately owned typing and document clearing center licensed in Abu Dhabi. We provide document preparation, typing, and administrative facilitation. Final visa approvals, nominations, and issuance are exclusively determined by the UAE government.',
-    },
-    {
-      q: 'Is my personal and financial information kept secure?',
-      a: 'Yes. We follow strict data confidentiality protocols. All client salary statements, passports, and company documents are handled securely by authorized administrative staff and are never disclosed to third parties.',
-    },
   ],
 };
