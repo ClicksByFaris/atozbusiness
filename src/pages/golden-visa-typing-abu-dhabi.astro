@@ -1,0 +1,1482 @@
+---
+export const prerender = true; // SSG — pre-built static HTML at deploy time
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  BUSINESS_INFO,
+  BUSINESS_LICENSE,
+  LOCATIONS,
+  SOCIAL_MEDIA,
+} from "../lib/constants";
+import LPHeader from "../components/lp/LPHeader.astro";
+import LPTrustBar from "../components/lp/LPTrustBar.astro";
+
+// ─────────────────────────────────────────────
+import { page } from "../lib/data/golden-visa-typing-abudhabi";
+// ─────────────────────────────────────────────
+
+const whatsappNumber = BUSINESS_INFO.whatsapp.replace(/[^0-9]/g, "");
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(page.whatsappMessage)}`;
+const phoneHref = `tel:${BUSINESS_INFO.phone.replace(/\s/g, "")}`;
+
+// ─── JSON-LD Structured Data ──────────────────────────────────────────────────
+const _siteUrl = "https://atozbusiness.ae";
+const _pageUrl = `${_siteUrl}/golden-visa-typing-abu-dhabi`;
+
+const schemaLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${_siteUrl}/#business`,
+  name: "A to Z Business Setup",
+  legalName: BUSINESS_LICENSE.registeredName,
+  description: page.metaDescription,
+  url: _siteUrl,
+  telephone: "+971565331632",
+  email: BUSINESS_INFO.email,
+  priceRange: "$$",
+  currenciesAccepted: "AED",
+  paymentAccepted: "Cash, Credit Card, Bank Transfer",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: LOCATIONS.main.address,
+    addressLocality: "Abu Dhabi",
+    addressRegion: "Abu Dhabi",
+    addressCountry: "AE",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: LOCATIONS.main.coordinates.latitude,
+    longitude: LOCATIONS.main.coordinates.longitude,
+  },
+  hasMap: LOCATIONS.main.mapsLink,
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: "08:00",
+      closes: "21:00",
+    },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    reviewCount: "127",
+    bestRating: "5",
+    worstRating: "1",
+  },
+  sameAs: [
+    SOCIAL_MEDIA.facebook,
+    SOCIAL_MEDIA.instagram,
+    SOCIAL_MEDIA.linkedin,
+    SOCIAL_MEDIA.twitter,
+  ],
+};
+
+const schemaFAQ = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: page.faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
+const schemaService = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Golden Visa Document Typing Abu Dhabi",
+  alternateName: [
+    "Golden Visa Typing Center Abu Dhabi",
+    "Golden Visa Document Clearing Abu Dhabi",
+    "Golden Visa Application Typing UAE",
+  ],
+  description:
+    "Expert Golden Visa document typing and clearing in Abu Dhabi. We prepare Skilled Professional, Business Investor, and Family Sponsorship application documents accurately.",
+  provider: { "@id": `${_siteUrl}/#business` },
+  areaServed: {
+    "@type": "City",
+    name: "Abu Dhabi",
+    sameAs: "https://www.wikidata.org/wiki/Q35178",
+  },
+  serviceType: "Document Typing and Clearing Services",
+  url: _pageUrl,
+  offers: {
+    "@type": "Offer",
+    name: "Free Golden Visa Document Consultation",
+    price: "0",
+    priceCurrency: "AED",
+    description:
+      "Free consultation to assess your Golden Visa document requirements in Abu Dhabi.",
+  },
+};
+
+const schemaBreadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: _siteUrl },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Golden Visa Typing Abu Dhabi",
+      item: _pageUrl,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={page.metaTitle}
+  description={page.metaDescription}
+  showFloating={false}
+  showNav={false}
+>
+  <!-- ── HEAD: SEO schemas + geo + robots ─────────────────────────────────── -->
+  <Fragment slot="head">
+    <!-- Explicit indexing directive with rich-snippet allowances -->
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <!-- Geo targeting — Abu Dhabi, UAE -->
+    <meta name="geo.region" content="AE-AZ" />
+    <meta name="geo.placename" content="Abu Dhabi" />
+    <meta name="geo.position" content="24.473660;54.352215" />
+    <meta name="ICBM" content="24.473660, 54.352215" />
+    <!-- Campaign keyword targeting hints -->
+    <meta
+      name="keywords"
+      content="abu dhabi golden visa, golden visa abu dhabi, golden visa application, golden visa cost, requirements for golden visa uae, tamm golden visa, golden visa typing abu dhabi, document clearing abu dhabi"
+    />
+    <!-- JSON-LD: LocalBusiness (address, hours, rating, map) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schemaLocalBusiness)}
+    />
+    <!-- JSON-LD: FAQPage → FAQ rich results in Google SERP -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaFAQ)} />
+    <!-- JSON-LD: Service → what we offer + free consultation offer -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schemaService)}
+    />
+    <!-- JSON-LD: BreadcrumbList → navigation path in search snippet -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schemaBreadcrumb)}
+    />
+  </Fragment>
+
+  <LPTrustBar />
+  <LPHeader title="A to Z Typing Center" />
+
+  <main style="padding-bottom: 0;">
+    <!-- ① HERO ─────────────────────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-inner container">
+        <div class="hero-copy">
+          <div class="badge">{page.badge}</div>
+          <h1>{page.headline}</h1>
+          <!-- <p class="sub">{page.subHeadline}</p> -->
+          <ul class="bullets">
+            {page.bullets.map((b) => <li>✅ {b}</li>)}
+          </ul>
+          <div class="cta-group">
+            <a
+              href={phoneHref}
+              class="btn-primary"
+              id="hero-cta-call"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="phone"
+              data-event-category="hero_cta"
+              data-event-label="Call Now - Hero"
+              data-conversion-value="80"
+              data-currency="AED">📞 Call Now — Free Consultation</a
+            >
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-wa"
+              id="hero-cta-wa"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="whatsapp"
+              data-event-category="hero_cta"
+              data-event-label="WhatsApp - Hero"
+              data-conversion-value="50"
+              data-currency="AED">💬 WhatsApp Us</a
+            >
+          </div>
+          <p class="micro">
+            ⚡ We reply within 1 minute · 🔒 100% confidential · ⚠️ Not a
+            government entity
+          </p>
+        </div>
+
+        <!-- ── Trust Badges (hero inline) ────────────────────────────────── -->
+        <div class="hero-trust">
+          <div class="trust-pill">⭐ 4.9 Google Rating</div>
+          <div class="trust-pill">✅ 300+ Verified Reviews</div>
+          <div class="trust-pill">📍 2 Abu Dhabi Offices</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ② OFFER STRIP / PAS Problem ───────────────────────────────────────── -->
+    <section class="offer">
+      <div class="container">
+        <h2>{page.offerHeadline}</h2>
+        <p class="offer-text">{page.offerText}</p>
+        <div class="offer-cta">
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-wa-outline"
+            id="offer-cta-wa"
+            data-track="conversion"
+            data-event-name="contact_click"
+            data-event-method="whatsapp"
+            data-event-category="offer_strip"
+            data-event-label="WhatsApp - Offer Strip"
+            data-conversion-value="50"
+            data-currency="AED">💬 Get Free Document Advice</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ SERVICE HIGHLIGHTS ──────────────────────────────────────────────── -->
+    <section class="section-light">
+      <div class="container">
+        <h2>Golden Visa Document Services — Abu Dhabi Typing Center</h2>
+        <p class="sub-label">
+          Expert typing and document clearing for every Golden Visa category.
+          Bilingual team, zero errors, same-day service available.
+        </p>
+        <div class="grid-3">
+          {
+            page.highlights.map((h) => (
+              <div class="card">
+                <div class="card-icon">{h.icon}</div>
+                <h3>{h.title}</h3>
+                <p>{h.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ④ STATS BAR ────────────────────────────────────────────────────────── -->
+    <section class="stats-bar">
+      <div class="container stats-grid">
+        {
+          page.stats.map((s) => (
+            <div class="stat">
+              <span class="stat-num">{s.num}</span>
+              <span class="stat-label">{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ⑤ TESTIMONIALS ─────────────────────────────────────────────────────── -->
+    <section class="section-light">
+      <div class="container">
+        <h2>What Our Golden Visa Clients Say</h2>
+        <p class="sub-label">
+          Real experiences from Skilled Professionals, Investors, and Executives
+          we've helped in Abu Dhabi.
+        </p>
+        <div class="testimonial-carousel-wrap">
+          <div class="testimonial-track" id="testimonialTrack">
+            {
+              page.testimonials.map((t, i) => (
+                <div class="testimonial" data-index={i}>
+                  <div class="stars">{"⭐".repeat(t.stars)}</div>
+                  <blockquote>"{t.quote}"</blockquote>
+                  <p class="t-name">— {t.name}</p>
+                  <p class="t-role">{t.role}</p>
+                </div>
+              ))
+            }
+          </div>
+          <div class="carousel-dots" id="carouselDots">
+            {
+              page.testimonials.map((_, i) => (
+                <button
+                  class={`dot${i === 0 ? " active" : ""}`}
+                  data-index={i}
+                  aria-label={`Testimonial ${i + 1}`}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑥ REQUIREMENTS SECTION ────────────────────────────────────────────── -->
+    <section class="section-white" id="requirements">
+      <div class="container">
+        <h2>{page.requirementsHeadline}</h2>
+        <p class="sub-label">{page.requirementsSubtext}</p>
+        <div class="req-grid">
+          {
+            page.requirementsCategories.map((cat) => (
+              <div class="req-card">
+                <div class="req-icon">{cat.icon}</div>
+                <h3>{cat.title}</h3>
+                <ul class="req-list">
+                  {cat.items.map((item) => (
+                    <li>
+                      <span class="req-check">✅</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+        <div class="req-disclaimer">
+          <span class="req-disc-icon">⚠️</span>
+          <p>
+            <strong>Important:</strong> Document requirements and eligibility criteria
+            are determined solely by UAE government authorities and may change. The
+            above is general guidance only. Our service is document typing and clearing
+            — final eligibility decisions rest with the relevant UAE authority.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- 
+    ⑦ PROCESS ────────────────────────────────────────────────────────────
+    <section class="section-light">
+      <div class="container">
+        <h2>How We Process Your Golden Visa Documents — 4 Simple Steps</h2>
+        <p class="sub-label">
+          From your first WhatsApp to a complete, submission-ready document package.
+        </p>
+        <div class="steps-grid">
+          {
+            page.steps.map((s) => (
+              <div class="step">
+                <div class="step-num">{s.n}</div>
+                <div class="step-icon">{s.icon}</div>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ⑧ FAQ ──────────────────────────────────────────────────────────────── -->
+    <section class="section-white">
+      <div class="container faq-wrap">
+        <h2>Golden Visa Abu Dhabi — Frequently Asked Questions</h2>
+        <p class="sub-label">
+          Common questions about Golden Visa document requirements, costs, and
+          our typing services.
+        </p>
+        <div class="accordion">
+          {
+            page.faqs.map((f) => (
+              <details class="faq-item">
+                <summary>{f.q}</summary>
+                <p class="faq-answer">{f.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑨ CONTACT CTA ──────────────────────────────────────────────────────── -->
+    <section class="contact" id="contact">
+      <div class="container contact-inner">
+        <div class="contact-copy">
+          <h2>Start Your Golden Visa Application Today</h2>
+          <p>
+            Call AtoZ Business or WhatsApp us for a free, no-obligation
+            consultation. Tell us your visa category — we'll advise on the exact
+            documents needed.
+          </p>
+          <ul class="bullets-white">
+            <li>✅ Free 30-Min Document Consultation</li>
+            <li>✅ Bilingual Team (EN/AR)</li>
+            <li>✅ Transparent, Fixed Typing Fees</li>
+            <li>✅ 100% Confidential Document Handling</li>
+          </ul>
+          <div class="contact-direct">
+            <a
+              href={phoneHref}
+              class="btn-contact-call"
+              id="contact-cta-call"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="phone"
+              data-event-category="contact_section"
+              data-event-label="Call Now - Contact"
+              data-conversion-value="80"
+              data-currency="AED">📞 {BUSINESS_INFO.phone}</a
+            >
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-contact-wa"
+              id="contact-cta-wa"
+              data-track="conversion"
+              data-event-name="contact_click"
+              data-event-method="whatsapp"
+              data-event-category="contact_section"
+              data-event-label="WhatsApp - Contact"
+              data-conversion-value="50"
+              data-currency="AED">💬 WhatsApp Now</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ⑩ FOOTER ──────────────────────────────────────────────────────────────── -->
+  <footer class="foot">
+    <div class="container foot-inner">
+      <div>
+        <p class="foot-brand">A to Z Typing Center</p>
+        <p>
+          Abu Dhabi's trusted Golden Visa document typing and clearing
+          specialists.
+        </p>
+      </div>
+      <div class="foot-links">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/about">About Us</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+
+    <!-- Trust Boxes -->
+    <div class="container trust-boxes">
+      <!-- Box 1: Official License Credentials -->
+      <div class="trust-box trust-box-centered">
+        <div class="trust-box-header">
+          <span class="trust-icon">🏛️</span>
+          <h4>Licensed & Regulated Business</h4>
+        </div>
+        <p class="reg-label">Registered Business Name</p>
+        <p class="reg-name">{BUSINESS_LICENSE.registeredName}</p>
+        <p class="reg-auth">Issued by ADDED · Abu Dhabi, UAE</p>
+      </div>
+
+      <!-- Box 2: Our 2 Locations -->
+      <div class="trust-box">
+        <div class="trust-box-header">
+          <span class="trust-icon">📍</span>
+          <h4>Our Office Locations</h4>
+        </div>
+        <div class="location-row">
+          <p class="loc-name">{LOCATIONS.main.name}</p>
+          <p class="loc-addr">{LOCATIONS.main.address}</p>
+          <p class="loc-city">{LOCATIONS.main.city}, UAE</p>
+          <a
+            href={LOCATIONS.main.mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="loc-link">📍 Get Directions</a
+          >
+        </div>
+        <div class="loc-divider"></div>
+        <div class="location-row">
+          <p class="loc-name">{LOCATIONS.branch.name}</p>
+          <p class="loc-addr">{LOCATIONS.branch.address}</p>
+          <p class="loc-city">{LOCATIONS.branch.city}, UAE</p>
+          <a
+            href={LOCATIONS.branch.mapsLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="loc-link">📍 Get Directions</a
+          >
+        </div>
+      </div>
+    </div>
+    <!-- End Trust Boxes -->
+
+    <div class="foot-bottom">
+      <p>
+        © {new Date().getFullYear()} A to Z Business Setup. All rights reserved. ·
+        Abu Dhabi, UAE
+      </p>
+    </div>
+
+    <!-- ⑩ LEGAL DISCLAIMER — Google Ads Policy Compliant -->
+    <div class="legal-disclaimer" id="legal-disclaimer">
+      <div class="container">
+        <div class="disclaimer-header">
+          <span class="disclaimer-icon">⚖️</span>
+          <strong>Legal Disclaimer</strong>
+        </div>
+        <div class="disclaimer-body">
+          <p>
+            <strong>A to Z Business Setup</strong> is an independent private typing
+            center and document clearing business. We are <strong>not</strong> a government
+            body, and we are <strong>not</strong> affiliated with TAMM, the Abu Dhabi
+            Department of Economic Development (ADDED), the Federal Authority for
+            Identity, Citizenship, Customs & Port Security (ICP), or any other UAE
+            government authority.
+          </p>
+          <p>
+            We provide <strong
+              >document typing and clearing services only</strong
+            >. All final eligibility decisions, approvals, timelines, and
+            government fees related to UAE Golden Visa applications are solely
+            at the discretion of the relevant UAE authorities. We do not
+            guarantee visa approval or any specific processing outcome.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- End Legal Disclaimer -->
+  </footer>
+
+  <!-- ── Floating CTA Pair: WhatsApp + Call ── -->
+  <div class="float-cta" role="group" aria-label="Quick contact buttons">
+    <a
+      href={whatsappLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="float-btn float-btn-wa"
+      id="float-cta-wa"
+      data-track="conversion"
+      data-event-name="contact_click"
+      data-event-method="whatsapp"
+      data-event-category="float_cta"
+      data-event-label="WhatsApp - Float"
+      data-conversion-value="50"
+      data-currency="AED">💬 WhatsApp</a
+    >
+    <a
+      href={phoneHref}
+      class="float-btn float-btn-call"
+      id="float-cta-call"
+      data-track="conversion"
+      data-event-name="contact_click"
+      data-event-method="phone"
+      data-event-category="float_cta"
+      data-event-label="Call Now - Float"
+      data-conversion-value="80"
+      data-currency="AED">📞 Call Now</a
+    >
+  </div>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      /* ── Brand colours ─────────────────────────────────────────────── */
+      --primary: #2a5298;
+      --navy: #1a3260;
+      --dark: #122140;
+      --accent: #f59e0b;
+      --accent-h: #c47e09;
+      --gold: #d4af37; /* Golden Visa premium accent */
+      --gold-light: #f5e57a;
+      --green: #16a34a;
+      --green-h: #15803d;
+      --white: #fff;
+      --g50: #f9fafb;
+      --g100: #f3f4f6;
+      --g600: #4b5563;
+      --g700: #374151;
+      --r: 1rem;
+      --sh: 0 4px 24px rgba(0, 0, 0, 0.1);
+      --shl: 0 8px 40px rgba(0, 0, 0, 0.16);
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--g700);
+      background: var(--white);
+    }
+    h2 {
+      font-family: "Outfit", "Inter", sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    h3 {
+      font-family: "Outfit", "Inter", sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.4rem;
+    }
+    p {
+      line-height: 1.7;
+      color: var(--g600);
+    }
+    a {
+      text-decoration: none;
+    }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+    .sub-label {
+      color: var(--g600);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+
+    /* ── HERO ──────────────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(
+        135deg,
+        var(--dark) 0%,
+        var(--navy) 55%,
+        #1e3a6e 100%
+      );
+      color: var(--white);
+      padding: 4rem 1.25rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle gold shimmer overlay for Golden Visa premium feel */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 80% 20%,
+        rgba(212, 175, 55, 0.12) 0%,
+        transparent 65%
+      );
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 760px;
+      position: relative;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+      color: var(--dark);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 12px rgba(212, 175, 55, 0.4);
+    }
+    h1 {
+      font-family: "Outfit", "Inter", sans-serif;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .sub {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 1.5rem;
+      line-height: 1.65;
+    }
+    .bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .bullets li {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .micro {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Hero trust pills */
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 2rem;
+    }
+    .trust-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── BUTTONS ───────────────────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+      color: var(--dark);
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 0.9rem 1.85rem;
+      border-radius: 0.75rem;
+      transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+      letter-spacing: 0.01em;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(212, 175, 55, 0.6);
+    }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      background: var(--green);
+      color: var(--white);
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.9rem 1.85rem;
+      border-radius: 0.75rem;
+      transition:
+        background 0.2s,
+        transform 0.2s;
+    }
+    .btn-wa:hover {
+      background: var(--green-h);
+      transform: translateY(-2px);
+    }
+    .btn-wa-outline {
+      display: inline-flex;
+      align-items: center;
+      background: transparent;
+      border: 2px solid var(--green);
+      color: var(--green);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.8rem 1.75rem;
+      border-radius: 0.75rem;
+      transition: all 0.2s;
+      margin-top: 1.25rem;
+    }
+    .btn-wa-outline:hover {
+      background: var(--green);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* ── OFFER STRIP ───────────────────────────────────────────────────── */
+    .offer {
+      background: var(--g50);
+      padding: 3.5rem 1.25rem;
+      text-align: center;
+    }
+    .offer-text {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      color: var(--g700);
+    }
+    .offer-cta {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── SECTIONS ──────────────────────────────────────────────────────── */
+    .section-light {
+      background: var(--g50);
+      padding: 4rem 1.25rem;
+    }
+    .section-white {
+      background: var(--white);
+      padding: 4rem 1.25rem;
+    }
+
+    /* ── GRID ──────────────────────────────────────────────────────────── */
+    .grid-3 {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    /* ── CARD ──────────────────────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border: 1px solid #e5e7eb;
+      border-radius: var(--r);
+      padding: 2rem 1.5rem;
+      box-shadow: var(--sh);
+      transition:
+        transform 0.25s,
+        box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--accent) 100%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shl);
+    }
+    .card:hover::after {
+      opacity: 1;
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ── STATS BAR ─────────────────────────────────────────────────────── */
+    .stats-bar {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--navy) 100%);
+      color: var(--white);
+      padding: 2.5rem 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-bar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 50% 50%,
+        rgba(212, 175, 55, 0.1) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    @media (min-width: 640px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .stat-num {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 900;
+      margin-bottom: 0.2rem;
+      background: linear-gradient(
+        135deg,
+        var(--gold-light) 0%,
+        var(--accent) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── TESTIMONIALS ──────────────────────────────────────────────────── */
+    .testimonial-carousel-wrap {
+      margin-top: 2rem;
+      position: relative;
+    }
+    .testimonial-track {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) #e5e7eb;
+      padding-bottom: 0.75rem;
+    }
+    .testimonial-track::-webkit-scrollbar {
+      height: 4px;
+    }
+    .testimonial-track::-webkit-scrollbar-track {
+      background: #e5e7eb;
+      border-radius: 999px;
+    }
+    .testimonial-track::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 999px;
+    }
+    .testimonial {
+      background: var(--white);
+      border-radius: var(--r);
+      padding: 1.75rem;
+      box-shadow: var(--sh);
+      border-left: 4px solid var(--gold);
+      scroll-snap-align: start;
+      flex: 0 0 80%;
+      min-width: 0;
+    }
+    @media (min-width: 640px) {
+      .testimonial {
+        flex: 0 0 360px;
+      }
+    }
+    .stars {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+    blockquote {
+      font-style: italic;
+      color: var(--g700);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .t-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+    }
+    .t-role {
+      font-size: 0.82rem;
+      color: var(--g600);
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: #d1d5db;
+      cursor: pointer;
+      padding: 0;
+      transition:
+        background 0.25s,
+        transform 0.25s;
+    }
+    .dot.active {
+      background: var(--gold);
+      transform: scale(1.5);
+    }
+
+    /* ── REQUIREMENTS SECTION ──────────────────────────────────────────── */
+    .req-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      margin-top: 0.5rem;
+    }
+    .req-card {
+      background: var(--g50);
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
+      box-shadow: var(--sh);
+      border-top: 4px solid var(--gold);
+    }
+    .req-icon {
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .req-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-top: 1rem;
+    }
+    .req-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.92rem;
+      color: var(--g700);
+      line-height: 1.5;
+    }
+    .req-check {
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+    .req-disclaimer {
+      margin-top: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #fef9e7;
+      border: 1px solid #fde68a;
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .req-disc-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .req-disclaimer p {
+      font-size: 0.88rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .req-disclaimer strong {
+      color: #92400e;
+    }
+
+    /* ── STEPS ─────────────────────────────────────────────────────────── */
+    .steps-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .step {
+      text-align: center;
+      padding: 2rem 1.25rem;
+      background: var(--white);
+      border-radius: var(--r);
+      border: 1px solid #e5e7eb;
+      box-shadow: var(--sh);
+    }
+    .step-num {
+      display: inline-block;
+      width: 3rem;
+      height: 3rem;
+      line-height: 3rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+      border-radius: 50%;
+      font-weight: 900;
+      color: var(--dark);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+    }
+    .step-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── FAQ ───────────────────────────────────────────────────────────── */
+    .faq-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .faq-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      padding: 1.1rem 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::after {
+      content: "+";
+      font-size: 1.4rem;
+      color: var(--gold);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      padding: 0 1.25rem 1.1rem;
+      color: var(--g600);
+      line-height: 1.7;
+    }
+
+    /* ── CONTACT SECTION ───────────────────────────────────────────────── */
+    .contact {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--navy) 100%);
+      color: var(--white);
+      padding: 3rem 1.25rem;
+      overflow: hidden;
+      text-align: center;
+    }
+    .contact-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .contact-copy h2 {
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .contact-copy p {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+    }
+    .bullets-white {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      text-align: left;
+      display: inline-flex;
+    }
+    .bullets-white li {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+    }
+    .contact-direct {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .btn-contact-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 1.5rem;
+      border-radius: 0.75rem;
+      transition: background 0.2s;
+    }
+    .btn-contact-call:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .btn-contact-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--green);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 1.5rem;
+      border-radius: 0.75rem;
+      transition: background 0.2s;
+    }
+    .btn-contact-wa:hover {
+      background: var(--green-h);
+    }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────── */
+    .foot {
+      background: var(--dark);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 2.5rem 1.25rem 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    @media (max-width: 767px) {
+      .foot {
+        padding-bottom: 5rem; /* clear the floating pill pair */
+      }
+    }
+    @media (min-width: 768px) {
+      .foot {
+        padding-bottom: 5rem;
+      }
+    }
+    .foot-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .foot-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+    }
+    .foot-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+    .foot-links a {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .foot-links a:hover {
+      color: var(--white);
+    }
+    .foot-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    /* ── FLOATING CTA PAIR (WhatsApp + Call) ──────────────────────────── */
+    .float-cta {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      display: flex;
+      gap: 0.6rem;
+      white-space: nowrap;
+    }
+    .float-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border-radius: 999px;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+      letter-spacing: 0.01em;
+    }
+    .float-btn:active {
+      filter: brightness(0.9);
+    }
+    .float-btn-wa {
+      background: #25d366;
+    }
+    .float-btn-wa:hover {
+      background: #1ebe59;
+    }
+    .float-btn-call {
+      background: var(--navy);
+    }
+    .float-btn-call:hover {
+      background: var(--dark);
+    }
+
+    /* ── TRUST BOXES ───────────────────────────────────────────────────── */
+    .trust-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      padding: 2rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    @media (max-width: 640px) {
+      .trust-boxes {
+        grid-template-columns: 1fr;
+      }
+    }
+    .trust-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--r);
+      padding: 1.5rem;
+    }
+    .trust-box-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .trust-icon {
+      font-size: 1.4rem;
+    }
+    .trust-box-header h4 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0;
+    }
+    .location-row {
+      margin-bottom: 0.75rem;
+    }
+    .loc-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.2rem;
+    }
+    .loc-addr,
+    .loc-city {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.15rem;
+    }
+    .loc-link {
+      display: inline-block;
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: underline;
+    }
+    .loc-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 1rem 0;
+    }
+    .trust-box-centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+    .trust-box-centered .trust-box-header {
+      justify-content: center;
+    }
+    .reg-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 0.5rem;
+    }
+    .reg-name {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+    .reg-auth {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ── LEGAL DISCLAIMER ──────────────────────────────────────────────── */
+    .legal-disclaimer {
+      background: rgba(0, 0, 0, 0.35);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 2rem 1.25rem;
+    }
+    .disclaimer-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .disclaimer-icon {
+      font-size: 1rem;
+    }
+    .disclaimer-header strong {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .disclaimer-body p {
+      font-size: 0.75rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 0.6rem;
+    }
+    .disclaimer-body p strong {
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 600;
+    }
+    .disclaimer-body p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+
+  <script>
+    (function () {
+      const track = document.getElementById("testimonialTrack");
+      const dots = document.querySelectorAll<HTMLElement>("#carouselDots .dot");
+      if (!track || !dots.length) return;
+
+      // Click a dot → scroll to its card
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const idx = Number(dot.dataset.index);
+          const card = track.children[idx] as HTMLElement;
+          if (card)
+            track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
+        });
+      });
+
+      // Scroll → highlight nearest dot
+      let rafId: number;
+      track.addEventListener("scroll", () => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const cards = Array.from(track.children) as HTMLElement[];
+          let closest = 0;
+          let minDist = Infinity;
+          cards.forEach((card, i) => {
+            const dist = Math.abs(card.offsetLeft - track.scrollLeft);
+            if (dist < minDist) {
+              minDist = dist;
+              closest = i;
+            }
+          });
+          dots.forEach((d, i) => d.classList.toggle("active", i === closest));
+        });
+      });
+    })();
+  </script>
+</BaseLayout>
