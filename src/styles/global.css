@@ -114,4 +114,29 @@
   .animate-ken-burns {
     animation: kenBurns 8s infinite alternate;
   }
+
+  /* Custom CSS to add in your global stylesheet (e.g., globals.css) */
+  .splatter-mask {
+    /* 
+      മാസ്ക് ആയി ഉപയോഗിക്കാൻ ഒരു Paint Splatter PNG അല്ലെങ്കിൽ SVG ആവശ്യമാണ്.
+      അതിന്റെ ബാക്ക്ഗ്രൗണ്ട് transparent ആയിരിക്കണം.
+    */
+    -webkit-mask-image: url('/splatter-mask.png');
+    mask-image: url('/splatter-mask.png');
+    
+    /* Mask Positioning & Sizing */
+    /* 
+       ഇവിടെയാണ് വലിപ്പം മാറ്റേണ്ടത്! 
+       'contain' എന്ന് നൽകിയാൽ ഒതുങ്ങി നിൽക്കും.
+       വലുതാക്കാൻ 120%, 150%, അല്ലെങ്കിൽ 'cover' എന്ന് നൽകാം.
+    */
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    
+    -webkit-mask-position: center;
+    mask-position: center;
+    
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
 }
