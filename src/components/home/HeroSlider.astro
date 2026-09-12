@@ -1,19 +1,19 @@
 ---
-import SanityImage from '../ui/SanityImage.astro';
+import SanityImage from "../ui/SanityImage.astro";
 
 interface Props {
   images: any[];
-  mode?: 'background' | 'card';
+  mode?: "background" | "card";
 }
 
-const { images = [], mode = 'background' } = Astro.props;
-const isCard = mode === 'card';
+const { images = [], mode = "background" } = Astro.props;
+const isCard = mode === "card";
 ---
 
 <div
   class={isCard
-    ? 'relative w-full h-full overflow-hidden bg-primary-900'
-    : 'absolute inset-0 z-0 overflow-hidden bg-primary-900'}
+    ? "relative w-full h-full overflow-hidden bg-primary-900"
+    : "absolute inset-0 z-0 overflow-hidden bg-primary-900"}
   id="hero-slider"
 >
   {
@@ -23,7 +23,7 @@ const isCard = mode === 'card';
       images.map((img, index) => (
         <div
           class={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out hero-slide will-change-[opacity,transform]
-        ${index === 0 ? 'opacity-100 z-20' : 'opacity-0 z-10'}`}
+        ${index === 0 ? "opacity-100 z-20" : "opacity-0 z-10"}`}
           data-index={index}
         >
           <div class="relative w-full h-full animate-ken-burns slide-content">
@@ -42,18 +42,18 @@ const isCard = mode === 'card';
   <!-- Overlay -->
   <div
     class={isCard
-      ? 'absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent z-30 pointer-events-none'
-      : 'absolute inset-0 bg-gradient-to-b from-transparent via-primary-900/50 to-primary-900/90 z-30 pointer-events-none'}
+      ? "absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent z-30 pointer-events-none"
+      : "absolute inset-0 bg-gradient-to-b from-transparent via-primary-900/50 to-primary-900/90 z-30 pointer-events-none"}
   >
   </div>
 </div>
 
 <script>
   function initSlider() {
-    const slider = document.getElementById('hero-slider');
+    const slider = document.getElementById("hero-slider");
     if (!slider) return;
 
-    const slides = slider.querySelectorAll('.hero-slide');
+    const slides = slider.querySelectorAll(".hero-slide");
     if (slides.length <= 1) return;
 
     let currentIndex = 0;
@@ -67,16 +67,16 @@ const isCard = mode === 'card';
     const interval = setInterval(() => {
       // Remove active state from current
       const currentSlide = slides[currentIndex];
-      currentSlide.classList.remove('opacity-100', 'z-20');
-      currentSlide.classList.add('opacity-0', 'z-10');
+      currentSlide.classList.remove("opacity-100", "z-20");
+      currentSlide.classList.add("opacity-0", "z-10");
 
       // Update index
       currentIndex = (currentIndex + 1) % slides.length;
 
       // Add active state to next
       const nextSlide = slides[currentIndex];
-      nextSlide.classList.remove('opacity-0', 'z-10');
-      nextSlide.classList.add('opacity-100', 'z-20');
+      nextSlide.classList.remove("opacity-0", "z-10");
+      nextSlide.classList.add("opacity-100", "z-20");
     }, intervalTime);
 
     (slider as any).__sliderInterval = interval;
@@ -84,5 +84,5 @@ const isCard = mode === 'card';
 
   // Run on load and View Transitions
   initSlider();
-  document.addEventListener('astro:after-swap', initSlider);
+  document.addEventListener("astro:after-swap", initSlider);
 </script>
