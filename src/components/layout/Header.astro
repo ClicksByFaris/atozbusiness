@@ -2,25 +2,20 @@
 import Container from '../ui/Container.astro';
 import Navigation from './Navigation.astro';
 import MobileMenu from './MobileMenu';
-import { BUSINESS_INFO, BUSINESS_HOURS } from '../../lib/constants';
+import { BUSINESS_INFO, BUSINESS_HOURS, LOCATIONS } from '../../lib/constants';
 import logo from '../../assets/logo.png';
 import { Image } from 'astro:assets';
 import { getNavigationServices } from '../../lib/sanity';
 
 const services = await getNavigationServices();
 
-// Group services by category
 const groupedServices = services.reduce((acc: Record<string, any[]>, service: any) => {
   const cat = service.category || 'Other';
-  if (!acc[cat]) {
-    acc[cat] = [];
-  }
+  if (!acc[cat]) acc[cat] = [];
   acc[cat].push(service);
   return acc;
 }, {});
 
-// Sort categories by the minimum order value of services in each category
-// This ensures categories with lower-order services appear first
 const categories = Object.keys(groupedServices).sort((a, b) => {
   const minOrderA = Math.min(...groupedServices[a].map((s: any) => s.order ?? 999));
   const minOrderB = Math.min(...groupedServices[b].map((s: any) => s.order ?? 999));
@@ -28,81 +23,103 @@ const categories = Object.keys(groupedServices).sort((a, b) => {
 });
 ---
 
-<header class="sticky top-0 z-50 transition-all duration-300 group" id="main-header">
-  <!-- Top Bar -->
-  <div
-    class="bg-gradient-to-r from-primary-800 via-primary-700 to-secondary-700 text-white py-2 relative overflow-hidden shadow-sm"
-  >
-    <div class="absolute inset-0 bg-[url('/patterns/grid.svg')] opacity-10 mix-blend-overlay"></div>
-    <Container class="relative z-10">
-      <div
-        class="flex justify-between items-center text-[11px] md:text-xs font-bold uppercase tracking-widest"
-      >
-        <div class="hidden md:flex items-center gap-6">
+<header class="sticky top-0 z-50" id="main-header">
+
+  <!-- ── Top Announcement Bar ─────────────────────────────────────── -->
+  <div class="bg-neutral-900 text-white">
+    <Container>
+      <div class="flex items-center justify-between h-9 text-[11px] font-medium">
+
+        <!-- Left: Phone + Email + Hours -->
+        <div class="hidden md:flex items-center gap-0 divide-x divide-white/10">
+
+          <!-- Phone -->
           <a
             href={`tel:${BUSINESS_INFO.phone}`}
-            class="flex items-center gap-2 hover:text-white/80 transition-colors"
+            class="flex items-center gap-1.5 pr-4 text-neutral-300 hover:text-white transition-colors"
           >
-            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
-              ></path>
+            <svg class="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
             </svg>
             {BUSINESS_INFO.phone}
           </a>
+
+          <!-- Email -->
           <a
             href={`mailto:${BUSINESS_INFO.email}`}
-            class="flex items-center gap-2 hover:text-white/80 transition-colors"
+            class="flex items-center gap-1.5 px-4 text-neutral-300 hover:text-white transition-colors"
           >
-            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-              ></path>
-              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+            <svg class="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
             </svg>
             {BUSINESS_INFO.email}
           </a>
-        </div>
-        <div class="ml-auto flex items-center gap-4">
-          <span class="flex items-center gap-2">
-            <span
-              class="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]"
-            ></span>
+
+          <!-- Hours -->
+          <span class="flex items-center gap-1.5 px-4 text-neutral-300">
+            <svg class="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+            </svg>
             {BUSINESS_HOURS.weekdays}
           </span>
         </div>
+
+        <!-- Right: Location + Slogan -->
+        <div class="flex items-center gap-0 ml-auto divide-x divide-white/10">
+
+          <!-- Location -->
+          <span class="hidden sm:flex items-center gap-1.5 pr-4 text-neutral-300">
+            <svg class="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+            </svg>
+            {LOCATIONS.main.area} &amp; {LOCATIONS.branch.area}, Abu Dhabi
+          </span>
+
+          <!-- Slogan -->
+          <span class="pl-4 text-neutral-400 italic hidden lg:block">
+            Your Business. Our Support. A Brighter Abu Dhabi.
+          </span>
+
+          <!-- Mobile: show hours only -->
+          <span class="flex md:hidden items-center gap-1.5 text-neutral-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            Open Now
+          </span>
+        </div>
+
       </div>
     </Container>
   </div>
 
-  <!-- Main Header -->
-  <div class="bg-white border-b border-neutral-100 transition-all duration-300" id="header-inner">
+  <!-- ── Main Header ───────────────────────────────────────────────── -->
+  <div class="bg-white border-b border-neutral-100 transition-shadow duration-300" id="header-inner">
     <Container>
-      <div
-        class="flex items-center justify-between h-16 md:h-20 transition-all duration-300"
-        id="header-content"
-      >
+      <div class="flex items-center justify-between h-16 md:h-20" id="header-content">
+
         <!-- Logo -->
-        <a href="/" class="flex items-center group/logo">
+        <a href="/" class="flex items-center flex-shrink-0 group/logo">
           <Image
             src={logo}
             alt="AtoZ Business Services"
-            class="h-10 md:h-14 w-auto transition-transform duration-500 group-hover/logo:scale-105"
+            class="h-10 md:h-14 w-auto transition-transform duration-300 group-hover/logo:scale-105"
           />
         </a>
 
-        <!-- Desktop Navigation -->
+        <!-- Desktop Navigation (nav links + CTA buttons live inside Navigation) -->
         <Navigation categories={categories} groupedServices={groupedServices} />
 
-        <!-- Mobile Menu Button -->
+        <!-- Mobile Menu -->
         <MobileMenu categories={categories} groupedServices={groupedServices} client:load />
+
       </div>
     </Container>
   </div>
+
 </header>
 
 <script>
   const headerInner = document.getElementById('header-inner');
-
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
       headerInner?.classList.add('shadow-md');
